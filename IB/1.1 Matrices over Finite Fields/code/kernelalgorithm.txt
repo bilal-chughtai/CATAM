@@ -1,0 +1,19 @@
+We first put A in  ref form as B
+%we then calculate the l values for each row, setting it to 0 if no 1
+%Then we calculate rank of the matrix r, by seeing how many 0 rows we have
+%By rank nullity, we know n=columns-r = number of free variables
+%if n=0 then kernel is 0
+
+%we then determine the free and fixed x_i. The i in the set l are fixed and
+%the rest are free. We set in each loop a different free variable to 1,
+%zeroing the whole vector x beforehand
+%we loop through every row of the ref matrix. a row with 0's contains sno
+%information so we skip
+%A row ending in a 1 just tells us x_columns=0 which we already have set so
+%skip
+%for all other rows i, we have some information about x_l(i)
+% loop from j=l(i)+1 to columns
+%   x(l(i))=x(l(i))-B(i,j)*x(j)
+%we then add the vector x to a kernel matrix as a column and move onto
+%setting another x_i to 1
+%finally we swap rows in reverse in B
