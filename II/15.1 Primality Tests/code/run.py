@@ -385,12 +385,24 @@ def q7():
         #    return False #comment out this if statement for ver2
         return True
 
+    def my_test2(n):
+       # if n==3215031751:
+          #  return False
+      #  if not small_trial_division(n):
+       #    return False
+        for a in [2,3]:
+            if not strong_test(a, n):
+                return False
+        if not trial_division(n):
+            return False #comment out this if statement for ver2
+        return True
+
 
     numbers = []
     prime1 = []
     prime2 = []
 
-    for i in range(100000):
+    for i in range(10000):
         numbers.append(rand())
 
     t0 = time.perf_counter()

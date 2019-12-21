@@ -16,7 +16,7 @@
 \begin{document}
 
 
-\textbf{CATAM Part II - 15.1 - Primality Tests}
+\textbf{CATAM Part II - 15.1 - Primality Tests TODO: FInish complexity calculation and read over}
 \thispagestyle{empty}
 
 \newpage
@@ -258,7 +258,7 @@ my test        & 19.099 & 20.785 & 24.7  & 25.8    \\ \hline
 \end{table}
 
 
-So we don't improve on trial division at all, in fact we make it worse every time we add a strong test base. This is unsuprising in a way since we still are relying on trial division mostly, and simply using the strong test to reduce checking slightly. Thankfully, we can exploit some theory and come up with a much better test. C. Pomerance et al. \footnote{C. Pomerance, J. L. Selfridge and Wagstaff, Jr., S. S., "The pseudoprimes to 25 · 109," Math. Comp., 35:151 (1980) 1003-1026. Page 1023 in paticular} showed  in 1980 that for $n < 25,000,000,000$ the only strong pseudo prime to all of bases 2,3,5 and 7 is  3,215,031,751 and so we can skip the trial division after. Doing so, we improve on our time massively. We also now test the impact of the small prime trial division at the start, and find checking primes up to 250 is quickest.\\
+So we don't improve on trial division at all, in fact we make it worse every time we add a strong test base. This is unsurprising in a way since we still are relying on trial division mostly, and simply using the strong test to reduce checking slightly. Thankfully, we can exploit some theory and come up with a much better test. C. Pomerance et al. \footnote{C. Pomerance, J. L. Selfridge and Wagstaff, Jr., S. S., "The pseudoprimes to 25 · 109," Math. Comp., 35:151 (1980) 1003-1026. Page 1023 in particular} showed  in 1980 that for $n < 25,000,000,000$ the only strong pseudo prime to all of bases 2,3,5 and 7 is  3,215,031,751 and so we can skip the trial division after. Doing so, we improve on our time massively. We also now test the impact of the small prime trial division at the start, and find checking primes up to 250 is quickest.\\
 
 \begin{table}[h]
 \centering
