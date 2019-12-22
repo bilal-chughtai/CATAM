@@ -23,7 +23,7 @@
 \begin{document}
 
 
-\textbf{CATAM Part II - 15.10 -The Continued Fraction Method for
+\textbf{CATAM Part II - 15.10 - The Continued Fraction Method for
 Factorization}
 \thispagestyle{empty}
 
@@ -342,6 +342,116 @@ We now wish to find some solutions to Pell's Equation. The question doesn't seem
 549) (1766319049,75384660)
 550) (30580901,1303974)
 \end{lstlisting}
+
+It turns out our program was capable of dealing with integers with far more than 15 digits, since python can handle very large \textbf{integer} calculations. Even $N=541$, with smallest $x,y$ of magnitude $10^{36}$ was able to be solved. Once can verify these are correct via comparing to an online resource, such as \footnote{\url{http://www.martin-flatin.org/math/pell/pell_equation_1000.xhtml}}
+
+\subsection*{Question 4}
+
+The following lemma tells us what we want
+
+\begin{lemma}
+Suppose $x^2  \equiv y^2 \pmod N$ with $x \not\equiv \pm y \pmod N$. Then the GCDs $(N, x + y)$ and $(N, x - y)$ are both proper divisors of N.
+\end{lemma}
+\begin{proof}
+Treat $x+y$ and $x-y$ separately, though the arguments are the same \\
+We have $(N, x+y) \mid N$ by definition of GCD. To show it's proper, if $(N, x+y)=N$ then $x\equiv-y\pmod N$, a contradiction. If $(N, x+y)=1$, considering $x^2-y^2\equiv 0\Rightarrow (x-y)(x+y)\equiv 0 \pmod N$ gives $x-y\equiv0 \pmod N$, a contradiction. \\
+For the case of $x-y$, the argument is  same, replacing $y$ with $-y$.
+\end{proof}
+
+The complexity of computing each factor is TODO\\
+
+This method isn't guaranteed to work: For N=6, the squares of 0,1,2,3 are 0,1,4,3 so we can't find $x,y$ as in the Lemma. Similarly for N=10, the squares of 0,1,2,3,4,5 are 0,1,4,9,6,5 so the method won't work for the same reason. 
+
+\subsection*{Question 5}
+
+We've already discussed how to multiply modulo N in question 3, our implementation being $modular_multiply(x,y,N)$. The function $q5(N,k)$ performs the required task, with k being the largest n such that $P_n. P_n^2$ calculated. On the given N we get the following, with $k=10$
+
+
+\begin{lstlisting}[breaklines]	
+N = 1449774329
+
+P_n: 38075, 38076, 380759, 1561112, 3502983, 8567078, 12070061, 286178481, 584427023, 870605504, 5258198
+
+P_n^2: 1449705625, 7447, 1449757510, 29495, 1449751962, 52459, 1449771169, 29137, 1449740329, 37991, 1449753174
+
+N=3333999913
+
+P_n: 57740, 57741, 230963, 288704, 18419315, 18708019, 55835353, 465390843, 521226196, 2029069431, 2550295627
+
+P_n^2: 3333907600, 23168, 3333908674, 1791, 3333922345, 37273, 3333987265, 83849, 3333975752, 83408, 3333986530
+
+N=7686335197
+
+P_n: 87671, 87672, 263015, 350687, 6926068, 48833163, 153425557, 509109834, 5703946044, 6213055878, 4230666725
+
+P_n^2: 7686204241, 44387, 7686208649, 8817, 7686311344, 50516, 7686282946, 6503, 7686221950, 59988, 7686222176
+\end{lstlisting}
+
+\subsection*{Question 6}
+
+This question is quite a large part of the IB Core Project 1.1: Matrices over Finite Fields from last year. Since I've switched programming language, I've had to rewrite the code, but have used the same algorithm to perform Gaussian elimination and find an element of the kernel, simplified a bit to work mod 2. 
+
+\subsection*{Question 7}
+
+The continued fraction algorithm uses elements of the majority of the above questions. 
+
+First, define a B-number to be a positive integer x such that all prime factors of $\langle x^2 \rangle$ lie in B, where for $a\in\mathbb{Z}$, $\langle a \rangle$ is the unique integer in $(-\frac{N}{2}, \frac{N}{2}]$ with $\langle a \rangle \equiv a \pmod N$. The algorithm is as follows:\\
+
+1) Pick a factor base B, which in our case will contain primes $\leq 50$, and possibly -1\\
+2) Generate some B numbers $x_1, x_2, \dots, x_k$ . It turns out $P_n$ have a good chance of being B-numbers by LEMMA SOMEHTING\\
+3) Find a non-empty subset $I\subset\{1, \dots ,k\}$ such that $\prod_{i\in I}\langle x_i^2 \rangle=y^2$ is a square.\\
+4) For $x=\prod_{i\in I}\langle x_i\rangle$ satisfies $x^2\equiv y^2 \pmod N$. So by the earlier lemma, we can find some non trivial factors of N if $x\not\equiv y \pmod N$. \\
+
+Note we've changed the q5() function slightly to give us $\langle P_n^2 \rangle$ instead of $P_n^2 \pmod N$
+
+EXPLAIN ALGORITHM
+
+The output for various N is given below
+
+\begin{lstlisting}[breaklines]	
+N = 9509
+
+The algorithm uses P_n for n = 0,2,3
+The corresponding B numbers are 97,195,3413
+Multiplying the B numbers, x_i gives an x = 294
+Multipling <x_i^2> gives a y = 9289 = (-1) x 2^2 x 5 x 11
+This gives us factors gcd(x+y,N) = 37and gcd(x-y,N) = 257
+
+
+N = 14429
+
+The algorithm uses P_n for n = 0,2
+The corresponding B numbers are 120,3003
+Multiplying the B numbers, x_i, gives an x = 14064
+Multipling <x_i^2> gives a y = 14371 = (-1) x 2 x 29
+This gives us factors gcd(x+y,N) = 47 and gcd(x-y,N) = 307
+
+N=1449774329
+
+The algorithm uses P_n for n = 43
+The corresponding B numbers are 1245500098
+Multiplying the B numbers, x_i, gives an x = 1245500098
+Multipling <x_i^2> gives a y = 145 = 5 x 29
+This gives us factors gcd(x+y,N) = 51043 and gcd(x-y,N) = 28403
+
+N=3333999913
+
+The algorithm uses P_n for n = 6,22,45,100,168
+The corresponding B numbers are 55835353,466038032,1372728391,2510428257,1696557395
+Multiplying the B numbers, x_i, gives an x = 2938205297
+Multipling <x_i^2> gives a y = 2220030420 = (-1)^2 x 2^6 x 3^4 x 13 x 17 x 29 x 31 x 41
+This gives us factors gcd(x+y,N) = 99991 and gcd(x-y,N) = 33343
+
+N+7686335197
+
+The algorithm uses P_n for n = 15,130,152
+The corresponding B numbers are 2002379263,1821227876,6615421364
+Multiplying the B numbers, x_i, gives an x = 7393655649
+Multipling <x_i^2> gives a y = 7668282421 = (-1) x 2^3 x 3^2 x 7^3 x 17 x 43
+This gives us factors gcd(x+y,N) = 93257 and gcd(x-y,N) = 82421
+
+\end{lstlisting}
+
 
 
 

@@ -23,7 +23,7 @@
 \begin{document}
 
 
-\textbf{CATAM Part II - 15.10 -The Continued Fraction Method for
+\textbf{CATAM Part II - 15.10 - The Continued Fraction Method for
 Factorization}
 \thispagestyle{empty}
 
@@ -186,6 +186,248 @@ The reason we are using primes at all is that multiplication can be done without
 
 Our implementation of this method is $verify\_large\_pell(x,y,N)$, which is fairly fast, when tested on  x=158070671986249, y=15140424455100, n=109, and x=1766319049, y=226153980, n=61 \footnote{Obtained from \url{https://en.wikipedia.org/wiki/Pell\%27s_equation}}\\
 
-We now wish to find some solutions to Pell's Equation. The question doesn't seem to want us to use the stated Theorem, which directly gives a valid convergent. We'll employ a trial and error approach instead, in which we calculate and then test  using $verify\_large\_pell(x,y,N)$.
+We now wish to find some solutions to Pell's Equation. The question doesn't seem to want us to use the stated Theorem, which directly gives a valid convergent. We'll employ a trial and error approach instead, in which we calculate and then test using $verify\_large\_pell(x,y,N)$. We get the following:
+
+\begin{lstlisting}[breaklines]
+
+1) has no solutions (square)
+2) (3,2)
+3) (2,1)
+4) has no solutions (square)
+5) (9,4)
+6) (5,2)
+7) (8,3)
+8) (3,1)
+9) has no solutions (square)
+10) (19,6)
+11) (10,3)
+12) (7,2)
+13) (649,180)
+14) (15,4)
+15) (4,1)
+16) has no solutions (square)
+17) (33,8)
+18) (17,4)
+19) (170,39)
+20) (9,2)
+21) (55,12)
+22) (197,42)
+23) (24,5)
+24) (5,1)
+25) has no solutions (square)
+26) (51,10)
+27) (26,5)
+28) (127,24)
+29) (9801,1820)
+30) (11,2)
+31) (1520,273)
+32) (17,3)
+33) (23,4)
+34) (35,6)
+35) (6,1)
+36) has no solutions (square)
+37) (73,12)
+38) (37,6)
+39) (25,4)
+40) (19,3)
+41) (2049,320)
+42) (13,2)
+43) (3482,531)
+44) (199,30)
+45) (161,24)
+46) (24335,3588)
+47) (48,7)
+48) (7,1)
+49) has no solutions (square)
+50) (99,14)
+51) (50,7)
+52) (649,90)
+53) (66249,9100)
+54) (485,66)
+55) (89,12)
+56) (15,2)
+57) (151,20)
+58) (19603,2574)
+59) (530,69)
+60) (31,4)
+61) (1766319049,226153980)
+62) (63,8)
+63) (8,1)
+64) has no solutions (square)
+65) (129,16)
+66) (65,8)
+67) (48842,5967)
+68) (33,4)
+69) (7775,936)
+70) (251,30)
+71) (3480,413)
+72) (17,2)
+73) (2281249,267000)
+74) (3699,430)
+75) (26,3)
+76) (57799,6630)
+77) (351,40)
+78) (53,6)
+79) (80,9)
+80) (9,1)
+81) has no solutions (square)
+82) (163,18)
+83) (82,9)
+84) (55,6)
+85) (285769,30996)
+86) (10405,1122)
+87) (28,3)
+88) (197,21)
+89) (500001,53000)
+90) (19,2)
+91) (1574,165)
+92) (1151,120)
+93) (12151,1260)
+94) (2143295,221064)
+95) (39,4)
+96) (49,5)
+97) (62809633,6377352)
+98) (99,10)
+99) (10,1)
+100) has no solutions (square)
+500) (930249,41602)
+501) (11242731902975,502288218432)
+502) (3832352837,171046278)
+503) (24648,1099)
+504) (449,20)
+505) (809,36)
+506) (45,2)
+507) (1351,60)
+508) (44757606858751,1985797689600)
+509) (313201220822405001,13882400040814700)
+510) (271,12)
+511) (4188548960,185290497)
+512) (665857,29427)
+513) (13771351,608020)
+514) (4625,204)
+515) (17406,767)
+516) (16855,742)
+517) (590968985399,25990786260)
+518) (2367,104)
+519) (14851876,651925)
+520) (6499,285)
+521) (32961431500035201,1444066532654320)
+522) (19603,858)
+523) (81810300626,3577314675)
+524) (225144199,9835470)
+525) (6049,264)
+526) (84056091546952933775,3665019757324295532)
+527) (528,23)
+528) (23,1)
+529) has no solutions (square)
+530) (1059,46)
+531) (530,23)
+532) (2588599,112230)
+533) (74859849,3242540)
+534) (3678725,159194)
+535) (1618804,69987)
+536) (145925,6303)
+537) (192349463,8300492)
+538) (9536081203,411129654)
+539) (3970,171)
+540) (119071,5124)
+541) (3707453360023867028800645599667005001,159395869721270110077187138775196900)
+542) (4293183,184408)
+543) (669337,28724)
+544) (2449,105)
+545) (1961,84)
+546) (701,30)
+547) (160177601264642,6848699678673)
+548) (6083073,259856)
+549) (1766319049,75384660)
+550) (30580901,1303974)
+\end{lstlisting}
+
+It turns out our program was capable of dealing with integers with far more than 15 digits, since python can handle very large \textbf{integer} calculations. Even $N=541$, with smallest $x,y$ of magnitude $10^{36}$ was able to be solved. Once can verify these are correct via comparing to an online resource, such as \footnote{\url{http://www.martin-flatin.org/math/pell/pell_equation_1000.xhtml}}
+
+\subsection*{Question 4}
+
+The following lemma tells us what we want
+
+\begin{lemma}
+Suppose $x^2  \equiv y^2 \pmod N$ with $x \not\equiv \pm y \pmod N$. Then the GCDs $(N, x + y)$ and $(N, x - y)$ are both proper divisors of N.
+\end{lemma}
+\begin{proof}
+Treat $x+y$ and $x-y$ separately, though the arguments are the same \\
+We have $(N, x+y) \mid N$ by definition of GCD. To show it's proper, if $(N, x+y)=N$ then $x\equiv-y\pmod N$, a contradiction. If $(N, x+y)=1$, considering $x^2-y^2\equiv 0\Rightarrow (x-y)(x+y)\equiv 0 \pmod N$ gives $x-y\equiv0 \pmod N$, a contradiction. \\
+For the case of $x-y$, the argument is  same, replacing $y$ with $-y$.
+\end{proof}
+
+The complexity of computing each factor is TODO\\
+
+This method isn't guaranteed to work: For N=6, the squares of 0,1,2,3 are 0,1,4,3 so we can't find $x,y$ as in the Lemma. Similarly for N=10, the squares of 0,1,2,3,4,5 are 0,1,4,9,6,5 so the method won't work for the same reason. 
+
+\subsection*{Question 5}
+
+We've already discussed how to multiply modulo N in question 3, our implementation being $modular_multiply(x,y,N)$. The function $q5(N,k)$ performs the required task, with k being the largest n such that $P_n. P_n^2$ calculated. On the given N we get the following, with $k=10$
+
+
+\begin{lstlisting}[breaklines]	
+N = 1449774329
+
+P_n: 38075, 38076, 380759, 1561112, 3502983, 8567078, 12070061, 286178481, 584427023, 870605504, 5258198
+
+P_n^2: 1449705625, 7447, 1449757510, 29495, 1449751962, 52459, 1449771169, 29137, 1449740329, 37991, 1449753174
+
+N=3333999913
+
+P_n: 57740, 57741, 230963, 288704, 18419315, 18708019, 55835353, 465390843, 521226196, 2029069431, 2550295627
+
+P_n^2: 3333907600, 23168, 3333908674, 1791, 3333922345, 37273, 3333987265, 83849, 3333975752, 83408, 3333986530
+
+N=7686335197
+
+P_n: 87671, 87672, 263015, 350687, 6926068, 48833163, 153425557, 509109834, 5703946044, 6213055878, 4230666725
+
+P_n^2: 7686204241, 44387, 7686208649, 8817, 7686311344, 50516, 7686282946, 6503, 7686221950, 59988, 7686222176
+\end{lstlisting}
+
+\subsection*{Question 6}
+
+This question is quite a large part of the IB Core Project 1.1: Matrices over Finite Fields from last year. Since I've switched programming language, I've had to rewrite the code, but have used the same algorithm to perform Gaussian elimination and find an element of the kernel, simplified a bit to work mod 2. 
+
+\subsection*{Question 7}
+
+The continued fraction algorithm uses elements of the majority of the above questions. 
+
+First, define a B-number to be a positive integer x such that all prime factors of $\langle x^2 \rangle$ lie in B, where for $a\in\mathbb{Z}$, $\langle a \rangle$ is the unique integer in $(-\frac{N}{2}, \frac{N}{2}]$ with $\langle a \rangle \equiv a \pmod N$. The algorithm is as follows:\\
+
+1) Pick a factor base B, which in our case will contain primes $\leq 50$, and possibly -1\\
+2) Generate some B numbers $x_1, x_2, \dots, x_k$ . It turns out $P_n$ have a good chance of being B-numbers by LEMMA SOMEHTING\\
+3) Find a non-empty subset $I\subset\{1, \dots ,k\}$ such that $\prod_{i\in I}\langle x_i^2 \rangle=y^2$ is a square.\\
+4) For $x=\prod_{i\in I}\langle x_i\rangle$ satisfies $x^2\equiv y^2 \pmod N$. So by the earlier lemma, we can find some non trivial factors of N if $x\not\equiv y \pmod N$. \\
+
+Note we've changed the q5() function slightly to give us $\langle P_n^2 \rangle$ instead of $P_n^2 \pmod N$
+
+EXPLAIN ALGORITHM
+
+The output for various N is given below
+
+\begin{lstlisting}[breaklines]	
+N = 9509
+
+The algorithm uses P_n for n = 0,2,3
+The corresponding B numbers are 97,195,3413
+Multiplying the B numbers, x_i gives an x of 294
+Multipling <x_i^2> gives a y equal to 9289 = (-1)^1 x 2^2 x 5 x 11
+This gives us factors gcd(x+y,N) = 37and gcd(x-y,N) = 257
+
+
+N = 14429
+
+The algorithm uses P_n for n = 0,2
+The corresponding B numbers are 120,3003
+Multiplying the B numbers, x_i, gives an x of 14064
+Multipling <x_i^2> gives a y equal to 14371 = (-1) x 2 x 29
+This gives us factors gcd(x+y,N) = 47 and gcd(x-y,N) = 307
+\end{lstlisting}
+
+
+
 
 \end{document}

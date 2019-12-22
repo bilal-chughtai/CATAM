@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99996 (MiKTeX 2.9) (preloaded format=xelatex 2019.12.17)  21 DEC 2019 00:29
+This is XeTeX, Version 3.14159265-2.6-0.99996 (MiKTeX 2.9) (preloaded format=xelatex 2019.12.17)  22 DEC 2019 00:46
 entering extended mode
 **"./15.10 report.tex"
 ("15.10 report.tex"
@@ -543,23 +543,45 @@ Underfull \hbox (badness 10000) in paragraph at lines 187--188
  []
 
 [5] [6]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 348.
- [7]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 348.
+Underfull \hbox (badness 10000) in paragraph at lines 361--362
+
+ []
+
+[7]
+Overfull \hbox (21.77827pt too wide) in paragraph at lines 367--368
+\TU/lmr/m/n/10 We’ve already discussed how to multiply modulo N in question 3, 
+our implementation being $\OML/cmm/m/it/10 modular[]ultiply\OT1/cmr/m/n/10 (\OM
+L/cmm/m/it/10 x; y; N\OT1/cmr/m/n/10 )$\TU/lmr/m/n/10 .
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 398--399
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 400--404
+
+ []
+
+[8]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 458.
+ [9]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 458.
  ("15.10 report.aux")
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 348.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 348.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 458.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 458.
 Package rerunfilecheck Info: File `"15.10 report".out' has not changed.
 (rerunfilecheck)             Checksum: .
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 348.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 458.
  ) 
 Here is how much of TeX's memory you used:
  11828 strings out of 427769
  164091 string characters out of 3147397
- 357883 words of memory out of 3000000
+ 388883 words of memory out of 3000000
  15731 multiletter control sequences out of 15000+200000
  13485 words of font info for 60 fonts, out of 3000000 for 9000
  1328 hyphenation exceptions out of 8191
- 28i,14n,32p,696b,1663s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 30i,14n,32p,696b,1663s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on 15.10 report.pdf (7 pages).
+Output written on 15.10 report.pdf (9 pages).
