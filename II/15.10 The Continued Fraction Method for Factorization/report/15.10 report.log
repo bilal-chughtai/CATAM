@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99996 (MiKTeX 2.9) (preloaded format=xelatex 2019.12.17)  22 DEC 2019 00:46
+This is XeTeX, Version 3.14159265-2.6-0.99996 (MiKTeX 2.9) (preloaded format=xelatex 2019.12.17)  23 DEC 2019 00:30
 entering extended mode
 **"./15.10 report.tex"
 ("15.10 report.tex"
@@ -516,72 +516,162 @@ Missing character: There is no ł in font cmmi10!
 File: q1graph.png Graphic file (type bmp)
 <q1graph.png>
 [2] [3]
-Underfull \hbox (badness 10000) in paragraph at lines 172--173
+Underfull \hbox (badness 10000) in paragraph at lines 151--152
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 183--184
+Underfull \hbox (badness 10000) in paragraph at lines 153--154
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 185--186
+Underfull \hbox (badness 10000) in paragraph at lines 155--156
+
+ []
+
+
+Overfull \hbox (23.72328pt too wide) in paragraph at lines 157--157
+[][][][]$[][][][][] [] [] [] [][][][] [] [][][][][][][][][][][][][] [] [][][] [
+] [][][][][][][][][] [] [][][][][][][] [] [][][][][][][][][][][][][][][][][][][
+][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+[][][][][][][][][][][][][][][][][]$[]| 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 157--158
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 179--180
 
  []
 
 [4]
-Overfull \hbox (43.95544pt too wide) in paragraph at lines 187--188
-[]\TU/lmr/m/n/10 Our implementation of this method is $\OML/cmm/m/it/10 verify[
-]large[]pell\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x; y; N\OT1/cmr/m/n/10 )$\TU/lmr/
-m/n/10 , which is fairly fast, when tested on x=158070671986249,
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 187--188
+Underfull \hbox (badness 10000) in paragraph at lines 190--191
 
  []
 
-[5] [6]
-Underfull \hbox (badness 10000) in paragraph at lines 361--362
+
+Underfull \hbox (badness 10000) in paragraph at lines 192--193
 
  []
 
-[7]
-Overfull \hbox (21.77827pt too wide) in paragraph at lines 367--368
+
+Underfull \hbox (badness 10000) in paragraph at lines 194--195
+
+ []
+
+[5] [6] [7]
+Underfull \hbox (badness 10000) in paragraph at lines 376--377
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 379--380
+
+ []
+
+
+Overfull \hbox (30.74008pt too wide) in paragraph at lines 385--386
 \TU/lmr/m/n/10 We’ve already discussed how to multiply modulo N in question 3, 
-our implementation being $\OML/cmm/m/it/10 modular[]ultiply\OT1/cmr/m/n/10 (\OM
-L/cmm/m/it/10 x; y; N\OT1/cmr/m/n/10 )$\TU/lmr/m/n/10 .
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 398--399
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 400--404
-
+our implementation being $\OML/cmm/m/it/10 modular[]multiply\OT1/cmr/m/n/10 (\O
+ML/cmm/m/it/10 x; y; N\OT1/cmr/m/n/10 )$\TU/lmr/m/n/10 .
  []
 
 [8]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 458.
- [9]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 458.
+Underfull \hbox (badness 10000) in paragraph at lines 410--411
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 412--413
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 414--415
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 416--417
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 418--420
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 425--426
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 427--431
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 436--437
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 438--439
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 440--442
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 443--444
+
+ []
+
+[9]
+Underfull \hbox (badness 10000) in paragraph at lines 445--446
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 447--448
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 495--496
+
+ []
+
+[10]
+Underfull \hbox (badness 10000) in paragraph at lines 510--511
+
+ []
+
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 517.
+[11]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 517.
  ("15.10 report.aux")
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 458.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 458.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 517.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 517.
 Package rerunfilecheck Info: File `"15.10 report".out' has not changed.
 (rerunfilecheck)             Checksum: .
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 458.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 517.
  ) 
 Here is how much of TeX's memory you used:
  11828 strings out of 427769
  164091 string characters out of 3147397
- 388883 words of memory out of 3000000
+ 402883 words of memory out of 3000000
  15731 multiletter control sequences out of 15000+200000
  13485 words of font info for 60 fonts, out of 3000000 for 9000
  1328 hyphenation exceptions out of 8191
- 30i,14n,32p,696b,1663s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 31i,14n,32p,702b,1665s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on 15.10 report.pdf (9 pages).
+Output written on 15.10 report.pdf (11 pages).

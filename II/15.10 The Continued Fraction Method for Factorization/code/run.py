@@ -130,22 +130,26 @@ def q2ii():
     max_rs = []
     novera = []
     noverb = []
-    for N in range(1, 1000):
+    for N in range(1, 1000000):
         fixed, repeated, r, s = sqrt_cont_frac(N, 100)
-        a = max(r)
-        b = max(s)
-        if a == 0:
-            a = 1
-        if b == 0:
-            b = 1
-        novera.append(sqrt(N) / a)
-        noverb.append(sqrt(N) / b)
+        a=fixed+repeated
 
-        print(N, a, b, N / a, N / b)
-    print(min(novera), max(novera))
-    print(min(noverb), max(noverb))
-    print(novera)
-    print(noverb)
+        for i in a:
+            if i>2*sqrt(N):
+                print(True)
+
+        for i in repeated[:-1]:
+            if i>sqrt(N):
+                print(False)
+
+        if len(repeated) > N:
+            print("x")
+
+        c = max(r)
+        d = max(s)
+        print(N, c/sqrt(N))
+        #print(N, d/(2*(sqrt(N))))
+
 
 
 def q3():
@@ -317,10 +321,9 @@ def kernel(A):
 
 
 
-def factorization(N):
+def factorization(N, factorbase=[-1,2,3,5,7,11,13,17,19,23,29,31,37,41,43,47]):
     k = 500  # number of convergents we calculate initially
 
-    factorbase=[-1,2,3,5,7,11,13,17,19,23,29,31,37,41,43,47]
     # q5 does a lot of work, so lets use that
 
     p_mod_n, p_squared_mod_n = q5(N, k)
@@ -330,86 +333,98 @@ def factorization(N):
     factors = []
     numberoffactors=[]
 
-
-    for i in range(len(p_mod_n)):
-
-        if p_mod_n[i] not in B_numbers:
-            factor = B_smooth(factorbase, p_squared_mod_n[i])
-            # if its a B number add it to the list
-            if factor:
-                ps_used.append(i)
-                B_numbers.append(p_mod_n[i])
-                factors.append(factor)
-                primecount=[]
-
-                for prime in factorbase:
-                    primecount.append(factor.count(prime))
-
-                numberoffactors.append(primecount)
+    try:
 
 
-                #now the matrix has columns the entries of numberoffactors
-                A = [list(x) for x in zip(*numberoffactors)] #transpose
+        for i in range(len(p_mod_n)):
 
-                for i in range(len(factorbase)):
-                    for j in range(len(B_numbers)):
-                        A[i][j] = A[i][j] % 2
+            if p_mod_n[i] not in B_numbers:
+                factor = B_smooth(factorbase, p_squared_mod_n[i])
+                # if its a B number add it to the list
+                if factor:
+                    ps_used.append(i)
+                    B_numbers.append(p_mod_n[i])
+                    factors.append(factor)
+                    primecount=[]
 
-                vectors = kernel(A)
-                if vectors:
-                    for vector in vectors:
+                    for prime in factorbase:
+                        primecount.append(factor.count(prime))
 
-                        #calc x and find all primes in y
-                        x=1
-                        primes_in_y_squared=[0]*len(factorbase)
-                        for i in range(len(vector)):
-                            if vector[i]==1:
-                                x=modular_multiply(x,B_numbers[i],N,0)
-                                primes_in_y_squared=[sum(x) for x in zip(primes_in_y_squared,numberoffactors[i])]
+                    numberoffactors.append(primecount)
 
 
+                    #now the matrix has columns the entries of numberoffactors
+                    A = [list(x) for x in zip(*numberoffactors)] #transpose
 
-                        #calc y
-                        y=1
-                        for i in range(len(factorbase)):
-                            for j in range(int(primes_in_y_squared[i]/2)):
-                                y=modular_multiply(y,factorbase[i], N, 0)
+                    for i in range(len(factorbase)):
+                        for j in range(len(B_numbers)):
+                            A[i][j] = A[i][j] % 2
 
-                        if x!=y and x!=(-y)%N:
-                            used_B_numbers_indices = [i for i,x in enumerate(vector) if x == 1]
-                            used_P_n_indices=[ps_used[i] for i in used_B_numbers_indices ]
-                            used_B_numbers = [B_numbers[i] for i in used_B_numbers_indices]
-                            used_factors = [numberoffactors[i] for i in used_B_numbers_indices]
-                            factor1=gcd(x+y,N)
-                            factor2=gcd(x-y, N)
+                    vectors = kernel(A)
+                    if vectors:
+                        for vector in vectors:
 
-                            if primes_in_y_squared[0]>2:
-                                ystring="(-1)^" + str(int(primes_in_y_squared[0]/2)) + " x "
-                            elif primes_in_y_squared[0]==2:
-                                ystring = "(-1) x "
-                            else:
-                                ystring=""
-                            for i in range(1,len(factorbase)):
-                                if primes_in_y_squared[i]==2:
-                                    ystring+=str(factorbase[i]) + " x "
-                                elif primes_in_y_squared[i]>2:
-                                    ystring += str(factorbase[i])+"^"+str(int(primes_in_y_squared[i]/2)) + " x "
-
-                            ystring = ystring[:-3]
-
-                            def string(my_list):
-                                return ','.join(map(str, my_list))
-
-                            print("The algorithm uses P_n for n = "+string(used_P_n_indices))
-                            print("The corresponding B numbers are "+string(used_B_numbers))
-                            print("Multiplying the B numbers, x_i, gives an x = "+str(x))
-                            print("Multipling <x_i^2> gives a y = " + str(y) + " = " + ystring)
-                            print("This gives us factors gcd(x+y,N) = "+str(factor1) + " and gcd(x-y,N) = "+ str(factor2))
-
-                            return
+                            #calc x and find all primes in y
+                            x=1
+                            primes_in_y_squared=[0]*len(factorbase)
+                            for i in range(len(vector)):
+                                if vector[i]==1:
+                                    x=modular_multiply(x,B_numbers[i],N,0)
+                                    primes_in_y_squared=[sum(x) for x in zip(primes_in_y_squared,numberoffactors[i])]
 
 
 
+                            #calc y
+                            y=1
+                            for i in range(len(factorbase)):
+                                for j in range(int(primes_in_y_squared[i]/2)):
+                                    y=modular_multiply(y,factorbase[i], N, 0)
+
+                            if x!=y and x!=(-y)%N:
+                                used_B_numbers_indices = [i for i,x in enumerate(vector) if x == 1]
+                                used_P_n_indices=[ps_used[i] for i in used_B_numbers_indices ]
+                                used_B_numbers = [B_numbers[i] for i in used_B_numbers_indices]
+                                used_factors = [numberoffactors[i] for i in used_B_numbers_indices]
+                                factor1=gcd(x+y,N)
+                                factor2=gcd(x-y, N)
+
+                                if primes_in_y_squared[0]>2:
+                                    ystring="(-1)^" + str(int(primes_in_y_squared[0]/2)) + " x "
+                                elif primes_in_y_squared[0]==2:
+                                    ystring = "(-1) x "
+                                else:
+                                    ystring=""
+                                for i in range(1,len(factorbase)):
+                                    if primes_in_y_squared[i]==2:
+                                        ystring+=str(factorbase[i]) + " x "
+                                    elif primes_in_y_squared[i]>2:
+                                        ystring += str(factorbase[i])+"^"+str(int(primes_in_y_squared[i]/2)) + " x "
+
+                                ystring = ystring[:-3]
+
+                                def string(my_list):
+                                    return ','.join(map(str, my_list))
+
+                                #print("The algorithm uses P_n for n = "+string(used_P_n_indices))
+                                #print("The corresponding B numbers are "+string(used_B_numbers))
+                                #print("Multiplying the B numbers, x_i, gives an x = "+str(x))
+                                #print("Multipling <x_i^2> gives a y = " + str(y) + " = " + ystring)
+                                #print("This gives us factors gcd(x+y,N) = "+str(factor1) + " and gcd(x-y,N) = "+ str(factor2))
+
+                                return factor1,factor2
+
+    except:
+        print("The algorithm failed to factor "+str(N))
+
+
+def factorbase_test():
+    import timeit
+    for factorbase in [[-1,2,3,5,7,11,13,17,19,23,29,31,37,41,43,47], [-1,2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97],[-1,
+2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97,101,103,107,109,113,127,131,137,139,149],[-1,2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97,101,103,107,109,113,127,131,137,139,149,151,157,163,167,173,179,181,191,193,197,199]]:
+
+        print(timeit.timeit("factorization(1449774329, factorbase="+str(factorbase)+")", setup="from run import factorization", number=1000))
+        print(timeit.timeit("factorization(3333999913, factorbase="+str(factorbase)+")", setup="from run import factorization", number=1000))
+        print(timeit.timeit("factorization(7686335197, factorbase="+str(factorbase)+")", setup="from run import factorization", number=1000))
 
 
 

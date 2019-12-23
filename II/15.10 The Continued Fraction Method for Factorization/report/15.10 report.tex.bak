@@ -51,7 +51,7 @@ estimated probability & 1 & .888 & .488 & .215 & .0797 & .0258 & .00743 & .00205
 \caption{Graph form of results of Table 1}
 \end{figure}
 
-The function written checks divisibility of N by p by calculating $N \mod p$. For very large N we can optimise this by iterating over the digits of $N$. If $N=a_oa_1a_2\dots a_n$ we can initialise $result=0$ and iterate $result=result\times10+a_k\pmod p$ for $k=0,1\dots n$.
+The function written checks divisibility of N by p by calculating $N \mod p$. For very large N we can handle this by iterating over the digits of $N$. If $N=a_oa_1a_2\dots a_n$ we can initialise $result=0$ and iterate $result=result\times10+a_k\pmod p$ for $k=0,1\dots n$.	
 
 \subsection*{Question 2}
 
@@ -91,7 +91,7 @@ ie $s' \mid (r'^2 - N)$ as required.
 
 \end{proof}
 
-The expressions for $r'$ and $s'$ allow us to store $x_n$ precisely and avoid rounding errors. From IIC Number Theory, we know the sequence of partial quotients is eventually periodic, which can be identified from when $x_n$ repeats. The partial quotients for $\sqrt{N}$, N up to 50 are as follows, with the integers after the colon being repeated:
+The expressions for $r'$ and $s'$ allow us to store $x_n$ precisely and avoid rounding errors. From IIC Number Theory, we know the sequence of partial quotients is eventually periodic, which can be identified from when $x_n$ repeats. The function $sqrt\_cont\_frac(N,k)$ is our implementation, with k giving a maximum number of partial quotients to return. The partial quotients for $\sqrt{N}$, N up to 50 are generated and printed by $q2i()$, with the integers after the colon being the repeated period:
 
 \begin{lstlisting}[breaklines]
 0 ) 0 
@@ -146,8 +146,15 @@ The expressions for $r'$ and $s'$ allow us to store $x_n$ precisely and avoid ro
 49) 7 
 50) 7 : 14
 \end{lstlisting}
- 
-We observe they all have fairly short periods, surprising since the theorem on periodicity doesn't give an indication for what the period will be. We also see that the last partial quotient before repeating is $2 \left \lfloor\sqrt{N}\right \rfloor $ TODO
+
+
+The following claims are all true up to $N=10^6$, verified by $q2ii()$. In fact they are all true, but we will omit proofs here, and link to some references.\\
+
+We first observe they all have fairly short periods, less than N say. See \footnote{\url{http://web.math.princeton.edu/mathlab/jr02fall/Periodicity/mariusjp.pdf}, Corollary 2.1}\\
+
+Secondly, we see that the partial quotients take form $\sqrt{N} = [a_0; \overline{a_1, a_2, \dots, a_{l-1}, 2a_0}]$ with $a_1, a_2, \dots, a_{l-1}$ palindromic\footnote{This is a well known theorem. See for example Ex 12.2.13 in Rosen, "Elementary Number Theory". The text provides a proof at the back.}.  	\\
+
+We further have that  $a_1, a_2, \dots, a_{l-1} < \sqrt{N}$, true up to $10^5$. max(r) $\approx\sqrt{N}$, r satisfies $r<\sqrt{N}$, and s satisfies $s<2\sqrt{N}$. See \footnote{\url{https://math.stackexchange.com/questions/2838367/size-of-partial-quotients-in-continued-fraction-expansion-of-sqrtn}} \\
 
 \subsection*{Question 3}
 
@@ -161,7 +168,7 @@ The function $q3()$, using $convergents()$ produces the following data. I've inc
 31 [8]) -6, 5, -3, 2, -3, 5, -6, 1, -6, 5
 \end{lstlisting}
 
-We see the convergents always seem to contain a solution to Pells (positive) equation. Note for N a square, solving either equation gives a solution to $x^2-y^2=\pm 1$ which is clearly unsoluble. These results agree with the following theorem, proved in IIC Number Theory.
+We see the convergents $(P_n, Q_n)$ always seem to contain a solution to Pell's equation. Note for N a square, solving either equation gives a solution to $x^2-y^2=\pm 1$ which is clearly unsoluble, so for N a square Pell's equation is unsoluble. The result on convergents agrees with the following theorem, proved in IIC Number Theory.
 
 \begin{theorem}
 Let n be the period of the continued fraction expansion of $\sqrt{N}$ for N not a perfect square. Then the convergent $(p_{kn-1},q_{kn-1})$ for integer k is a solution to the positive Pell equation for $kn$ even and for the negative Pell equation for $kn$ odd. In particular there are always infinitely many solutions to the positive Pell equation.
@@ -169,7 +176,7 @@ Let n be the period of the continued fraction expansion of $\sqrt{N}$ for N not 
 
 
 
-Consider the negative Pell equation $X^2-NY^2=-1$. Suppose N is divisible by 4, then mod 4 we get $X^2\equiv-1\pmod 4$ which is not soluble so there are no solutions. We can get another condition similarly. Suppose $p\mid N$ with $p\equiv 3 \pmod 4$. Then we get $X^2\equiv-1\pmod p$ but $\legendre{-1}{p}=-1$. So N cannot be divisible by 4 or be congruent to 3 mod 4.\\
+Consider the negative Pell equation $X^2-NY^2=-1$. Suppose N is divisible by 4, then mod 4 we get $X^2\equiv-1\pmod 4$ which is not soluble so there are no solutions. We can get another condition similarly. Suppose $p\mid N$ with $p\equiv 3 \pmod 4$. Then we get $X^2\equiv-1\pmod p$ but $\legendre{-1}{p}=-1$. So N cannot be divisible by 4 or have a prime factor $p\equiv 3\pmod 4$ (which is stronger than $N\equiv 3\pmod 4$).\\
 
 Given $x,y,N$, to confirm one of Pell's equations holds, we'll use the Chinese Remainder Theorem. Take p a prime, then if $x^2-Ny^2=\pm 1$ the same must hold (mod p). By the CRT, the system
 
@@ -180,11 +187,11 @@ Given $x,y,N$, to confirm one of Pell's equations holds, we'll use the Chinese R
    z &= 1 \mod p_n\\
 \end{align*}
 
-has a unique solution mod $p_1p_2\dots p_n$. (The same holds with all 1's replaced by -1's). So to check $z=x^2-Ny^2$ is 1 it suffices the above system holds, as long as the product $p_1p_2\dots p_n$ is greater than $x^2$ and $Ny^2$. Lets use small primes, up to 113 will do, since the largest $Ny^2$ can be is $10^{45}$. \\
+has a unique solution mod $p_1p_2\dots p_n$. (The same holds with all 1's replaced by -1's). So to check $z=x^2-Ny^2= \pm 1$ it suffices to verify the above system holds, as long as the product $p_1p_2\dots p_n$ is greater than $x^2$ and $Ny^2$. Lets use small primes, up to 113 will do, since the largest $Ny^2$ can be is $10^{45}$. \\
 
-The reason we are using primes at all is that multiplication can be done without risk of overflow modulo. Consider multiplying x and y mod N. We write for y even, $xy = (2x)(\frac{y}{2})$ and for y odd $xy = x+ (2x)(\frac{y-1}{2})$. In the y odd case, add x mod N to the result. Now iterate the process with $x'=2x$ and $y'=\frac{y}{2}$ or $\frac{y-1}{2}$ accordingly. The process terminates when y becomes 0, which must occur as y becomes strictly smaller each iteration. In doing so we take mod N after every step and are just doing addition so worst case we store at most $2N < 2*10^{15}$. The algorithm is implemented as $modular\_multiply(x,y,mod)$\\
+The reason we are using this system at all is that modular multiplication can be done without risk of overflow. Consider multiplying x and y mod N. We write for y even, $xy = (2x)(\frac{y}{2})$ and for y odd $xy = x+ (2x)(\frac{y-1}{2})$. In the y odd case, add x mod N to the result. Now iterate the process with $x'=2x$ and $y'=\frac{y}{2}$ or $\frac{y-1}{2}$ accordingly. The process terminates when y becomes 0, which must occur as y becomes strictly smaller each iteration. In doing so we take mod N after every step and are just doing addition so worst case we store at most $2N < 2*10^{15}$. The algorithm is implemented as $modular\_multiply(x,y,mod)$\\
 
-Our implementation of this method is $verify\_large\_pell(x,y,N)$, which is fairly fast, when tested on  x=158070671986249, y=15140424455100, n=109, and x=1766319049, y=226153980, n=61 \footnote{Obtained from \url{https://en.wikipedia.org/wiki/Pell\%27s_equation}}\\
+Our implementation of this method is $verify\_large\_pell(x,y,N)$, which is fairly fast, when tested on \\ x=158070671986249, y=15140424455100, n=109, and x=1766319049, y=226153980, n=61 \footnote{Obtained from \url{https://en.wikipedia.org/wiki/Pell\%27s_equation}}\\	
 
 We now wish to find some solutions to Pell's Equation. The question doesn't seem to want us to use the stated Theorem, which directly gives a valid convergent. We'll employ a trial and error approach instead, in which we calculate and then test using $verify\_large\_pell(x,y,N)$. We get the following:
 
@@ -343,7 +350,7 @@ We now wish to find some solutions to Pell's Equation. The question doesn't seem
 550) (30580901,1303974)
 \end{lstlisting}
 
-It turns out our program was capable of dealing with integers with far more than 15 digits, since python can handle very large \textbf{integer} calculations. Even $N=541$, with smallest $x,y$ of magnitude $10^{36}$ was able to be solved. Once can verify these are correct via comparing to an online resource, such as \footnote{\url{http://www.martin-flatin.org/math/pell/pell_equation_1000.xhtml}}
+It turns out our program was capable of dealing with integers with far more than 15 digits, since python can handle very large \textbf{integer} calculations. Even $N=541$, with smallest $x,y$ of magnitude $10^{36}$ was able to be solved. Once can verify these are correct via comparing to an online resource, such as \footnote{\url{http://www.martin-flatin.org/math/pell/pell_equation_1000.xhtml}}.
 
 \subsection*{Question 4}
 
@@ -358,13 +365,24 @@ We have $(N, x+y) \mid N$ by definition of GCD. To show it's proper, if $(N, x+y
 For the case of $x-y$, the argument is  same, replacing $y$ with $-y$.
 \end{proof}
 
-The complexity of computing each factor is TODO\\
+To analyse the complexity of the euclidean algorithm to calculate GCD's, lets analyse 2 steps of the algorithm for gcd(a,b).
 
-This method isn't guaranteed to work: For N=6, the squares of 0,1,2,3 are 0,1,4,3 so we can't find $x,y$ as in the Lemma. Similarly for N=10, the squares of 0,1,2,3,4,5 are 0,1,4,9,6,5 so the method won't work for the same reason. 
+\begin{align*}
+a&=q_0b+r_1\\
+b&=q_1r_1+r_2\\
+r_1&=q_2r_2+r_3\\
+\end{align*}
+
+We have by definition of the algorithm $ r_3 < r_2 < r_1 < b$. So $r_2 + r_3 > 2r_3$. Now since $r_1=q_2r_2+r_3$ and $q_2\geq 1$ we have $r_1 > r_2 + r_3 > 2r_3$, and so combining the above we get $r_3 < r_1/2 < b/2$. So in 2 steps we've reduced b by a factor of at least a half. Assuming all simple calculations in each step can be done in constant time, the algorithm terminates in $O(\log{b})$ steps, for $b<a$. This assumption isn't necessarily true for very large a,b since moduli calculations become harder, the method given in question 1 is $O(\log(n))$ to find $n \pmod m$. So an upper bound is  $O(\log^2{\min(a,b)})$.\\
+
+
+The method always works for N odd. Supposing $N=\prod_{i=1}^t p_i^{e_i}$ with $e_i\geq1$ and $p_i$ distinct, we claim $x^2 \equiv 1 \pmod{p_i^{e_i}}$ has 2 solutions for $p\neq2$. Thus by the Chinese Remainder Theorem $x^2\equiv 1 \pmod N$ has $2^t$ solutions. So there are $2^t-2$ valid choices of y, taking $x=1$. So we can always find a $y\not\equiv \pm1 \pmod N$, so the method always works.\\
+
+To show the claim, let $p\neq2$. First consider $x^2\equiv 1 \pmod p$. Then $p \mid (x-1)(x+1)$, so either $x-1=kp$ or $x+1=kp$ for $k\in\mathbb{Z}$. So $x\equiv\pm 1 \pmod p$. Now consider $x^2\equiv 1 \pmod{p^e}
 
 \subsection*{Question 5}
 
-We've already discussed how to multiply modulo N in question 3, our implementation being $modular_multiply(x,y,N)$. The function $q5(N,k)$ performs the required task, with k being the largest n such that $P_n. P_n^2$ calculated. On the given N we get the following, with $k=10$
+We've already discussed how to multiply modulo N in question 3, our implementation being $modular\_multiply(x,y,N)$. The function $q5(N,k)$ performs the required task, with k being the largest n such that $P_n, P_n^2$ calculated. On the given N we get the following, with $k=10$
 
 
 \begin{lstlisting}[breaklines]	
@@ -374,13 +392,13 @@ P_n: 38075, 38076, 380759, 1561112, 3502983, 8567078, 12070061, 286178481, 58442
 
 P_n^2: 1449705625, 7447, 1449757510, 29495, 1449751962, 52459, 1449771169, 29137, 1449740329, 37991, 1449753174
 
-N=3333999913
+N = 3333999913
 
 P_n: 57740, 57741, 230963, 288704, 18419315, 18708019, 55835353, 465390843, 521226196, 2029069431, 2550295627
 
 P_n^2: 3333907600, 23168, 3333908674, 1791, 3333922345, 37273, 3333987265, 83849, 3333975752, 83408, 3333986530
 
-N=7686335197
+N = 7686335197
 
 P_n: 87671, 87672, 263015, 350687, 6926068, 48833163, 153425557, 509109834, 5703946044, 6213055878, 4230666725
 
@@ -389,7 +407,16 @@ P_n^2: 7686204241, 44387, 7686208649, 8817, 7686311344, 50516, 7686282946, 6503,
 
 \subsection*{Question 6}
 
-This question is quite a large part of the IB Core Project 1.1: Matrices over Finite Fields from last year. Since I've switched programming language, I've had to rewrite the code, but have used the same algorithm to perform Gaussian elimination and find an element of the kernel, simplified a bit to work mod 2. 
+This question is quite a large part of the IB Core Project 1.1: Matrices over Finite Fields from last year. Since I've switched programming language, I've had to rewrite the code, but have used the same algorithm to perform Gaussian elimination and find the kernel, simplified a bit to work (mod 2) as opposed to (mod p) for prime p. A brief description of the algorithm is given below.\\
+
+The Gaussian Elimination into row echelon form is a standard algorithm, eg see \footnote{\url{https://en.wikipedia.org/wiki/Gaussian_elimination\# Pseudocode}}. Let B=ref(A), ker(A)=ker(B) since if $\bm{x} \in ker(A)$ then $\bm{v_i}\bm{x}=0$ where $\bm{v_i}$ are the row vectors of A. Hence, for any linear combination; $\sum( \lambda_i \bm{v_i})\bm{x}=0$. All row operations do is rewrite the rows as linear combinations. Hence $ker(A)\subseteq ker(B)$ and similarly $ker(B)\subseteq ker(A)$, hence they are equal.\\
+
+We calculate the so called $l$ values for each row, the position of the pivot. If there is no pivot, assign a value * to the row. The number of pivots is the rank, from which we can calculate the nullity, n and return False if the n=0. \\
+
+If n>0 we construct n linearly independent vectors in the kernel. Call the elements of l fixed components, and the non elements free. Loop through all the free $x_i$ setting each to 1 and all other columns-1 vector elements to 0. Call this vector $\bm{x^i}$ . In each case, We can now solve for the fixed components by back substitution, giving a unique solution, via $x_{l(i)}=\sum_{j=l(i)+1}^{columns} -B_{ij}x_j$ for all i (i decreasing). \\
+
+This certainly gives us n vectors in the kernel. As long as they are linearly independent they span the kernel and we are done. This is guaranteed. Consider
+$\sum\lambda_j \bm{x_j} =\bm{0}$. In the i'th component, $(\bm{x^i})_i=1$ and all other $(\bm{x_j})_i=0$, hence $\lambda_i=0$ $\forall$ $i$. Hence linearly independent.\\
 
 \subsection*{Question 7}
 
@@ -397,24 +424,37 @@ The continued fraction algorithm uses elements of the majority of the above ques
 
 First, define a B-number to be a positive integer x such that all prime factors of $\langle x^2 \rangle$ lie in B, where for $a\in\mathbb{Z}$, $\langle a \rangle$ is the unique integer in $(-\frac{N}{2}, \frac{N}{2}]$ with $\langle a \rangle \equiv a \pmod N$. The algorithm is as follows:\\
 
-1) Pick a factor base B, which in our case will contain primes $\leq 50$, and possibly -1\\
-2) Generate some B numbers $x_1, x_2, \dots, x_k$ . It turns out $P_n$ have a good chance of being B-numbers by LEMMA SOMEHTING\\
-3) Find a non-empty subset $I\subset\{1, \dots ,k\}$ such that $\prod_{i\in I}\langle x_i^2 \rangle=y^2$ is a square.\\
-4) For $x=\prod_{i\in I}\langle x_i\rangle$ satisfies $x^2\equiv y^2 \pmod N$. So by the earlier lemma, we can find some non trivial factors of N if $x\not\equiv y \pmod N$. \\
+(1) Pick a factor base B\\
+(2) Generate some B numbers $x_1, x_2, \dots, x_k$ . It turns out $P_n$ have a good chance of being B-numbers by the following lemma\\
+(3) Find a non-empty subset $I\subset\{1, \dots ,k\}$ such that $\prod_{i\in I}\langle x_i^2 \rangle=y^2$ is a square.\\
+(4) For $x=\prod_{i\in I}x_i$ satisfies $x^2\equiv y^2 \pmod N$. So by the earlier lemma, we can find some non trivial factors of N if $x\not\equiv y \pmod N$. \\
 
-Note we've changed the q5() function slightly to give us $\langle P_n^2 \rangle$ instead of $P_n^2 \pmod N$
+\begin{lemma}
+Let $\frac{P_n}{Q_n}$ be a convergent in the CF expansion of $\sqrt{N}$. Then $|P_n^2-NQ_n^2|\leq2\sqrt{N}$. Thus $P_N^2-NQ_n^2 \equiv P_n^2 \pmod N$ and $P_n^2-NQ_n^2 \in (-\frac{N}{2}, \frac{N}{2}]$ so $\langle P_n^2\rangle = P_n^2-NQ_n^2$ and $\langle P_n^2\rangle\leq2\sqrt{N}$
+\end{lemma}
 
-EXPLAIN ALGORITHM
+Here's how we implement each step.\\
 
-The output for various N is given below
+(1) We'll use $B=\{\text{primes}\leq 50\} \cup \{-1\}$\\
+
+(2) Use $q5(N,k)$ to generate the first 200 $P_n \pmod N$ and $\langle P_n^2 \rangle$. Note we've changed this function slightly to return 
+ $\langle P_n^2 \rangle$ instead of $P_n^2 \pmod N$. Initiate n=0.\\
+
+(*) Now calculate $B\_smooth(B, \langle P_n^2 \rangle)$. If not B smooth increase n by 1 and return to (*). Otherwise we've found a B number, which we add to our list of B numbers $(x_i)_{i=1\dots k}$. At each step record for each i a vector  $v^{i}$ of length $|B|$ with j'th entry $v^{i}_j$= (largest power of the j'th prime dividing $\langle x_i^2 \rangle$) where we call -1 the first prime.\\
+ 
+(3) Let A be the $|B|\times k$ matrix with columns $v^{i} \pmod 2$. Compute the kernel of A using the question 6. If trivial, iterate n by 1 and return to (*). Otherwise there is a non zero $x \in \ker{(A)}$, $\prod_{\{i | x_i = 1\}} \langle x_i^2 \rangle = y^2$ is a square by construction, and we can determine $y$ by multiplying all primes corresponding to the vector $\frac{1}{2}\sum_{\{i | x_i = 1\}}v^i$. We of course do this multiplication via $modular\_multiply(x,y,N)$, since our result may be large. \\
+
+(4) If $x \equiv \pm y \pmod N$, try another linearly independent kernel vector, and if no such exist, iterate n and return to (*). Otherwise return the two GCDs.\\
+ 
+Our implementation is $factorization(n)$, and prints the relevant steps taken when it finds a factorization. The output for various N is given below. Note the algorithm is not guaranteed to succeed.
 
 \begin{lstlisting}[breaklines]	
 N = 9509
 
 The algorithm uses P_n for n = 0,2,3
 The corresponding B numbers are 97,195,3413
-Multiplying the B numbers, x_i gives an x of 294
-Multipling <x_i^2> gives a y equal to 9289 = (-1)^1 x 2^2 x 5 x 11
+Multiplying the B numbers, x_i gives an x = 294
+Multipling <x_i^2> gives a y = 9289 = (-1) x 2^2 x 5 x 11
 This gives us factors gcd(x+y,N) = 37and gcd(x-y,N) = 257
 
 
@@ -422,11 +462,55 @@ N = 14429
 
 The algorithm uses P_n for n = 0,2
 The corresponding B numbers are 120,3003
-Multiplying the B numbers, x_i, gives an x of 14064
-Multipling <x_i^2> gives a y equal to 14371 = (-1) x 2 x 29
+Multiplying the B numbers, x_i, gives an x = 14064
+Multipling <x_i^2> gives a y = 14371 = (-1) x 2 x 29
 This gives us factors gcd(x+y,N) = 47 and gcd(x-y,N) = 307
+
+N=1449774329
+
+The algorithm uses P_n for n = 43
+The corresponding B numbers are 1245500098
+Multiplying the B numbers, x_i, gives an x = 1245500098
+Multipling <x_i^2> gives a y = 145 = 5 x 29
+This gives us factors gcd(x+y,N) = 51043 and gcd(x-y,N) = 28403
+
+N=3333999913
+
+The algorithm uses P_n for n = 6,22,45,100,168
+The corresponding B numbers are 55835353,466038032,1372728391,2510428257,1696557395
+Multiplying the B numbers, x_i, gives an x = 2938205297
+Multipling <x_i^2> gives a y = 2220030420 = (-1)^2 x 2^6 x 3^4 x 13 x 17 x 29 x 31 x 41
+This gives us factors gcd(x+y,N) = 99991 and gcd(x-y,N) = 33343
+
+N=7686335197
+
+The algorithm uses P_n for n = 15,130,152
+The corresponding B numbers are 2002379263,1821227876,6615421364
+Multiplying the B numbers, x_i, gives an x = 7393655649
+Multipling <x_i^2> gives a y = 7668282421 = (-1) x 2^3 x 3^2 x 7^3 x 17 x 43
+This gives us factors gcd(x+y,N) = 93257 and gcd(x-y,N) = 82421
+
 \end{lstlisting}
 
+Choosing all small primes is a good choice for the factor base B, as small primes have the highest probability of dividing an arbitrary integer. There is a balance to strike with the size of the choice of factor base B. A larger factor base would potentially require less convergents to be calculated, though will increase the amount of calculation required over each (*)-loop, since our matrices and vectors will all be larger. We can run some tests to see how large an effect it has. $factorbase_test()$, does the work. We silence the print statements to run this.\\
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|l|l|l|l|l|l|l|l|}
+\hline
+N/primes up to & 50 n & 50 time & 100 n & 100 time & 150 n & 150 time & 200 n & 200 time \\ \hline
+1449774329     & 43   & 177s    & 43    & 202s     & 43    & 194s     & 43    & 192s     \\ \hline
+3333999913     & 168  & 193s    & 135   & 240s     & 120   & 220s     & 120   & 249s     \\ \hline
+7686335197     & 152  & 170s    & 130   & 183s     & 130   & 172s     & 130   & 193s     \\ \hline
+\end{tabular}
+\caption{Seconds for 1000 trials, and maximum n such that $P_n$ needed to factor numbers using a factorbase of primes up to 50,100,150 and 200.}
+\end{table}
+
+
+The results show the factorbase of primes up to 50 is pretty good. The reason is because the increase in time taken with more primes is approximately proportional to the number of primes k (since gaussian elimination, and testing of B-smoothness are both linear in k), but the decrease in number of $P_n$ required is not inversely proportional, since there are far fewer numbers divisible by large primes than small primes.\\
+
+
+Several improvements could be made to our implementation. The structure of this project leads us to do various steps of the algorithm separately, when they could all be streamlined into a single loop. For instance at present our algorithm calculates a large number of partial quotients, followed by the first 200 convergents $P_n$ and $Q_n$ at the start. We don't need the $Q_n$'s, and the partial quotients $a_n$'s and $P_n$'s should be calculated only when needed, ie in the same (*)-loop. 
 
 
 
