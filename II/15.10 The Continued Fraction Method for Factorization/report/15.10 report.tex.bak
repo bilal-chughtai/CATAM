@@ -24,7 +24,7 @@
 
 
 \textbf{CATAM Part II - 15.10 - The Continued Fraction Method for
-Factorization}
+Factorization TODO - maybe copy the stackexchange proof and review}
 \thispagestyle{empty}
 
 \newpage
@@ -378,7 +378,7 @@ We have by definition of the algorithm $ r_3 < r_2 < r_1 < b$. So $r_2 + r_3 > 2
 
 The method always works for N odd. Supposing $N=\prod_{i=1}^t p_i^{e_i}$ with $e_i\geq1$ and $p_i$ distinct, we claim $x^2 \equiv 1 \pmod{p_i^{e_i}}$ has 2 solutions for $p\neq2$. Thus by the Chinese Remainder Theorem $x^2\equiv 1 \pmod N$ has $2^t$ solutions. So there are $2^t-2$ valid choices of y, taking $x=1$. So we can always find a $y\not\equiv \pm1 \pmod N$, so the method always works.\\
 
-To show the claim, let $p\neq2$. First consider $x^2\equiv 1 \pmod p$. Then $p \mid (x-1)(x+1)$, so either $x-1=kp$ or $x+1=kp$ for $k\in\mathbb{Z}$. So $x\equiv\pm 1 \pmod p$. Now consider $x^2\equiv 1 \pmod{p^e}
+To show the claim, let $p\neq2$. First consider $x^2\equiv 1 \pmod p$. Then $p \mid (x-1)(x+1)$, so either $x-1=kp$ or $x+1=kp$ for $k\in\mathbb{Z}$. So $x\equiv\pm 1 \pmod p$. Now consider $x^2\equiv 1 \pmod{p^e}$. Note only one of $x+1$ or $x-1$ is divisible by p, as if both are, their difference is too, so $p \mid 2$ but p is odd. So now $p^e \mid (x-1)(x+1)$ and must divide wholly into one factor so either $x-1=kp^e$ or $x+1=kp^e$ for $k\in\mathbb{Z}$. So $x\equiv\pm 1 \pmod{p^e}$.
 
 \subsection*{Question 5}
 
