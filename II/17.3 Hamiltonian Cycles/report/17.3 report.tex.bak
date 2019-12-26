@@ -23,7 +23,7 @@
 \begin{document}
 
 
-\textbf{CATAM Part II - 17.3 - Hamiltonian Cycles}
+\textbf{CATAM Part II - 17.3 - Hamiltonian Cycles TODO fix wording of last paragraph}
 \thispagestyle{empty}
 
 \newpage
@@ -48,7 +48,7 @@ First set candidate = [1], and k = 1, and loop the following. k is our track of 
 
 4) We terminate if we ever get a successful cycle, or if candidate ever returns to [1] (or possibly [], if 1 had no neighbours) after this process, ie if after checking all paths we fail to find a cycle. \\
 
-This is quick enough, and we get the following data, gathered by $q1()$. 
+Our implementation is $simple_hamiltonian()$. This is just about quick enough, and we get the following data, gathered by $q1()$. 
 
 \begin{lstlisting}[breaklines]
 * Order=3, Size=3, {1: {2, 3}, 2: {1, 3}, 3: {1, 2}} * has a hamiltonian cycle: [1, 2, 3]
@@ -107,7 +107,16 @@ This is quick enough, and we get the following data, gathered by $q1()$.
 \subsection*{Question 2}
 Suppose we have n vertices. The worst case is we have no Hamiltonian cycle. Assume each of the $(n-1)!$ paths are checked, only failing at the last step (ie every length n path is Hamiltonian starting at $v_0$, but not a cycle) We assume each simple operation, eg iterating, looking up a value in a list take time $c$. For each. At worst, we need about $2n+10$ simple operations per iteration, of which most are spent calculating the new possible vertices to append. This gives a time of $c(2n+10)$ per permutation. So we end up with a total running time of $(n-1)!(2n+10)c = O(n!)$.\\
 
-Now for an average case, supposing an average graph can be taken from $\mathcal{G}(n,1/2)$. Supposing such an average graph has $k$ Hamiltonian cycles, from Table 1 it seems reasonable to assume $k=1/2$. So in the case we have a Hamiltonian cycle, we expect to find it in $(n-1)!/2$ permutations, with each prior permutation failing in $n/2$ steps. This gives a running time of $(n-1)!(3nc+d)/4$. In the other case where we don't have a Hamiltonian cycle, we similarly get $(n-1)!(3nc+d)/2$, so expect a running time of $3(n-1)!(3nc+d)/4 = O(n!)$. \\
+For an average case, it'll be useful to know how many hamiltonian cycles we should expect to have in a $\mathcal{G}(n,p)$ graph. This isn't too hard to show:
+
+\begin{theorem} 
+The expected number of hamiltonian cycles in a random graph $\mathcal{G}(n,1/2)$ is given by $\frac{1}{2}(n-1)!p^n$, for $n\geq3$.
+\end{theorem}
+\begin{proof}
+First, $K_n$ has $\frac{1}{2}(n-1)!$ cycles of length n, all of which are Hamiltonian (start at 1, have n-1 choices for the second vertex, n-2 for the third... Factor of 1/2 comes from the undirectedness of the graph). Order these cycles, and let $X_i$ be the event $G$ contains the $i$'th cycle. Then $\mathbb{E}(X)$ is the expected number of hamiltonian cycles in G, and by linearity of expectation is equal to $\sum_i \mathbb{E}(X_i)$. Now $\mathbb{E}(X_i) = p^n$ since each edge occurs independently with probability p, giving our result.
+\end{proof}
+
+Suppose an average graph can be taken from $\mathcal{G}(n,1/2)$. We expect the $2^n$th cycle we find to be Hamiltonian. To get from one potential cycle to the next is about constant time independent of n, and is abot, and to build up to our first cycle is about $O(n)$. So we have a    So an average graph has $\frac{1}{2^{n+1}}(n-1)!$ hamiltonian cycles. from Table 1 it seems reasonable to assume $k=1/2$. So in the case we have a Hamiltonian cycle, we expect to find it in $(n-1)!/2$ permutations, with each prior permutation failing in $n/2$ steps. This gives a running time of $(n-1)!(3nc+d)/4$. In the other case where we don't have a Hamiltonian cycle, we similarly get $(n-1)!(3nc+d)/2$, so expect a running time of $3(n-1)!(3nc+d)/4 = O(n!)$. \\
 
 So the algorithm cannot handle too large an n.
 
@@ -156,17 +165,45 @@ Here we're considering a range of values $p\in[\frac{\log(n)-0.9\log(n)}{n},\fra
 
 \subsection*{Question 4}
 
-The $smarter_hamiltonian(T)$ method of the Graph class performs the algorithm. 
+The $smarter\_hamiltonian(T)$ method of the Graph class performs the algorithm. To determine what a suitable T would be for various n,p we'll run some trials, and determine a value of T such that we'll find $95\%$ of hamiltonian cycles. We can do so by first using our $simple\_hamiltonian()$ function to only pick out graphs with hamiltonian cycles, then use, say $smarter\_hamiltonian(1000)$ to determine a 95'th percentile on T. We'll run 5000 trials, by which I mean we'll test 5000 graphs with hamiltonian cycles for each n,p. We'll only go up to $n=14$, since $simple\_hamiltonian()$ is fairly slow for larger n for small p, and won't bother testing $p<0.3$ since we rarely ever have hamiltonian. We gather the following data using $q4()$.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|l|l|l|l|l|l|}
+\hline
+\textbf{p/n} & \textbf{4} & \textbf{6} & \textbf{8} & \textbf{10} & \textbf{12} & \textbf{14} \\ \hline
+\textbf{0.3} & 6          & 15         & 33         & 62          & 80          & 103         \\ \hline
+\textbf{0.5} & 7          & 16         & 27         & 35          & 34          & 33          \\ \hline
+\textbf{0.7} & 7          & 13         & 16         & 17          & 18          & 19          \\ \hline
+\textbf{0.9} & 6          & 8          & 10         & 18          & 14          & 15          \\ \hline
+\end{tabular}
+\caption{95'th percentile of T required to find a hamiltonian cycle, given one exists, from a selection of 5000 trials in $\mathcal{G}(n,p)$ }
+\label{tab:my-table}
+\end{table}
+
+We find unsurprisingly a larger T is required for small p, and not too large a T is required, making this fairly fast. If we only have T depending on n, setting T to about $n^2$ should catch almost all Hamiltonian cycles, and is a lot better than the average case complexity of the above.
 
 \subsection*{Question 5}
+There are 2 steps here. We first need to get $P_j$ to length n-1. Then we need to complete the cycle. \\
 
-In general we expect small graphs with small p to have few hamiltonian cycles and large p to have many. The algorithm terminates in 2 cases:\\
+To attain length n-1, we need to add n-1 vertices to our original. The only way to increase the length of $P_j$ is if $v_k$ is joined to a vertex not in $P_j$. This occurs with probability $1-(1-p)^{n-k-1}$. We can certainly bound the sum of the reciprocals of these by $\frac{n}{p}$, which upper bounds how long we expect it takes us to reach length n-1. Let's, say, double this to be reasonably sure we've reached length n-1.\\
 
-1) If $v_0$ has no neighbours
-2) If we find a hamiltonian path 
-3) If we hit $T$ iterations
+Once $P_j$ hits length n-1, we may model the time taken to reach a hamiltonian cycle as a geometric distribution with parameter p, since we only need the last and first vertex having an edge between them. We can use the 95th percentile of the CDF for this step, which  is $\min\{k, \sum_k (1-p)^{k-1}p > 0.95\}$.\\
 
-Case 1 is unlikely in general, though occurs more for p small than p large. Case 2 occurs more often for p large, and case 3 for p small, so we expect the algorithm to take longer for small p.
+One can verify this gives a T greater than all of the entries of Table 3, and should be reasonable for large n.\\
+
+
+In general we expect small graphs with small p to have few Hamiltonian cycles and large p to have many. The algorithm terminates in 2 cases:\\
+
+1) If $v_0$ has no neighbours\\
+2) If we find a hamiltonian path \\
+3) If we hit $T$ iterations\\
+
+Case 1 is unlikely in general, though occurs more for p small than p large. Case 2 occurs more often for p large, and case 3 for p small, so we expect the algorithm to take much longer for small p. \\
+
+In the average case, we expect the $2^n$th length n-1 path to be a cycle. Once we reach length n-1, step 3 is constant time, since all we're doing is a look up and a splice, so we have $O(2^n)$. Before we reach length n-1, we use step 2, which is also constant time. We don't expect to take more than 2 steps to find a neighbour of $v_k$ not in $P_j$ (since we have p=1/2), and step 2 itself is $O(n)$ (since we're reading the set of neighbours, and intersecting it with $P_j$). If step 2 fails to find a valid neighbour, we go on to the constant time step 3. So this step is in total $O(n)$. So in average case, the algorithm is $O(2^n)$ to find a hamiltonian cycle.\\
+
+
 
 
 

@@ -71,16 +71,16 @@ class Graph(object):
         for permutation in permutations:
             if permutation[-1] not in self.neighbours(self.vertices[0]):
                 continue
-            for i in range(len(permutation)-1):
+            for i in range(len(permutation) - 1):
                 if permutation[i + 1] not in self.neighbours(permutation[i]):
                     break
             return [self.vertices[0]] + list(permutation)
         return
 
-    def naive_hamiltonian2(self):
-        candidate=[self.vertices[0]]
-        maxcandidate=[1]+[0]*(self.order-1)
-        position=1
+    def simple_hamiltonian(self):
+        candidate = [self.vertices[0]]
+        maxcandidate = [1] + [0] * (self.order - 1)
+        position = 1
         while True:
 
             if len(candidate) == self.order:
@@ -90,57 +90,53 @@ class Graph(object):
                     maxcandidate = candidate
                     candidate = candidate[:-1]
                     position -= 1
-                    #print(position)
+                    # print(position)
                     continue
             else:
 
                 neighbours = self.neighbours(candidate[position - 1])
                 compareto = maxcandidate[position]
-                possible_new_vertices = [y for y in [x for x in neighbours if x not in candidate] if y>compareto]
+                possible_new_vertices = [y for y in [x for x in neighbours if x not in candidate] if y > compareto]
 
                 if bool(possible_new_vertices):
-                    newvertex = min([y for y in neighbours if y>compareto and y not in candidate])
+                    newvertex = min([y for y in neighbours if y > compareto and y not in candidate])
                     candidate.append(newvertex)
                     maxcandidate = candidate + [0]
                     position += 1
                 else:
                     maxcandidate = candidate
                     candidate = candidate[:-1]
-                    #print(candidate)
-                    position-=1
+                    # print(candidate)
+                    position -= 1
 
                     if candidate == [self.vertices[0]] or candidate == []:
                         return False
 
-
-
-
     def smarter_hamiltonian(self, T):
         P = [self.vertices[0]]
-        count=1
+        count = 1
 
         while True:
             if len(P) == self.order and P[-1] in self.neighbours(self.vertices[0]):
                 return P, count
 
-            elif len(P) < self.order and bool(self.neighbours(P[-1]).intersection(set(self.vertices) - set(P))):  # set non empty
+            elif len(P) < self.order and bool(
+                    self.neighbours(P[-1]).intersection(set(self.vertices) - set(P))):  # set non empty
                 P.append(random.sample((self.neighbours(P[-1]).intersection(set(self.vertices) - set(P))), 1)[0])
 
             else:
                 vk_neighbours = self.neighbours(P[-1])
                 if not bool(vk_neighbours):
-                    return False, count #zero degree of vk
-                vi = random.sample(vk_neighbours.intersection(set(P)),1)[0]
+                    return False, count  # zero degree of vk
+                vi = random.sample(vk_neighbours.intersection(set(P)), 1)[0]
                 i = P.index(vi)
-                new_P_start = P[:i+1]
-                new_P_end = list(reversed(P[i+1:]))
+                new_P_start = P[:i + 1]
+                new_P_end = list(reversed(P[i + 1:]))
                 P = new_P_start + new_P_end
-            count+=1
+            count += 1
 
-
-            if count>T:
+            if count > T:
                 return False, count
-
 
 
 def q1():
@@ -148,15 +144,16 @@ def q1():
     for graph in [Graph(vertices=[1, 2, 3], edges=[(1, 2), (2, 3), (3, 1)]),
                   Graph(vertices=[1, 2, 3], edges=[(1, 2), (2, 3)]),
                   Graph(vertices=[1, 2, 3, 4], edges=[(1, 2), (2, 3), (3, 1)]),
-                  Graph(vertices=[1,2,3,4,5,6], edges=[(1, 2), (3, 4), (2, 4), (1, 4), (5, 6), (6, 3),(2,5),(5,6)])]:
-        result = graph.naive_hamiltonian2()
+                  Graph(vertices=[1, 2, 3, 4, 5, 6],
+                        edges=[(1, 2), (3, 4), (2, 4), (1, 4), (5, 6), (6, 3), (2, 5), (5, 6)])]:
+        result = graph.simple_hamiltonian()
         if result:
             print(str(graph) + " has a hamiltonian cycle: " + str(result))
         else:
             print(str(graph) + " has no hamiltonian cycle")
 
     pvalues = [0.3]
-    nvalues = list(range(4,21,2))
+    nvalues = list(range(4, 21, 2))
 
     trials = 100
 
@@ -166,31 +163,32 @@ def q1():
     #         for trial in range(trials):
     #             print(trial)
     #             graph=Graph(random=True, n=n, p=p)
-    #             result = graph.naive_hamiltonian2()
+    #             result = graph.simple_hamiltonian()
     #             if result:
     #                 count+=1
     #         print("n="+str(n)+", p="+str(p)+": "+str(count))
 
-    factorvalues = [0.1,0.55,1,1.45,1.9]
+    factorvalues = [0.1, 0.55, 1, 1.45, 1.9]
     for n in nvalues:
         for factor in factorvalues:
-             count = 0
-             deltacount = 0
-             for trial in range(trials):
-                 graph = Graph(random=True, n=n, p=factor * numpy.log(n) / n)
-                 if graph.naive_hamiltonian2():
-                     count += 1
-                 if graph.delta < 2:
-                     deltacount += 1
-             print("n=" + str(n) + ", factor=" + str(factor) + ", hamiltonian: " + str(
-                 count) + ", non-hamiltonian: " + str(trials - count) + ", delta<2 :" + str(deltacount))
+            count = 0
+            deltacount = 0
+            for trial in range(trials):
+                graph = Graph(random=True, n=n, p=factor * numpy.log(n) / n)
+                if graph.simple_hamiltonian():
+                    count += 1
+                if graph.delta < 2:
+                    deltacount += 1
+            print("n=" + str(n) + ", factor=" + str(factor) + ", hamiltonian: " + str(
+                count) + ", non-hamiltonian: " + str(trials - count) + ", delta<2 :" + str(deltacount))
 
 
 def q4():
     for graph in [Graph(vertices=[1, 2, 3], edges=[(1, 2), (2, 3), (3, 1)]),
                   Graph(vertices=[1, 2, 3], edges=[(1, 2), (2, 3)]),
                   Graph(vertices=[1, 2, 3, 4], edges=[(1, 2), (2, 3), (3, 1)]),
-                  Graph(vertices=[1,2,3,4,5,6], edges=[(1, 2), (3, 4), (2, 4), (1, 4), (5, 6), (6, 3),(2,5),(5,6)])]:
+                  Graph(vertices=[1, 2, 3, 4, 5, 6],
+                        edges=[(1, 2), (3, 4), (2, 4), (1, 4), (5, 6), (6, 3), (2, 5), (5, 6)])]:
 
         result, T = graph.smarter_hamiltonian(1000)
         if result:
@@ -198,16 +196,33 @@ def q4():
         else:
             print(str(graph) + " has no hamiltonian cycle")
 
-    trials=1000
-    pvalues = [0.1,0.3,0.5,0.7,0.9]
-    nvalues = [20]
+    trials = 1000
+    pvalues = [0.3, 0.5, 0.7, 0.9]
+    nvalues = list(range(4, 15, 2))
+
+    trials = 10000
+
     for n in nvalues:
         for p in pvalues:
-            count=0
-            for trial in range(trials):
-                graph=Graph(random=True, n=n, p=p)
-                result, T = graph.smarter_hamiltonian(200)
+            count = 0
+            Tvalues = []
+            while count < 5000:
+                graph = Graph(random=True, n=n, p=p)
+                result = graph.simple_hamiltonian()
                 if result:
-                    count+=1
-                    print(T)
-            print("n="+str(n)+", p="+str(p)+": "+str(count))
+                    count += 1
+                    found, T = graph.smarter_hamiltonian(1000)
+                    if found:
+                        Tvalues.append(T)
+            print("n=" + str(n) + ", p=" + str(p) + ", #hamiltonian cycles: " + str(count) + ", 95'th T percentile: "+ str(numpy.percentile(Tvalues, 95)))
+
+
+
+def cdf_p_n_95(p,n):
+    c=0
+    k=1
+    while True:
+        c+=(1-p)**(k-1) * p
+        k+=1
+        if c>0.95:
+            return k
