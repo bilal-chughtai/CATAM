@@ -21,7 +21,7 @@
 
 \subsection*{Programming task}
 
-The functions $eulersolve, LFsolve, RK4solveOLD$ each take inputs the function $f$, $x_0, y_0$, h and n, and output arrays X and Y. They can be found on page 16 The elements of Y are the numerical solution for the corresponding value of X. The LF method takes the first step via the euler method. \\
+The functions $eulersolve, LFsolve, RK4solveOLD$ each take inputs the function $f$, $x_0, y_0$, h and n, and output arrays X and Y. They can be found on page 16. The elements of Y are the numerical solution for the corresponding value of X. The LF method takes the first step via the euler method. \\
 
 Testing our program works as intended, using $ProgramTest.m$, found on page 16: 
 
@@ -40,11 +40,9 @@ Testing our program works as intended, using $ProgramTest.m$, found on page 16:
 These are close enough to the analytical solution to verify our functions are working as intended.
 
 \subsection*{Question 1}
-We use the function $q1$, shown on page 17. To verify the exponential relationship of the magnitude of global error with x we plot a graph of x against $log(|E_n|)$ and see it is near straight (excluding the 0 error at 0). We use an inbuilt MATLAB function to approximate this to a polynomial of degree 1 and take the gradient. \\
+We use the function $q1$, shown on page 17. To verify the exponential relationship of the magnitude of global error with x we plot a graph of x against $log(|E_n|)$ and see it is near straight (excluding the 0 error at 0). We use an inbuilt MATLAB function to approximate this to a polynomial of degree 1 and take the gradient. \\\
 
-Note In the function, Y denotes the analytical solution and Y\_LF the numerical leapfrog one, which has been translated into the notation in the question in the table.\\
-
-For $h=0.4$ we have the following. Figure 1.2 validates the exponential relationship, with a corresponding $\gamma\approx 3.13$
+For $h=0.4$ we have the following. Figure 3 validates the exponential relationship, with a corresponding $\gamma\approx 3.13$
 
 \begin{verbatim}
 >> [X,Y_LF,Y,E] = q1(0.4)
@@ -219,7 +217,7 @@ $X_n$ & $Y_n$      & $y(x_n)$  & $E_n$      \\ \hline
 \caption{Output with $h=0.05$}
 \end{table}
 
-In general, reducing h seems to increase the growth rate, and it would appear $\gamma$ tends to some limit $\approx 4$ as h tends to 0. Thus, for sufficiently small h, decreasing h further reduces magnitude of error as the growth rate increase slows
+In general, reducing h seems to increase the growth rate, and it would appear $\gamma$ tends to some limit $\approx 4$ as h tends to 0. Thus, for sufficiently small h, decreasing h further reduces magnitude of error as the growth rate increase slows.	
 
 
 
@@ -311,11 +309,11 @@ z_n &= (1-\frac{4x}{n}(16\frac{x^2}{n^2}+1)^{-1/2})^n \\
 \Rightarrow log(z_n)&=nlog(1-\frac{4x}{n}(16\frac{x^2}{n^2}+1)^{-1/2})
 \end{align*}
 
-and taylor expanding the log gives
+and taylor expanding the log (which we can do as $|\frac{4x}{n}(16\frac{x^2}{n^2}+1)^{-1/2})|<1$)`
 
 \begin{align*}
-log(z_n) &= n(-\frac{4x}{n}(16\frac{x^2}{n^2}+1)^{-1/2}+o(\frac{4x}{n}(16\frac{x^2}{n^2}+1)^{-1/2})\\
-&=-4x(16\frac{x^2}{n^2}+1)^{-1/2}+o(1) \rightarrow -4x
+log(z_n) &= n(-\frac{4x}{n}(16\frac{x^2}{n^2}+1)^{-1/2}-\frac{16x^2}{n^2}(16\frac{x^2}{n^2}+1)^{-1}+o(\frac{16x^2}{n^2}(16\frac{x^2}{n^2}+1)^{-1}))\\
+&=-4x(16\frac{x^2}{n^2}+1)^{-1/2}-	\frac{16x^2}{n}(16\frac{x^2}{n^2}+1)^{-1/2}+o(1) \rightarrow -4x
 \end{align*}
 
 so as $n\rightarrow\infty$, $z_n\rightarrow e^{-4x}$.  Now, let
@@ -444,9 +442,9 @@ k  & $E_n$ Euler & $E_n$ LF     & $E_n$ RK4    \\ \hline
 \end{minipage}
 \end{figure}
 
+\newpage
 
-
-The given information tells us about the behaviour of local truncation error $e_n$ as $h \rightarrow 0$, but here we are looking at global error at $x_n=0.4$. The global error is the effect of all the local error's up to time $x_n=0.4$, of which there are $\frac{0.4}{h}$. If the local error is $O(h^m)$ this implies the global error should be $O(h^{m-1})$, and hence the gradient of the graph of figure 5 should be $m-1$. We can see this is  true, with the euler gradient being $\approx 1$, the leapfrog gradient $\approx 2$, and the RK4 gradient(atleast while linear) being $\approx 4$, confirming the theoretical accuracy. The fluctuation from linear for very small h in the RK4 method can be attributed to machine round off error, as we are very close to machine precision in the errors there.
+The given information tells us about the behaviour of local truncation error $e_n$ as $h \rightarrow 0$, but here we are looking at global error at $x_n=0.4$. The global error is the effect of all the local error's up to time $x_n=0.4$, of which there are $\frac{0.4}{h}$. If the local error is $O(h^m)$ this implies the global error should be $O(h^{m-1})$, and hence the gradient of the graph of figure 5 should be $m-1$. We can see this is  true, with the euler gradient being $\approx 1$, the leapfrog gradient $\approx 2$, and the RK4 gradient(atleast while linear) being $\approx 4$, confirming the theoretical accuracy. The fluctuation from linear for very small h in the RK4 method can be attributed to machine error, as we are very close to MATLAB's 'double' precision in the errors here.
 
 
 \newpage
@@ -485,10 +483,10 @@ C=-\frac{(\omega^2-\Omega^2)a}{\gamma^2\omega^2+(w^2-\Omega^2)^2}
 D=-\frac{\omega\gamma a}{\gamma^2\omega^2+(w^2-\Omega^2)^2}
 \end{equation*}
 
-which can be put in the required form $ A_s sin(\omega t - \varphi_s)$ with
+Then $y_p$ can be put in the required form $ A_s sin(\omega t - \varphi_s)$ with
 
 \begin{equation*}
-A_s = \frac{a}{\sqrt{\gamma^2\omega^2+(\omega^2-\Omega^2)^2)}}
+A_s = \frac{a}{\sqrt{\gamma^2\omega^2+(\omega^2-\Omega^2)^2}}
 \quad
 tan(\phi _s) = \frac{\omega\gamma}{\Omega^2-\omega^2}
 \end{equation*}
@@ -524,12 +522,12 @@ We take the above general form and calculate the values of constants A and B to 
 \begin{multline*}
 y = e^{-\frac{\gamma t}{2}}\left[\frac{\omega\gamma}{\omega^2\gamma^2+(\omega^2 -1)^2}cos(\frac{\sqrt{4 - \gamma ^2}}{2}t)+\frac{2\omega(\omega^2-1)+\gamma^2\omega}{(\omega^2\gamma^2+(\omega^2 -1)^2)\sqrt{4-\gamma^2}}sin(\frac{\sqrt{4 - \gamma ^2}}{2}t)\right]
 \\
--\frac{(\omega^2-1)a}{\gamma^2\omega^2+(w^2-1)^2}sin(\omega t) + -\frac{\omega\gamma a}{\gamma^2\omega^2+(w^2-1)^2}cos(\omega t)
+-\frac{(\omega^2-1)}{\gamma^2\omega^2+(w^2-1)^2}sin(\omega t) + -\frac{\omega\gamma }{\gamma^2\omega^2+(w^2-1)^2}cos(\omega t)
 \end{multline*}
 
 We use our modified RK4 function (the modification can be found on page 19). We can now pass vector valued functions to RK4, and use the coupled first order equations (18)-(19) with (20), and take $y_1$ as the solution. \\
 
-The script $q6.m$, found on page 19, performs the required calculations. We simply change the values of h and n each time. Some of the output is presented below. The global error oscillates between positive and negative with t. It decreases as expected, as h becomes smaller, and is relatively small compared to $Y_n$, confirming our method is accurate and functional.	\\
+The script $q6.m$, found on page 19, performs the required calculations. We simply change the values of h and n each time. Some of the output is presented below. The global error oscillates between positive and negative with t. It decreases as expected, as h becomes smaller, and is relatively small compared to $Y_n$, confirming our method is stable and reasonably accurate.	\\
 
 
 \begin{minipage}[l]{0.45\linewidth}
@@ -718,21 +716,21 @@ The script $q7.m$, found on page 20 performs the required task. We use h=0.1 as 
 
 We start with the obvious features and move on to the more subtle ones after. \par
 \vspace{5mm}
-Our graphs all seem to approach a sine curve of the correct amplitude $A_s$ as expected from the analytical solution. For fixed $\omega, \Omega$ we see $A_s$ decreases as $\gamma$ increases. In paticular this is a direct inverse proportionality relationship in the case $\omega=1, \Omega=1$ as seen on the graphs.\par
+Our graphs all seem to approach a sine curve of amplitude $A_s$ as expected from the analytical solution. For fixed $\omega, \Omega$ we see $A_s$ decreases as $\gamma$ increases. In paticular this is a direct inverse proportionality relationship in the case $\omega=1, \Omega=1$ as seen on the graphs.\par
 \vspace{5mm}
-The difference between $\omega=1$ and $\omega=2$ is a higher frequency and lower amplitude. The amplitude difference can be seen mathematically due to the $A_s$ term, while the frequency changes as the period of the forcing term matches the period of our particular integral, as seen in the $Asin(\omega t-\phi_s)$ form. Physically, consider a system in which there is some restoring force, as well as some damping (as in IA Differential Equations). The system will oscillate at a frequency matching the applied force (if it oscillates at all).\par
+The difference between $\omega=1$ and $\omega=2$ is a higher frequency and lower amplitude. The amplitude difference can be seen mathematically due to the $A_s$ term, while the frequency changes as the period of the forcing term matches the period of our particular integral, evident mathematically in the $Asin(\omega t-\phi_s)$ form. Physically, consider a system in which there is some restoring force, as well as some damping (as in IA Differential Equations). The system will oscillate at a frequency matching the applied force (if it oscillates at all).\par
 \vspace{5mm}
-The initial deviation from the (almost) sine curve is mathematically a result of the boundary conditions and hence the complementary function. For small t, the complementary function is significant, but as t increases its contribution becomes smaller due to the exponential decay. The magnitude of the initial spike depends on both $\gamma$ and $\omega$, with a smaller $\gamma$ producing a larger peak as a result of the form of the coefficients of the complementary function.  Increased $\gamma$ leads to quicker decay to a sine curve due to the $e^{-\frac{\gamma}{2}t}$ in the complementary function. \\
+The initial deviation from the sine-like curve is mathematically a result of the the complementary function. For small t, the complementary function is significant, but as t increases its contribution becomes smaller due to the exponential decay. The magnitude of the initial spike depends on both $\gamma$ and $\omega$, with a smaller $\gamma$ producing a larger peak as a result of the form of the coefficients of the complementary function.  Increased $\gamma$ leads to quicker decay to a sine curve due to the $e^{-\frac{\gamma}{2}t}$ in the complementary function. \\
 
 %Note the period of oscillations in the complementary function also $\rightarrow \infty$ as $\gamma\rightarrow 2$.
 
-Physically, we know from IA Differential Equations that $\gamma$ represents a combination of the damping and return force with a scaled time, with increasing $\gamma$ corresponding to an  increased damping, leading to a faster decay to steady state. \par
+Physically, we know from IA Differential Equations that $\gamma$ represents some damping (with a scaled time), and increasing $\gamma$ corresponds to  increased damping, removing energy from the system faster, and leading to a quicker decay to steady state. \par
 
 \newpage
 
 \subsection*{Question 8}
 
-Considering the hint, we try to find the first few terms of an almost series solution. Considering terms of order $\delta^0$ we get
+Considering the hint, we try to find the first few terms of an series-like 	solution. Considering terms of order $\delta^0$ we get
 
 \begin{equation*}
 y_0''(t)+\frac{d}{dt}(\frac{1}{3}\delta^3\delta^{-3}y_{-1}(t)^3)+y_0(t)=sin(t)
@@ -744,7 +742,7 @@ Substituting the given expressions, expanding as a fourier series, and different
 -8Csin(3t)-\frac{A^3}{4}sin(t)-\frac{A^3}{4}sin(3t)=sin(t)
 \end{equation*}
 
-Equating coeffiecents of sin(nt) gives $A=-4^{1/3}$ and $C=\frac{1}{8}$. To calculate B, we consider terms of order $\delta$, and get
+Equating coefficients of sin(nt) gives $A=-4^{1/3}$ and $C=\frac{1}{8}$. To calculate B, we consider terms of order $\delta$, and get
 
 \begin{equation*}
 \delta y_1''(t)+\frac{d}{dt}(\frac{1}{3}3\delta^3\delta^{-2}y_{-1}(t)^2y_0(t))+\delta y_1(t)=0
@@ -763,7 +761,7 @@ y=-\delta^{-1}4^{1/3}cos(t)+\frac{1}{8}(sin(3t)-sin(t))
 \end{equation*}
 	
 
-The script $q8.m$, found on page 20, performs the required task. The graphs are presented below, with the first 2 terms of the series solution superposed. We use the same h=0.1 as in question 7, since it produced sufficiently accurate results in question 6, and the errors should be comparable here despite the different ODE.
+The script $q8.m$, found on page 20, performs the required task. The graphs are presented below, with the first 2 terms of the series solution superposed. We use h=0.01, unlike question 7, as larger h produced nonsensical graphs, and lowering h any further resulted in unnoticeable differences.
 
 \begin{figure}[ht]
 \begin{minipage}[b]{0.5\linewidth}
@@ -800,11 +798,11 @@ The script $q8.m$, found on page 20, performs the required task. The graphs are 
 \newpage
 
 
-We ignore the $\delta=20$ case, as here the numerical solution becomes unstable as a result of the gradient of the y becoming greater than 1 in magnitude. It seems that for $\delta \geq 10.95$ the numerical scheme is unstable.\par
-\vspace{0.3cm}
 Firstly, we see the frequency of all numerical curves is similar, as we should expect since the long term behaviour usually matches the form of the forcing, which is the same sine function in every case. This is why the graphs look very similar to those of question 7, for $\omega=1$. We have a decrease in amplitude of the eventual graph as $\delta$ increases, which can be interpreted physically as an increasing damping, and appears almost exactly inversely proportional. \par
 \vspace{0.3cm}
-The numerical solution is approximated well by the series solution for large times, for $\delta$ sufficiently small. As $\delta$ is increased, it becomes inaccurate as the higher order terms we excluded become non negligible. An increased $\delta$ producing smaller amplitude solutions makes sense here, as the $\delta^{-1}$ term will be smaller in magnitude. The series solution is $2\pi$ periodic however, and doesn't capture the deviation near t=0 from an approximate sine curve.\\
+The numerical solution is approximated well by the series solution for large times, for $\delta$ sufficiently small. As $\delta$ is increased, it becomes inaccurate, since the higher order terms we excluded become non negligible. $\delta$ being inversely proportional to the amplitude makes sense here, as the $\delta^{-1}$ term is the dominant term, with the rest being much smaller in magnitude for small $\delta$. The series solution is $2\pi$ periodic however, and doesn't capture the deviation near t=0 from an approximate sine curve.\par
+\vspace{0.3cm}
+The initial deviation from the sine like curve behaves similarly with changing $\delta$ here as it did in question 7 with changing $\gamma$. It approaches the sine-like curve faster as $\delta$ is increased. This shouldn't be particularly surprising, as both $\delta$ and $\gamma$ are coefficients of $\frac{dy}{dt}$ in the similar ODEs, and hence, physically, increasing both has the effect of an increased damping.
 
 
 
@@ -1068,7 +1066,8 @@ A=w*gamma/(w^2*gamma^2+(w^2-1)^2)
 B=(2*w*(w^2-1)+gamma^2*w)/(sqrt(4-gamma^2)*(w^2*gamma^2+(1-w^2)^2))
 C=-a*(w^2-omega^2)/(w^2*gamma^2+(w^2-omega^2)^2)
 D=-w*gamma*a/(w^2*gamma^2+(w^2-omega^2)^2)
-y_anal=@(t)C*sin(w*t)+D*cos(w*t) + exp(-gamma*t/2)*(A*cos(sqrt(4-gamma^2)*t/2)+B*sin(sqrt(4-gamma^2)*t/2))
+y_anal=@(t)C*sin(w*t)+D*cos(w*t) + exp(-gamma*t/2)*(A*cos(sqrt(4-gamma^2)*t/2)
++B*sin(sqrt(4-gamma^2)*t/2))
 
 
 
@@ -1106,8 +1105,9 @@ A=w*gamma/(w^2*gamma^2+(w^2-1)^2)
 B=(2*w*(w^2-1)+gamma^2*w)/(sqrt(4-gamma^2)*(w^2*gamma^2+(1-w^2)^2))
 C=-a*(w^2-omega^2)/(w^2*gamma^2+(w^2-omega^2)^2)
 D=-w*gamma*a/(w^2*gamma^2+(w^2-omega^2)^2)
-%y_anal=@(t)-*sin(w*t-atan(w*gamma/(1-w^2)))/(sqrt(w^2*gamma^2+(w^2-1)^2)) + exp(-gamma*t/2)*(A*cos(sqrt(4-gamma^2)*t/2)+B*sin(sqrt(4-gamma^2)*t/2))
-y_anal=@(t)C*sin(w*t)+D*cos(w*t) + exp(-gamma*t/2)*(A*cos(sqrt(4-gamma^2)*t/2)+B*sin(sqrt(4-gamma^2)*t/2))
+
+y_anal=@(t)C*sin(w*t)+D*cos(w*t) + exp(-gamma*t/2)*(A*cos(sqrt(4-gamma^2)*t/2)
++B*sin(sqrt(4-gamma^2)*t/2))
 
 
 [T,Y]=RK4solve(f,t_0,y_0,h,n)
@@ -1131,7 +1131,7 @@ w=1
 a=1
 t_0=0
 y_0=[0,0]
-h=0.1
+h=0.01
 n=60/h
 f=@(t,y) [y(2), -gamma*y(2)-delta^(3)*y(1)^2*y(2)-omega^2*y(1)+a*sin(w*t)]
 [T,Y]=RK4solve(f,t_0,y_0,h,n)

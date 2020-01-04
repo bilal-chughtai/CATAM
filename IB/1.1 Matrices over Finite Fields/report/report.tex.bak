@@ -395,7 +395,7 @@ U \cap W=\begin{bmatrix}
 
 \vspace{1cm}	
 
-Note we have the relationship $dim(U+W)+dim(U \cap W)=dim(U)+dim(W)$. To see this, let ${v_1, \ldots , v_a}$ be a basis for $U \cap W$, ${v_1, \ldots ,v_a,u_1, \ldots ,u_b}$ be a basis for U, and ${v_1, \ldots ,v_a,w_1, \ldots, w_c}$ be a basis for W. Then clearly $B= {v_1, \ldots,v_a, u_1, \ldots, u_b, w_1, \ldots, w_c}$ spans U+W. For linear independence, let 
+Note we have the relationship $dim(U+W)+dim(U \cap W)=dim(U)+dim(W)$. To see this, let ${v_1, \ldots , v_a}$ be a basis for $U \cap W$, ${v_1, \ldots ,v_a,u_1, \ldots ,u_b}$ be a basis for U, and ${v_1, \ldots ,v_a,w_1, \ldots, w_c}$ be a basis for W. Then clearly $B= {v_1, \ldots,v_a, u_1, \ldots, u_b, w_1, \ldots, w_c}$ spans U+W. For linear independence, let \\ 
 
 \begin{equation*}
 \alpha_1v_1 + \ldots + \alpha_av_a + \beta_1u_1 + \ldots + \beta_bu_b + \gamma_1w_1 + \ldots + \gamma_cw_c = 0

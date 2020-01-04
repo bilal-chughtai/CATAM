@@ -4,7 +4,7 @@ NumericalScheme
 
 m=T/dt
 
-V=[] %again, X in use, so use V to store x values
+V=[]
 for i=1:N+1
     V(i)=(i-1)*dx
 end

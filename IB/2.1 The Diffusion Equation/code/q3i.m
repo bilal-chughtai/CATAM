@@ -1,6 +1,6 @@
-T=2
+    T=1
 
-%Note must set N and C beforehand in NumericalScheme.m
+
 NumericalScheme
 
 m=T/dt
@@ -9,7 +9,7 @@ m=T/dt
 Uins=Uinsulfunc
 Uins=@(X)Uins(X,T)
 
-V=[] %X, but variable X is in use.
+V=[]
 U_anal=[]
 for i=1:N+1
     V(i)=(i-1)*dx

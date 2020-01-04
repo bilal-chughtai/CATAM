@@ -30,15 +30,15 @@ The function $findinverses(p)$, found on page 6, completes the task using the gi
 Please enter a prime
 \end{verbatim}
 
-By exploiting $(x^{-1})^{-1} = x$ we can reduce run time. By starting with a blank array of length $p-1$, once we have calculated $x^{-1}$ we can set $inverses[x]=x^{-1}$ and $inverses[x^{-1}]=x$, and then skip calculating an inverse if the value is already filled. This will occur precisely $(p-1)/2$ times for $p>2$, hence roughly halving the run time for large p.
+By exploiting $(x^{-1})^{-1} = x$ we can reduce run time. By starting with a blank array of length $p-1$, once we have calculated $x^{-1}$ we can set $inverses[x]=x^{-1}$ and $inverses[x^{-1}]=x$, and then skip calculating an inverse if the value is already filled. This will approximately half the time for large p.
 	
 \subsection*{Question 2}
-In each "b" loop we are taking the residue of $ab$. One way of doing this is taking $ab-p\left \lfloor{\frac{ab}{p}}\right \rfloor $, a finite fixed number of operations. We repeat this $p-1$ times (maximum) per $b$ loop. We repeat the $b$ loop $p-1$ times in the $a$ loop . Hence we have a complexity of $p^2$ overall.
+In each "b" loop we are taking the residue of $ab$. One way of doing this is taking $ab-p\left \lfloor{\frac{ab}{p}}\right \rfloor $, a finite fixed number of operations. We repeat this $p-1$ times (maximum) per $b$ loop. We repeat the $b$ loop $p-1$ times in the $a$ loop. Hence we have a complexity of $p^2$ overall.
 
 
 \subsection*{Question 3}
 
-The function $ref(A,p)$, shown on page 7, takes a matrix A, and prime p, and returns the row echelon form (ref) of it. It uses subfunctions $S(A,k,q,i)$ , $D(A,i,q,inverse)$ and $T(A,i,j)$ to perform row subtraction, division, and transposition respectively (see page 6 ). We have:
+The function $ref(A,p)$, shown on page 7, takes a matrix A, and prime p, and returns the row echelon form (ref) of it. It uses subfunctions $S(A,k,q,i)$, $D(A,i,q,inverse)$ and $T(A,i,j)$ to perform row subtraction, division, and transposition respectively (see page 6). We have:
 
 \vspace{5mm}
 
@@ -73,7 +73,7 @@ ref(A_2,23)=\begin{bmatrix}
 
 Since row operations do not affect rank, we can deduce that the rank of each matrix is the same as the rank of the ref form. Since rank = row rank, the number of linearly independent rows is the rank. The leading $1's$ force linear independence, hence the number of non zero rows is the rank:\\
 
-Calling the row vectors of ref(A1,11) $\bm{v_1}, \bm{v_2}, \bm{v_3}$, and letting $a\bm{v_1} + b\bm{v_2} + c\bm{v_3} = \bm{0}$ $\Rightarrow a=b=c=0$ by looking at the coeffiecents of the first, second, and third entries. This applies to any matrix in ref form. \\
+Calling the row vectors of ref(A1,11) $\bm{v_1}, \bm{v_2}, \bm{v_3},\bm{v_4}$, and letting $a\bm{v_1} + b\bm{v_2} + c\bm{v_3} +d\bm{v_4}= \bm{0}$ $\Rightarrow a=b=c=d=0$ by looking at the coefficients of the first, second, and fourth and fifth entries. This method applies to any matrix in ref form. \\
 
 %\begin{align*}
 %\begin{bmatrix}a & 18a & 21a & 10a & 4a \end{bmatrix}\\
@@ -85,18 +85,20 @@ Calling the row vectors of ref(A1,11) $\bm{v_1}, \bm{v_2}, \bm{v_3}$, and lettin
 %
 
 
-Thus rank of $A_1$ is 4 both mod 11 and 19. The rank of $A_2$ is 3. The non zero rows form a basis for the row space in each case, since they are linearly independent, and don't alter the row space of the original matrix.
+Thus rank of $A_1$ is 4 over both GF(11) and GF(19). The rank of $A_2$  is 3 over GF(23). The non zero rows form a basis for the row space in each case, since they are linearly independent, and don't alter the row space of the original matrix.
 
 \subsection*{Question 4}
   
-The function $kernel(A,p)$, shown on page 8, takes a matrix A and prime p, and returns a basis for the kernel as the column vectors of the output matrix. We first set $B=ref(A)$. A and B have the same kernel, since if $\bm{x} \in ker(A)$ then $\bm{v_i}\bm{x}=0$ where $\bm{v_i}$ are the row vectors of A. Hence, for any linear combination; $\sum( \lambda_i \bm{v_i})\bm{x}=0$. All row operations do is rewrite the rows as linear combinations. Hence $ker(A)\subseteq ker(B)$ and similarly $ker(B)\subseteq ker(A)$, hence they are equal.
+The function $kernel(A,p)$, shown on page 8, takes a matrix A and prime p, and returns a basis for the kernel as the column vectors of the output matrix.\\
 
-We calculate the $l$ values for each row, giving us the pivots hence the number of them is the rank. By rank nullity, we calculate the nullity, n and return the 0 vector if $n=0$. 
+We first set $B=ref(A)$. A and B have the same kernel, since if $\bm{x} \in ker(A)$ then $\bm{v_i}\bm{x}=0$ where $\bm{v_i}$ are the row vectors of A. Hence, for any linear combination; $\sum( \lambda_i \bm{v_i})\bm{x}=0$. All row operations do is rewrite the rows as linear combinations. Hence $ker(A)\subseteq ker(B)$ and similarly $ker(B)\subseteq ker(A)$, hence they are equal.
 
-If not we set $\bm{x}$ to be a column vector with components $x_i$. The pivot values determine which $x_i$ are "fixed", the rest being "free". Loop through all the free $x_i$ setting each to 1 and the rest to 0. In each case, solve for all fixed components (ie solve the system Bx=0) which has a unique solution, via $x_{l(i)}=\sum_{j=l(i)+1}^{columns} -B_{ij}x_j$ for all i (i decreasing). Hence we know all the free and fixed components. Add this vector $\bm{x_i}$ to the kernel matrix and move onto the next free $x_i$.\\
+We calculate the $l$ values for each row, giving us the pivots, with the total number of them being the rank. By rank nullity, we calculate the nullity, and return the 0 vector if this is 0.\\
 
-This certainly gives us n vectors in the kernel. As long as they are linearly independent they span the kernel and we are done. This is guaranteed. Consider
-$\sum\lambda_j \bm{x_j} =\bm{0}$. In the i'th component,$(\bm{x_i})_i=1$ and all other $(\bm{x_j})_i=0$, hence $\lambda_i=0$ $\forall$ $i$. Hence linearly independent.\\
+The pivot values determine which $x_i$ are "fixed", the rest being "free". Loop through all the fixed i, setting the vector $\bm{x^i}$ to be all 0's, but a 1 in the i'th position. In each case, solve for all fixed components (ie solve the system Bx=0) which has a unique solution, via $x_{l(i)}=\sum_{j=l(i)+1}^{columns} -B_{ij}x_j$ for all i (calculated with i decreasing). Once we know all the fixed components, we add the vector $\bm{x^i}$ to the kernel matrix and move onto the next free $x_i$.\\
+
+This certainly gives us the same number of vectors in the kernel as the nullity. As long as they are linearly independent they span the kernel and we are done. This is guaranteed. Consider
+$\sum\lambda_j \bm{x^j} =\bm{0}$. In the i'th component, $(\bm{x^i})_i=1$ and all other $(\bm{x^j})_i=0$, hence $\lambda_i=0$ $\forall i$. Hence linearly independent.\\
 
 
 We have:
@@ -164,7 +166,7 @@ kernel(B_2,23)=\begin{bmatrix}
 
 \vspace{5mm}
 
-In each case the columns of the output form a basis of the kernel.
+The columns of the output form a basis of the kernel (when non zero). Note the kernel of $B_1$ over GF(17) is trivial, and of rank 1 in the other 2 cases.
 
 \subsection*{Question 5}
 
@@ -210,9 +212,7 @@ U\degree=artc(U,19)=\begin{bmatrix}
 
 \vspace{5mm}
 
-We now verify that $(U\degree)\degree = U$. We use $actr(U\degree,19)$, which transposes, takes the kernel, then transposes again. Taking a transposition changes the problem from finding all row vectors $\bm{t}$ such that $\bm{ts}=0$ for any column vector $\bm{s} \in U\degree$ to finding all column vectors $\bm{t^T}$ such that $\bm{s^T  t^T}=0$ for any column vector $\bm{s^T}$ in the row space $(U\degree)^T$. This is the same problem as the row case, hence we can now take the kernel, and transpose back.
-
-The transpositions allow us to work with familiar rows rather than columns.
+We now verify that $(U\degree)\degree = U$. We use $actr(U\degree,19)$, which transposes, takes the kernel, then transposes again. Taking a transposition changes the problem from finding all row vectors $\bm{t}$ such that $\bm{ts}=0$ for any column vector $\bm{s} \in U\degree$ to finding all column vectors $\bm{t^T}$ such that $\bm{s^T  t^T}=0$ for any column vector $\bm{s^T}$ in the row space $(U\degree)^T$. This is the same problem as the row case, hence we can now take the kernel, and transpose back, allowing us to work with familiar rows rather than columns.
 
 \vspace{5mm}
 
@@ -276,7 +276,7 @@ Thus $U=(U\degree)\degree$ (mod 19), as required.
 
 The function $q7(A,B,p)$, found on page 9, takes matrices A and B and prime p as inputs, and returns the required bases, as the non zero rows of the outputs. The bases U and W are as before, and computed by simply using ref; $U=ref(A)$, $W=ref(B)$.\\
 
-$U+W={u+w | u \in U, w \in W}$ so is clearly spanned by the union of the bases of U and W. Hence we can compute a basis for U+W by by appending the matrix W below U to create a new matrix C with the same number of columns but more rows. Then the non zero rows of ref(C) is the required basis. 
+$U+W=\{u+w | u \in U, w \in W\}$ so is clearly spanned by the union of the bases of U and W. Hence we can compute a basis for U+W by appending the matrix W below U to create a new matrix C with the same number of columns but more rows. Then the non zero rows of ref(C) gives a basis. 
 
 Since we do not have an easy way of computing the intersection of bases, we exploit the second identity 
 
@@ -284,7 +284,7 @@ Since we do not have an easy way of computing the intersection of bases, we expl
 (U \cap W)\degree = U\degree + W\degree
 \end{equation*} 
 
-We calculate $U\degree$ and $W\degree$, append matrices horizontally to get a new matrix D (as above, but now we have a column space hence horizontal), then apply $actr$ to D and finally tale the non zero rows of the ref form.\\
+We calculate $U\degree$ and $W\degree$, append matrices horizontally to get a new matrix D (as above, but now we have a column space hence horizontal), then apply $actr$ to D and finally take the non zero rows of the ref form.\\
 
 Running $q7(A,B,p)$ we get the below bases. The 0 rows have been omitted below.
 
@@ -296,7 +296,7 @@ Modulo 11 $A=A_1, B=B_1$:
 U=\begin{bmatrix}
 1 & 0 & 3 & 2 & 7 \\
 0 & 1 & 7 & 2 & 10\\
-0 & 0 & 1 & 1 & 8\\
+0 & 0 & 0 & 1 & 8\\
 0 & 0 & 0 & 0 & 1\\
 \end{bmatrix}
 \quad  
@@ -389,7 +389,7 @@ U+W=\begin{bmatrix}
 \end{bmatrix}
 \quad \quad \quad
 U \cap W=\begin{bmatrix}
-0 & 17 & 17 & 13 & 15 & 14 & 21 \\
+1 	& 17 & 17 & 13 & 15 & 14 & 21 \\
 \end{bmatrix}
 \end{equation*}
 
@@ -415,11 +415,14 @@ x=\alpha_1v_1 + \ldots + \alpha_av_a + \beta_1u_1 + \ldots + \beta_bu_b=0
 so by linear independence of the set ${v_1, \ldots , v_a}$ $\alpha_i=0$ and $\beta_i=0$. Hence the whole set is linearly independent and the above relation holds.
 
 \subsection*{Question 8}
-In the modulo 19 case, we have $U+W$ full rank, with $U \cap W = \bm{0}$ ie $U+W=RowSpace(A_3) \oplus Ker(A_3)^T =GF(p)^7$. We can write the row space as the image of the transpose, so have $Im((A_3)^T) \oplus Ker(A_3)^T =GF(p)^7$, but not in modulo 23.\\
+In the modulo 19 case, we have $U+W$ full rank, with $U \cap W = \bm{0}$ ie $U+W=RowSpace(A_3) \oplus Ker(A_3)^T =GF(19)^7$. We can write the row space as the image of the transpose, so have $Im((A_3)^T) \oplus Ker(A_3)^T =GF(19)^7$. \\
 
-Over $\mathbb{R}$ or $\mathbb{C}$ we have $Im(\alpha^*)=	Ker(\alpha)^\perp \Leftrightarrow Im(A^\dagger) \oplus Ker(A)^\dagger = \mathbb{F}^n$, where * denotes the adjoint, $\mathbb{F}=\mathbb{R}$ or $\mathbb{C}$  and A is the matrix of the linear map $\alpha$ with respect to some orthonormal basis. This result is somewhat surprising.\\
+Over $\mathbb{R}$ or $\mathbb{C}$ we have for any linear map $\alpha$, $Im(\alpha^*)=	Ker(\alpha)^\perp \Leftrightarrow Im(A^\dagger) \oplus Ker(A)^\dagger = \mathbb{F}^n$, where * denotes the adjoint, $\mathbb{F}=\mathbb{R}$ or $\mathbb{C}$  and A is the matrix of the linear map $\alpha$ with respect to some orthonormal basis. Translating this to our language we get the (surprising) result that; for any row space U, $W=kernel(U)$ written as a row space;\\
+i) The row space U+W is the whole space\\
+ii) U and W have trivial intersection\\
 
-Here, however, the notion of an adjoint doesn't make sense since we cannot define an inner product, so we don't get this result generally.
+
+Here in GF(p), however, the notion of an adjoint doesn't make sense since we cannot define an inner product, so we don't get this result generally, as seen in the modulo 23 case.
 
 
 

@@ -26,7 +26,7 @@ Rearranging the equation for F(x,t):
 F(x,t)=\frac{\theta(x,t)- \theta_0}{\theta_1 - \theta_0}  
 \end{equation*}
 
-The RHS is a dimensionless quantity, hence F is dimensionless, for all x,t. Hence F must be a function of some dimensionless variables. The problem contains 3 variables; K, x, and t, with $[K]=L^2T^{-1}$, $[x]=L$, $[t]=T$. Since we can only add quantities of the same dimension, the simplest relation we can have is a power law. Letting  $x^a t^b K^c$ be dimensionless, we find any dimensionless variable is some power of $\varepsilon = \frac{x}{\sqrt{Kt}}$, so we have $F(x,t)=f(\varepsilon)$ generally.\par
+The RHS is a dimensionless quantity, hence F is dimensionless, for all x,t. Hence F must be a function of some dimensionless variables. The problem contains 3 variables; K, x, and t, with $[K]=L^2T^{-1}$, $[x]=L$, $[t]=T$. Since we can only add quantities of the same dimension, the simplest relation we can have between variables is a power law. Letting  $x^a t^b K^c$ be dimensionless, we find any dimensionless variable is some power of $\varepsilon = \frac{x}{\sqrt{Kt}}$, so we have $F(x,t)=f(\varepsilon)$ generally.\par
 
 \begin{equation*}
 \theta_t=K\theta_{xx} \quad \text{and} \quad \theta(x,t)=\theta_0+(\theta_1 - \theta_0)F(x,t)
@@ -54,7 +54,7 @@ Now
 
 \begin{equation} \label{*}
 \frac{\partial F}{\partial t} = \frac{df}{d\varepsilon}\frac{\partial \varepsilon}{\partial t} = 
-\frac{df}{d\varepsilon}\frac{(-x)}{2K^{1/2}t^{4/2}} \quad \text{and similarly} \quad \frac{\partial F}{\partial x}=\frac{df}{d\varepsilon}\frac{1}{\sqrt{Kt}} \quad \text{and} \quad  \frac{\partial^2 F}{\partial x^2}=\frac{d^2f}{d\varepsilon^2}\frac{1}{Kt} \tag{*}
+\frac{df}{d\varepsilon}\frac{(-x)}{2K^{1/2}t^{3/2}} \quad \text{and similarly} \quad \frac{\partial F}{\partial x}=\frac{df}{d\varepsilon}\frac{1}{\sqrt{Kt}} \quad \text{and} \quad  \frac{\partial^2 F}{\partial x^2}=\frac{d^2f}{d\varepsilon^2}\frac{1}{Kt} \tag{*}
 \end{equation}
 
 giving
@@ -66,19 +66,19 @@ giving
 Integrating we get 
 
 \begin{equation*}
-\frac{df}{d\varepsilon} = C_1exp(-\frac{\varepsilon^2}{4})
+\frac{df}{d\varepsilon} = C_1\exp(-\frac{\varepsilon^2}{4})
 \end{equation*}
 
 and by FTC we get 
 
 \begin{equation*}
-f(\varepsilon) = C_2\int_{\varepsilon/2}^{\infty}exp(-u^2)du + C_3
+f(\varepsilon) = C_2\int_{\varepsilon/2}^{\infty}\exp(-u^2)du + C_3
 \end{equation*}
 
 $F(x,0)=0 \Rightarrow f(\varepsilon) \rightarrow 0$ as $\varepsilon \rightarrow \infty$ giving $C_3=0$. $F(0,t)=1$ for $t>0 \Rightarrow f(0)=1 \Rightarrow C_2=\frac{2}{\sqrt{\pi}}$. Hence
 
 \begin{equation*}
-f(\varepsilon) = \frac{2}{\sqrt{\pi}} \int_{\varepsilon/2}^{\infty}exp(-u^2)du = erfc(\varepsilon/2)
+f(\varepsilon) = \frac{2}{\sqrt{\pi}} \int_{\varepsilon/2}^{\infty}\exp(-u^2)du = erfc(\varepsilon/2)
 \end{equation*}
 
 as required. Note we did not use conditions (a) or (b), but the solution satisfies both (a) and (b) by (*), as $x\rightarrow\infty\Rightarrow\varepsilon\rightarrow\infty$
@@ -110,51 +110,67 @@ Now separate variables. Write $\hat{U}(X,T)=A(X)B(T)$. Plugging into the ODE, we
 where the LHS is a function only of T, and the RHS of only X, hence equal to a negative constant $-\lambda$ (the negative is required, else impossible for A(1) to be 0 below). Thus 
 
 \begin{equation*}
-A(X)=C_1sin(\sqrt{\lambda}X)+C_2cos(\sqrt{\lambda}X)
+A(X)=C_1\sin(\sqrt{\lambda}X)+C_2cos(\sqrt{\lambda}X)
 \end{equation*}
 
-Using the boundary conditions, $A(0)=0\Rightarrow C_2=0$. Also $A(1)=0\Rightarrow sin(\sqrt{\lambda})=0 \Rightarrow \lambda=n^2\pi^2$ for some $n\in\mathbb{N}$. This gives
+Using the boundary conditions, $A(0)=0\Rightarrow C_2=0$. Also $A(1)=0\Rightarrow \sin(\sqrt{\lambda})=0 \Rightarrow \lambda=n^2\pi^2$ for some $n\in\mathbb{N}$. This gives
 
 \begin{equation*}
-A_n(X)=sin(n\pi X) \quad \text{and} \quad B_n(T)=e^{-n^2\pi^2 T}
+A_n(X)=\sin(n\pi X) \quad \text{and} \quad B_n(T)=e^{-n^2\pi^2 T}
 \end{equation*}
 
 So the general solution is,
 
 \begin{equation*}
-\hat{U}(X,T)=\sum_{n\geq 1} c_n sin(n\pi X) e^{-n^2\pi^2 T}
+\hat{U}(X,T)=\sum_{n\geq 1} c_n \sin(n\pi X) e^{-n^2\pi^2 T}
 \end{equation*}
 
 We use the T=0 condition, along with orthogonality of eigenfunctions to calculate the $c_n=-\frac{2}{\pi n}$. Thus 
 
 \begin{equation*}
-U_{fixed}(X,T)=1-X-\frac{2}{\pi}\sum_{n\geq 1} \frac{1}{n}sin(n\pi X) e^{-n^2\pi^2 T}
+U_{fixed}(X,T)=1-X-\frac{2}{\pi}\sum_{n\geq 1} \frac{1}{n}\sin(n\pi X) e^{-n^2\pi^2 T}
 \end{equation*}
 
 \vspace{1cm}
 
-ii) For the insulated end problem, we proceed as above, but set our steady state solution to $U_s(X)=1$, giving (**) except $\hat{U}(X,0)=-1$ and $\hat{U}_X(1,T)=0$ for $T>0$. Following the same method, we get
+ii) For the insulated end problem, we proceed as above, but set our steady state solution to $U_s(X)=1$, giving 
 
 \begin{equation*}
-A(X)=C_1sin(\sqrt{\lambda}X)+C_2cos(\sqrt{\lambda}X)
+\hat{U}_T=\hat{U}_{XX} 
+\end{equation*}
+\begin{equation*}
+\hat{U}(0,T)=0 \quad \text{for }T>0
+\end{equation*}
+\begin{equation*}
+\hat{U}(X,0)=-1 \quad \text{for }0<X<1
+\end{equation*}
+\begin{equation*}
+\hat{U}_X(1,T)=0 
 \end{equation*}
 
-Using the boundary conditions, $A(0)=0\Rightarrow C_2=0$. Also $A_X(1)=0\Rightarrow cos(\sqrt{\lambda})=0 \Rightarrow \lambda=(n+1/2)^2\pi^2$ for $n=1,2,3...$. Thus get 
+
+Following the same method, we get
 
 \begin{equation*}
-A_n(X)=sin((n+1/2)\pi X) \quad \text{and} \quad B_n(T)=e^{-(n+1/2)^2\pi^2 T}
+A(X)=C_1\sin(\sqrt{\lambda}X)+C_2cos(\sqrt{\lambda}X)
+\end{equation*}
+
+Using the boundary conditions, $A(0)=0\Rightarrow C_2=0$. Also $A_X(1)=0\Rightarrow cos(\sqrt{\lambda})=0 \Rightarrow \lambda=(n+1/2)^2\pi^2$ for $n=0,1,2,3...$. Thus get 
+
+\begin{equation*}
+A_n(X)=\sin((n+1/2)\pi X) \quad \text{and} \quad B_n(T)=e^{-(n+1/2)^2\pi^2 T}
 \end{equation*}
 
 and general solution
 
 \begin{equation*}
-\hat{U}(X,T)=\sum_{n\geq 0} c_n sin((n+\frac{1}{2})\pi X) e^{-(n+1/2)^2\pi^2 T}
+\hat{U}(X,T)=\sum_{n\geq 0} c_n \sin((n+\frac{1}{2})\pi X) e^{-(n+1/2)^2\pi^2 T}
 \end{equation*}
 
 and again, using the T=0 condition and orthogonality gives $c_n=-\frac{2}{\pi(n+1/2)}$. So have, rewriting from n=1,
 
 \begin{equation*}
-U_{insulated}(X,T)=1-\frac{2}{\pi}\sum_{n\geq 1} \frac{1}{n-1/2}sin((n-\frac{1}{2})\pi X) e^{-(n-1/2)^2\pi^2 T}
+U_{insulated}(X,T)=1-\frac{2}{\pi}\sum_{n\geq 1} \frac{1}{n-1/2}\sin((n-\frac{1}{2})\pi X) e^{-(n-1/2)^2\pi^2 T}
 \end{equation*}
 
 \subsection*{Programming Task}
@@ -163,8 +179,8 @@ The script $evaluateanalytic$, found on page 11 evaluates the analytic solutions
 
 \begin{equation*}
 \begin{split}
-|E_{fixed}| & =  |\sum_{n\geq 26} \frac{1}{n}sin(n\pi X) e^{-n^2\pi^2 T}| \\
- & \leq \sum_{n\geq 26} |\frac{1}{n}sin(n\pi X) e^{-n^2\pi^2 T}|\\
+|E_{fixed}| & =  |\sum_{n\geq 26} \frac{1}{n}\sin(n\pi X) e^{-n^2\pi^2 T}| \\
+ & \leq \sum_{n\geq 26} |\frac{1}{n}\sin(n\pi X) e^{-n^2\pi^2 T}|\\
  & \leq \sum_{n\geq 26} e^{-n^2\pi^2 T}\\
  & \leq \sum_{n\geq 26} e^{-n\pi^2 T}\\
  & = e^{-26\pi^2T}\frac{1}{1-e^{-\pi^2T}}\\
@@ -261,10 +277,10 @@ Similarly, we get the same bound for $E_{insulated}$, and for the derivatives. T
 
 \newpage 
 
-For all 3 solutions, the $U(X,0)=0$ for $0<X<1$ and $U(0,T)=1$ initial and boundary conditions define the behaviour for small time; we get a sharp continuous drop from 1 to 0 in the functions value over a small change in X. This can be seen in figure 1, but is more clear in figure 7; the flux tends to $\infty$ as $T \rightarrow 0$ in all 3 cases.
+For all 3 solutions, the $U(X,0)=0$ for $0<X<1$ and $U(0,T)=1$ initial and boundary conditions define the behaviour for small time; we get a sharp continuous drop functions value over a small change in X. This can be seen in figure 1, the magnitude of flux grows as $T \rightarrow 0$ in all 3 cases.
 \vspace{0.5cm}
 
-The long term behaviour is determined by the boundary conditions at $X=1$ or as $X\rightarrow\infty$. The fixed boundary condition solution converges quite quickly to its "steady state" solution $1-X$, since the infinite sum $\rightarrow 0$ as $T\rightarrow\infty$ due to the negative exponentials. The insulated boundary condition solution is similar, but converges slower to $1$, due to the $n-1/2$ (as opposed to n) eigenvalues in the exponentials. \par
+The long term behaviour is determined by the boundary conditions at $X=1$ or as $X\rightarrow\infty$. The fixed boundary condition solution converges quite quickly to its "steady state" solution $1-X$, since the infinite sum $\rightarrow 0$ as $T\rightarrow\infty$ due to the negative exponentials. The insulated boundary condition solution is similar, converging to its steady state solution 1. However, it converges slower to $1$, possibly due to the $n-1/2$ (as opposed to n) eigenvalue factor in the exponential. \par
 \vspace{0.5cm}
 
 The semi-infinite solution does not have any significant behaviour at X=1, but rather is controlled as $X\rightarrow\infty$, and shares properties of both other solutions at $\infty$ in that both $U$ and $U_X$ tend to 0 there. As T increases, the graph shifts up, since the argument $\varepsilon/2$, of erfc, is inversely proportional to $\sqrt{T}$, with the solution tending to 1 for fixed X as $T\rightarrow\infty$.
@@ -276,7 +292,7 @@ Physically, the initial high flux makes sense, since we have a very high tempera
 
 \subsection*{Question 3}
 
-The script $NumericalScheme.m$, found on page 13 runs the given numerical scheme, by calculating all $U_n^m$ for fixed m, before moving onto the next n. Note
+The script $NumericalScheme.m$, found on page 13 runs the given numerical scheme, by calculating all $U_n^m$ for fixed m, before moving onto the next m	. Note
 
 \begin{equation*}
 U(X,0) = 0 \quad \text{for} \quad 0<X<1 \quad  \Rightarrow \quad  U_n^0 = 0 \quad \text{for} \quad n \neq 0
@@ -286,7 +302,7 @@ U(X,0) = 0 \quad \text{for} \quad 0<X<1 \quad  \Rightarrow \quad  U_n^0 = 0 \qua
 U(0,T) = 1 \quad \text{for} \quad T> 0 \quad  \Rightarrow \quad  U_0^m = 1 \quad \text{for} \quad m \neq 0
 \end{equation*}
 
-and combining these conditions at $X=T=0$ gives a best approximation $U_0^0=0.5$. To implement the derivative boundary condition, \textbf{consider the symmetric central difference in space at X=1 (despite U only being defined on $0<X<1$)}. 
+and combining these conditions at $X=T=0$ gives a best approximation $U_0^0=0.5$. To implement the derivative boundary condition, consider the symmetric central difference in space at X=1. Note the function is only defined on $0\leq X\leq 1$, but by uniqueness of solution, we can extend this domain and retain the same solution on $0 \leq X \leq 1+ \varepsilon$.
 
 \begin{equation*}
 U_X(1,T) = \frac{U(1+\delta X,T) - U(1-\delta X,T)}{2\delta X} + O(\delta X) = 0
@@ -384,7 +400,7 @@ X & $U_{numerical}$ & $U_{analytic}$ & E \\ \hline
 \end{table}
 
 
-(ii) The script $q3ii.m$, found on page 14, produces the following figures when run with different T, N=8, C=1/2.
+(ii) The script $q3ii.m$, found on page 14, produces the following figures when run with different T, N=8, C=1/2. Note the scale on the y axis changes, so the graphs are in fact shifting up.
 
 \newpage
 
@@ -445,13 +461,13 @@ We run the script $NumericalScheme.m$ for $N=8$,$16$,$32$, $C=\frac{1}{12}$,$\fr
 The data seems to suggest the scheme is stable for $C\leq\frac{1}{2}$ and unstable otherwise. This is in fact true, and can be shown by "Von Neumann Stability Analysis"  \footnote{
 See \url{https://en.wikipedia.org/wiki/Von_Neumann_stability_analysis}, in particular, subsection "Illustration of the Method". Date Accessed 30/12/18}
 ; a method involving taking the fourier series of the round off errors, defined as 
-  $\epsilon_n^m = N_n^m - U_n^m$ where $N_n^m$ is the exact solution to the difference equation. We then bound the amplification factor G such that 
+  $\epsilon_n^m = N_n^m - U_n^m$ where $N_n^m$ is the exact solution to the difference equation (21) and $U_n^m$ is the computed solution (with errors) . We then bound the amplification factor G by 1 for stability:
   
 \begin{equation*} 
 |G| \equiv |\frac{\epsilon_n^{m+1}}{\epsilon_n^m}| \leq 1
 \end{equation*}
 
-This is equivalent to, for fixed $\delta X$, a sufficiently small $\delta T$ is needed for stability; $\delta T$ must satisfy
+This condition turns out to be equivalent to, for fixed $\delta X$, a sufficiently small $\delta T$ is needed for stability; in particular $\delta T$ must satisfy
 
 \begin{equation*}
 \delta T \leq \frac{1}{2}(\delta X)^2
@@ -459,7 +475,7 @@ This is equivalent to, for fixed $\delta X$, a sufficiently small $\delta T$ is 
 
 \subsubsection{Accuracy}
 
-We can see from figures 8-13 that when the numerical scheme is stable it seems to be a good approximation to the solution at all times, with error maximised at T=2. We therefore consider errors at T=2 within this section. Note that at this time, the calculation for the error in the analytical solution through summing finite terms is of order $10^{-223}$ so we need not consider it.\par
+We can see from figures 8-13 that when the numerical scheme is stable it seems to be a good approximation to the solution at all times, with error maximised at T=2. We therefore consider errors at T=2 within this section. Note that at this time, the calculation for the error in the analytical solution through summing finite terms is at most order $10^{-223}$ by the previous calculation so we need not consider it.\par
 \vspace{0.5cm}
 To determine the theoretical accuracy of the scheme, we have;
 \begin{align*}
@@ -467,7 +483,7 @@ To determine the theoretical accuracy of the scheme, we have;
 (20) \quad &\Rightarrow \quad U_{XX}(X,T)+O((\delta X)^2)=\frac{U(X+\delta X,T)-2U(X,T)+U(X-\delta X,T)}{(\delta X)^2}
 \end{align*}
 
-and equating gives an error $E_n^m=O(\delta T)+O((\delta X)^2)$, and hence as $\delta X$ and $\delta T \rightarrow 0$, $E_n^m \approx A(\delta X)^2 + B(\delta T)$ for some constants A and B depending on various other factors (including the time we take the error at). We can test whether this is the case in our implementation by fixing say $\delta T$, and checking whether the differences between errors for changing $\delta X$ are quadratic. A similar approach can be applied to check the errors for fixed $\delta X$ and changing $\delta T$ are linear. Note the error itself for fixed $\delta X$ will not tend to 0, and will rather tend to a non zero limit as $\delta T$ tends to 0 due to the other terms depending on $\delta X$ in $E_n^m$. The same occurs for $\delta X$ tending to 0 with $\delta T$ fixed. 
+and equating gives an error $E_n^m=O(\delta T)+O((\delta X)^2)$, and hence for small $\delta X$ and $\delta T$, $E_n^m \approx A(\delta X)^2 + B(\delta T)$ for some constants A and B depending on various other factors (including the time we take the error at). We can test whether this is the case in our implementation by fixing say $\delta T$, and checking whether the differences between errors for changing $\delta X$ are quadratic. A similar approach can be applied to check the errors for fixed $\delta X$ and changing $\delta T$ are linear. Note the error itself for fixed $\delta X$ will not tend to 0, and will rather tend to a non zero limit as $\delta T$ tends to 0 due to the other terms depending on $\delta X$ in $E_n^m$. The same occurs for $\delta X$ tending to 0 with $\delta T$ fixed. 
 
 
 \begin{table}[h]
@@ -511,11 +527,11 @@ A &\approx -7.30\text{x}10^{-3}\\
 B &\approx 2.84
 \end{align*}
 
-noting the approximation $E_n^m \approx A(\delta X)^2 + B(\delta T)$ is only valid for sufficiently small $\delta X$ and $\delta T$, since we neglect higher order terms.
+noting the approximation $E_n^m \approx A(\delta X)^2 + B(\delta T)$ is only valid for sufficiently small $\delta X$ and $\delta T$.To calculate A more accurately, it would have been better to take $\delta X$ even smaller in Table 6, to ensure higher order terms are negligible, but this forces $\delta T$ smaller too, taking up far too much memory to compute. 
 
 \vspace{0.5cm}
 
-Thus, as long as we are careful to ensure $C\leq\frac{1}{2}$, and both $\delta T$ and $\delta X \rightarrow 0$, we can make the error arbitrarily small. However, the computation required to make $\delta T$ small enough for small $\delta X$ increases rapidly. For computation up to some fixed time T for instance, the algorithm is O($\frac{1}{\delta X\delta T}$). To calculate A more accurately, it would have been better to take $\delta X$ even smaller in Table 6, but this forces $\delta T$ smaller too, taking up far too much memory to compute. We still see the quadratic order, but it is not as clear as the linear order for varying $\delta T$.
+Thus, as long as we are careful to ensure $C\leq\frac{1}{2}$, and both $\delta T$ and $\delta X \rightarrow 0$, we can make the error arbitrarily small. However, the amount of computation required to make $\delta T$ small enough for stability with $\delta X$ increases rapidly. For computation up to some fixed time T for instance, the algorithm is $O(\delta T\delta X)=O(\delta X^3)$. 
 
 \newpage
 
@@ -609,9 +625,9 @@ end
 epsilon= @(X,T) X/sqrt(T);
 Usemiflux=@(X,T) 2*exp(-(epsilon(X,T)/2)^2)/(sqrt(pi*T));
     
-Ufixflux=@(T)Ufixflux(0,T)
-Uinsflux=@(T)Uinsflux(0,T)
-Usemiflux=@(T)Usemiflux(0,T)
+Ufixflux=@(T)-Ufixflux(0,T)
+Uinsflux=@(T)-Uinsflux(0,T)
+Usemiflux=@(T)-Usemiflux(0,T)
 
 fplot(Ufixflux,[0.0625,2])
 hold on
