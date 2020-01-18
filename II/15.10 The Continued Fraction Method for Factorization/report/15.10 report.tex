@@ -512,6 +512,9 @@ The results show the factorbase of primes up to 50 is pretty good. The reason is
 
 Several improvements could be made to our implementation. The structure of this project leads us to do various steps of the algorithm separately, when they could all be streamlined into a single loop. For instance at present our algorithm calculates a large number of partial quotients, followed by the first 200 convergents $P_n$ and $Q_n$ at the start. We don't need the $Q_n$'s, and the partial quotients $a_n$'s and $P_n$'s should be calculated only when needed, ie in the same (*)-loop. 
 
+use lemma at end of number theory to garauntee a solution to the system
+use a better gaussian elimination algo
+
 
 
 \end{document}
