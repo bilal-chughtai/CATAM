@@ -202,12 +202,17 @@ def q3ii():
             print(str(N) + ") has no solutions (square)")
             continue
         fixed, repeated, r, s = sqrt_cont_frac(N, 1000)
-        a = fixed + repeated + repeated  # i know there will be a solution within the first 2 repeated convergents so wont do more
+        n=len(repeated)
+        if n%2==0:
+            sol=n-1
+            a=fixed+repeated
+        else:
+            sol=2*n-1
+            a=fixed+repeated+repeated
+
         p, q = convergents(a)
-        for i in range(len(p)):
-            if verify_large_pell(p[i], q[i], N) == 1:
-                print(str(N) + ") (" + str(p[i]) + "," + str(q[i]) + ")")
-                break
+        if verify_large_pell(p[sol], q[sol], N) == 1:
+            print(str(N) + ") (" + str(p[sol]) + "," + str(q[sol]) + ")")
 
 
 def q5(N, k):

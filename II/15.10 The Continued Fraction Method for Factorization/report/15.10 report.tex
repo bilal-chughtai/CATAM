@@ -18,13 +18,13 @@
  
 \usepackage{amsthm}
  
-\newtheorem*{lemma}{Lemma}
+\newtheorem*{prop}{Proposition}
 \newtheorem*{theorem}{Theorem}
 \begin{document}
 
 
 \textbf{CATAM Part II - 15.10 - The Continued Fraction Method for
-Factorization TODO - maybe copy the stackexchange proof and review}
+Factorization TODO - done 1 review - maybe copy the stackexchange proof and review}
 \thispagestyle{empty}
 
 \newpage
@@ -48,21 +48,21 @@ estimated probability & 1 & .888 & .488 & .215 & .0797 & .0258 & .00743 & .00205
 \begin{figure}[h]
 \centering
 \includegraphics[width=10cm]{q1graph.png}
-\caption{Graph form of results of Table 1}
+\caption{Graph of \ref{tab:my-table}}
 \end{figure}
 
-The function written checks divisibility of N by p by calculating $N \mod p$. For very large N we can handle this by iterating over the digits of $N$. If $N=a_oa_1a_2\dots a_n$ we can initialise $result=0$ and iterate $result=result\times10+a_k\pmod p$ for $k=0,1\dots n$.	
+The function written checks divisibility of N by p by calculating $N \mod p$. For very large N we could handle this if required by iterating over the digits of $N$. If $N=a_oa_1a_2\dots a_n$ written in decimal, we can initialise $result=0$ and iterate $result=result\times10+a_k\pmod p$ for $k=0,1\dots n$.	
 
 \subsection*{Question 2}
 
-\begin{lemma}
+\begin{prop}
 If $x =\sqrt{N}$ for some positive integer $N$ then each $x_n$ may be written in the form $(r +\sqrt{N})/s$ with $r, s$ integers and $s \mid (r^
 2 - N)$.
-\end{lemma}
+\end{prop}
 
 \begin{proof}
 
-Proceed by induction. For the base case $n=0$ we have $x_0=c=x=\sqrt{N}$ so $r=0$, $s=1$ and so $s \mid (r^2 - N)$. For the inductive step, assume $x_n$ may be written as $(r +\sqrt{N})/s$ with $r,s$ integers satisfying $s \mid (r^2 - N)$. Then compute $x_{n+1}$. 
+Proceed by induction. For the base case $n=0$ we have $x_0=x=\sqrt{N}$ so $r=0$, $s=1$ and so $s \mid (r^2 - N)$. For the inductive step, assume $x_n$ may be written as $(r +\sqrt{N})/s$ with $r,s$ integers satisfying $s \mid (r^2 - N)$. Then compute $x_{n+1}$. 
 
 \begin{align*}
 x_{n+1} &= \frac{1}{x_n-a_n}\\
@@ -91,7 +91,7 @@ ie $s' \mid (r'^2 - N)$ as required.
 
 \end{proof}
 
-The expressions for $r'$ and $s'$ allow us to store $x_n$ precisely and avoid rounding errors. From IIC Number Theory, we know the sequence of partial quotients is eventually periodic, which can be identified from when $x_n$ repeats. The function $sqrt\_cont\_frac(N,k)$ is our implementation, with k giving a maximum number of partial quotients to return. The partial quotients for $\sqrt{N}$, N up to 50 are generated and printed by $q2i()$, with the integers after the colon being the repeated period:
+This proposition allows us to store $x_n$ without worry of rounding errors. From IIC Number Theory, we know the sequence of partial quotients is of form $[a_0;\overline{a_1,\dots,a_n}]$, and in particular is  eventually periodic. The function $sqrt\_cont\_frac(N,k)$ is our implementation, with k giving a maximum number of partial quotients to return, in case of a very long period. The partial quotients for $\sqrt{N}$, N up to 50 are generated and printed by $q2i()$, with the integers after the colon being the repeated period:
 
 \begin{lstlisting}[breaklines]
 0 ) 0 
@@ -154,11 +154,11 @@ We first observe they all have fairly short periods, less than N say. See \footn
 
 Secondly, we see that the partial quotients take form $\sqrt{N} = [a_0; \overline{a_1, a_2, \dots, a_{l-1}, 2a_0}]$ with $a_1, a_2, \dots, a_{l-1}$ palindromic\footnote{This is a well known theorem. See for example Ex 12.2.13 in Rosen, "Elementary Number Theory". The text provides a proof at the back.}.  	\\
 
-We further have that  $a_1, a_2, \dots, a_{l-1} < \sqrt{N}$, true up to $10^5$. max(r) $\approx\sqrt{N}$, r satisfies $r<\sqrt{N}$, and s satisfies $s<2\sqrt{N}$. See \footnote{\url{https://math.stackexchange.com/questions/2838367/size-of-partial-quotients-in-continued-fraction-expansion-of-sqrtn}} \\
+We further have that  $a_1, a_2, \dots, a_{l-1} < \sqrt{N}$, true up to $10^5$. max(r) $\approx\sqrt{N}$, r satisfies $r<\sqrt{N}$, and s satisfies $s<2\sqrt{N}$. See \footnote{\url{https://math.stackexchange.com/questions/2838367/size-of-partial-quotients-in-continued-fraction-expansion-of-sqrtn}}. This can be shown by carefully handling inequalities in the above induction.
 
 \subsection*{Question 3}
 
-The function $q3()$, using $convergents()$ produces the following data. I've included the length of the period for later reference.
+The function $q3()$, using $convergents()$ produces the following data. I've included the length of the period in square brackets for later reference.
 
 \begin{lstlisting}[breaklines]
  3 [2]) -2, 1, -2, 1, -2, 1, -2, 1, -2, 1
@@ -176,9 +176,9 @@ Let n be the period of the continued fraction expansion of $\sqrt{N}$ for N not 
 
 
 
-Consider the negative Pell equation $X^2-NY^2=-1$. Suppose N is divisible by 4, then mod 4 we get $X^2\equiv-1\pmod 4$ which is not soluble so there are no solutions. We can get another condition similarly. Suppose $p\mid N$ with $p\equiv 3 \pmod 4$. Then we get $X^2\equiv-1\pmod p$ but $\legendre{-1}{p}=-1$. So N cannot be divisible by 4 or have a prime factor $p\equiv 3\pmod 4$ (which is stronger than $N\equiv 3\pmod 4$).\\
+Consider the negative Pell equation $X^2-NY^2=-1$. Suppose N is divisible by 4, then mod 4 we get $X^2\equiv-1\pmod 4$ which is not soluble since $(\frac{-1}{4})=-1$. We can get another condition similarly. Suppose $p\mid N$ with $p\equiv 3 \pmod 4$. Then we get $X^2\equiv-1\pmod p$ but $\legendre{-1}{p}=-1$. So N cannot be divisible by 4 or have a prime factor $p\equiv 3\pmod 4$ (which is stronger than $N\equiv 3\pmod 4$).\\
 
-Given $x,y,N$, to confirm one of Pell's equations holds, we'll use the Chinese Remainder Theorem. Take p a prime, then if $x^2-Ny^2=\pm 1$ the same must hold (mod p). By the CRT, the system
+Given $x,y,N$ large, to confirm one of Pell's equations holds, we'll use the Chinese Remainder Theorem. Take p a prime, then if $x^2-Ny^2=\pm 1$ the same must hold (mod p). By the CRT, the system
 
 \begin{align*}
    z &= 1 \mod p_1\\
@@ -189,11 +189,11 @@ Given $x,y,N$, to confirm one of Pell's equations holds, we'll use the Chinese R
 
 has a unique solution mod $p_1p_2\dots p_n$. (The same holds with all 1's replaced by -1's). So to check $z=x^2-Ny^2= \pm 1$ it suffices to verify the above system holds, as long as the product $p_1p_2\dots p_n$ is greater than $x^2$ and $Ny^2$. Lets use small primes, up to 113 will do, since the largest $Ny^2$ can be is $10^{45}$. \\
 
-The reason we are using this system at all is that modular multiplication can be done without risk of overflow. Consider multiplying x and y mod N. We write for y even, $xy = (2x)(\frac{y}{2})$ and for y odd $xy = x+ (2x)(\frac{y-1}{2})$. In the y odd case, add x mod N to the result. Now iterate the process with $x'=2x$ and $y'=\frac{y}{2}$ or $\frac{y-1}{2}$ accordingly. The process terminates when y becomes 0, which must occur as y becomes strictly smaller each iteration. In doing so we take mod N after every step and are just doing addition so worst case we store at most $2N < 2*10^{15}$. The algorithm is implemented as $modular\_multiply(x,y,mod)$\\
+The reason this helps is that modular multiplication can be done without risk of overflow. Consider multiplying x and y mod N. We write for y even, $xy = (2x)(\frac{y}{2})$ and for y odd $xy = x+ (2x)(\frac{y-1}{2})$. In the y odd case, add x mod N to the result. Now iterate the process with $x'=2x$ and $y'=\frac{y}{2}$ or $\frac{y-1}{2}$ accordingly. The process terminates when y becomes 0, which must occur as y becomes strictly smaller each iteration. In doing so we take mod N after every step and are just doing addition so worst case we store at most $2N < 2\times10^{15}$. The algorithm is implemented as $modular\_multiply(x,y,mod)$\\
 
 Our implementation of this method is $verify\_large\_pell(x,y,N)$, which is fairly fast, when tested on \\ x=158070671986249, y=15140424455100, n=109, and x=1766319049, y=226153980, n=61 \footnote{Obtained from \url{https://en.wikipedia.org/wiki/Pell\%27s_equation}}\\	
 
-We now wish to find some solutions to Pell's Equation. The question doesn't seem to want us to use the stated Theorem, which directly gives a valid convergent. We'll employ a trial and error approach instead, in which we calculate and then test using $verify\_large\_pell(x,y,N)$. We get the following:
+We now find some solutions to Pell's Equation. We'll use the stated Theorem, which directly gives a valid convergent, and then use our $verify\_large\_pell(x,y,N)$ function using the above machinery to verify it is indeed a solution and print it if so\footnote{The code is fairly inefficient, for instance computing all the first 1000 (if large period) partial quotients, then all complete quotients, which could be streamlined better to save computation}. We get the following:
 
 \begin{lstlisting}[breaklines]
 
@@ -354,13 +354,13 @@ It turns out our program was capable of dealing with integers with far more than
 
 \subsection*{Question 4}
 
-The following lemma tells us what we want
+The following proposition tells us what we want
 
-\begin{lemma}
+\begin{prop}
 Suppose $x^2  \equiv y^2 \pmod N$ with $x \not\equiv \pm y \pmod N$. Then the GCDs $(N, x + y)$ and $(N, x - y)$ are both proper divisors of N.
-\end{lemma}
+\end{prop}
 \begin{proof}
-Treat $x+y$ and $x-y$ separately, though the arguments are the same \\
+Treat $x+y$ and $x-y$ separately, though the arguments are the same.
 We have $(N, x+y) \mid N$ by definition of GCD. To show it's proper, if $(N, x+y)=N$ then $x\equiv-y\pmod N$, a contradiction. If $(N, x+y)=1$, considering $x^2-y^2\equiv 0\Rightarrow (x-y)(x+y)\equiv 0 \pmod N$ gives $x-y\equiv0 \pmod N$, a contradiction. \\
 For the case of $x-y$, the argument is  same, replacing $y$ with $-y$.
 \end{proof}
@@ -376,7 +376,7 @@ r_1&=q_2r_2+r_3\\
 We have by definition of the algorithm $ r_3 < r_2 < r_1 < b$. So $r_2 + r_3 > 2r_3$. Now since $r_1=q_2r_2+r_3$ and $q_2\geq 1$ we have $r_1 > r_2 + r_3 > 2r_3$, and so combining the above we get $r_3 < r_1/2 < b/2$. So in 2 steps we've reduced b by a factor of at least a half. Assuming all simple calculations in each step can be done in constant time, the algorithm terminates in $O(\log{b})$ steps, for $b<a$. This assumption isn't necessarily true for very large a,b since moduli calculations become harder, the method given in question 1 is $O(\log(n))$ to find $n \pmod m$. So an upper bound is  $O(\log^2{\min(a,b)})$.\\
 
 
-The method always works for N odd. Supposing $N=\prod_{i=1}^t p_i^{e_i}$ with $e_i\geq1$ and $p_i$ distinct, we claim $x^2 \equiv 1 \pmod{p_i^{e_i}}$ has 2 solutions for $p\neq2$. Thus by the Chinese Remainder Theorem $x^2\equiv 1 \pmod N$ has $2^t$ solutions. So there are $2^t-2$ valid choices of y, taking $x=1$. So we can always find a $y\not\equiv \pm1 \pmod N$, so the method always works.\\
+The method always works for N odd. Supposing $N=\prod_{i=1}^t p_i^{e_i}$ with $e_i\geq1$ and $p_i$ distinct, we claim $x^2 \equiv 1 \pmod{p_i^{e_i}}$ has 2 solutions for $p\neq2$. Thus by the Chinese Remainder Theorem $x^2\equiv 1 \pmod N$ has $2^t$ solutions. So there are $2^t-2$ valid choices of y, taking $x=1$. So we can always find a $y\not\equiv \pm1 \pmod N$, so the method always works.\\ \textbf{SKEPTICAL}
 
 To show the claim, let $p\neq2$. First consider $x^2\equiv 1 \pmod p$. Then $p \mid (x-1)(x+1)$, so either $x-1=kp$ or $x+1=kp$ for $k\in\mathbb{Z}$. So $x\equiv\pm 1 \pmod p$. Now consider $x^2\equiv 1 \pmod{p^e}$. Note only one of $x+1$ or $x-1$ is divisible by p, as if both are, their difference is too, so $p \mid 2$ but p is odd. So now $p^e \mid (x-1)(x+1)$ and must divide wholly into one factor so either $x-1=kp^e$ or $x+1=kp^e$ for $k\in\mathbb{Z}$. So $x\equiv\pm 1 \pmod{p^e}$.
 
@@ -425,13 +425,13 @@ The continued fraction algorithm uses elements of the majority of the above ques
 First, define a B-number to be a positive integer x such that all prime factors of $\langle x^2 \rangle$ lie in B, where for $a\in\mathbb{Z}$, $\langle a \rangle$ is the unique integer in $(-\frac{N}{2}, \frac{N}{2}]$ with $\langle a \rangle \equiv a \pmod N$. The algorithm is as follows:\\
 
 (1) Pick a factor base B\\
-(2) Generate some B numbers $x_1, x_2, \dots, x_k$ . It turns out $P_n$ have a good chance of being B-numbers by the following lemma\\
+(2) Generate some B numbers $x_1, x_2, \dots, x_k$ . It turns out $P_n$ have a good chance of being B-numbers by the following proposition\\
 (3) Find a non-empty subset $I\subset\{1, \dots ,k\}$ such that $\prod_{i\in I}\langle x_i^2 \rangle=y^2$ is a square.\\
-(4) For $x=\prod_{i\in I}x_i$ satisfies $x^2\equiv y^2 \pmod N$. So by the earlier lemma, we can find some non trivial factors of N if $x\not\equiv y \pmod N$. \\
+(4) For $x=\prod_{i\in I}x_i$ satisfies $x^2\equiv y^2 \pmod N$. So by the earlier proposition, we can find some non trivial factors of N if $x\not\equiv y \pmod N$. \\
 
-\begin{lemma}
+\begin{prop}
 Let $\frac{P_n}{Q_n}$ be a convergent in the CF expansion of $\sqrt{N}$. Then $|P_n^2-NQ_n^2|\leq2\sqrt{N}$. Thus $P_N^2-NQ_n^2 \equiv P_n^2 \pmod N$ and $P_n^2-NQ_n^2 \in (-\frac{N}{2}, \frac{N}{2}]$ so $\langle P_n^2\rangle = P_n^2-NQ_n^2$ and $\langle P_n^2\rangle\leq2\sqrt{N}$
-\end{lemma}
+\end{prop}
 
 Here's how we implement each step.\\
 
@@ -492,7 +492,7 @@ This gives us factors gcd(x+y,N) = 93257 and gcd(x-y,N) = 82421
 
 \end{lstlisting}
 
-Choosing all small primes is a good choice for the factor base B, as small primes have the highest probability of dividing an arbitrary integer. There is a balance to strike with the size of the choice of factor base B. A larger factor base would potentially require less convergents to be calculated, though will increase the amount of calculation required over each (*)-loop, since our matrices and vectors will all be larger. We can run some tests to see how large an effect it has. $factorbase_test()$, does the work. We silence the print statements to run this.\\
+Choosing all small primes is a good choice for the factor base B, as small primes have the highest probability of dividing an arbitrary integer. There is a balance to strike with the size of the choice of factor base B. A larger factor base would potentially require less convergents to be calculated, though will increase the amount of calculation required over each (*)-loop, since our matrices and vectors will all be larger. We can run some tests to see how large an effect it has. $factorbase\_test()$, does the work. We silence the print statements to run this.\\
 
 \begin{table}[h]
 \centering
@@ -507,13 +507,20 @@ N/primes up to & 50 n & 50 time & 100 n & 100 time & 150 n & 150 time & 200 n & 
 \end{table}
 
 
-The results show the factorbase of primes up to 50 is pretty good. The reason is because the increase in time taken with more primes is approximately proportional to the number of primes k (since gaussian elimination, and testing of B-smoothness are both linear in k), but the decrease in number of $P_n$ required is not inversely proportional, since there are far fewer numbers divisible by large primes than small primes.\\
+The results show the factorbase of primes up to 50 is pretty good. The reason is because the increase in time taken with more primes is approximately proportional to the number of primes k at least linear, but the decrease in number of $P_n$ required is not inversely proportional, since there are far fewer numbers divisible by large primes than small primes.\\
 
 
-Several improvements could be made to our implementation. The structure of this project leads us to do various steps of the algorithm separately, when they could all be streamlined into a single loop. For instance at present our algorithm calculates a large number of partial quotients, followed by the first 200 convergents $P_n$ and $Q_n$ at the start. We don't need the $Q_n$'s, and the partial quotients $a_n$'s and $P_n$'s should be calculated only when needed, ie in the same (*)-loop. 
+Several improvements could be made to our implementation. The structure of this project leads us to do various steps of the algorithm separately, when they could all be streamlined into a single loop. For instance at present our algorithm calculates a large number of partial quotients, followed by the first 200 convergents $P_n$ and $Q_n$ at the start. We don't need the $Q_n$'s, and the partial quotients $a_n$'s and $P_n$'s should be calculated only when needed, ie in the same (*)-loop. \\
 
-use lemma at end of number theory to garauntee a solution to the system
-use a better gaussian elimination algo
+Our Gaussian elimination algorithm is $O(n^3)$, though there certainly exist faster ways of producing an element in the kernel of a matrix should it exist. It's worth noting our matrix is likely sparse, and the calculations are mod 2.\\ 
+
+
+Further, the following proposition garauntees if we have enough B numbers, then we must have a subset which gives us the squares we want, ie the gaussian elimination step will be successful, which almost always gives a factor. However it requires at least as many B numbers as primes which proves the method will work, which for large N gives a reliable way of finding a factor, without having to fail many step 3 attempts, though requires more running of step 2, which is faster than step 3 for large N. This approach though for small N will likely end up taking longer than our current iterative approach. \textbf{needs review}
+
+\begin{prop}
+Let $p_1,\dots, p_r$ be distinct primes and let $c_1, \dots, c_k$ be non-zero integers (divisible only by these pi). Then if $k > r + 1$ there exists a non-empty subset I of $\{1,\dots, k\}$ such that $\prod_{i\in I} c_i$ is a square.
+\end{prop}
+
 
 
 
