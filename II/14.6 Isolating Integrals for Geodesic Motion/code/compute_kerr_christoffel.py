@@ -27,9 +27,9 @@ for i in range(1,5):
             for l in range(1,5):
                 symbol = symbol.subs(r ** 2 + (a ** 2) * cos(theta) ** 2, sigma_for_printing)
                 symbol = symbol.subs(r ** 2 - 2 * m * r + a ** 2, delta_for_printing)
-                symbol = symbol.expand()
                 symbol = symbol.simplify()
-                symbol = symbol.trigsimp()
+            symbol = symbol.subs(sigma_for_printing * a ** 2 + sigma_for_printing * r ** 2 - 2 * a ** 2 * m * r * cos(
+                theta) ** 2 - 2 * m * r ** 3, sigma_for_printing * delta_for_printing)  # hacky fix
             if symbol !=0:
                 print("\Gamma^"+ translate[i]+"_{" + translate[j] + translate[k] + "} = " + latex(symbol) + r"\\")
 
