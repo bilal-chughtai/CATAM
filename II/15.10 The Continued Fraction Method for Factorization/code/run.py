@@ -24,20 +24,19 @@ def B_smooth(B, N):
         return False
 
 
-def modular_multiply(x, y, mod, result):
-    # if calling directly put result = 0
-    if x * y > 10 ** 15:
-        x = x % mod
-        # If y odd, add 'x' to result
-        if (y % 2 == 1):
-            result = (result + x) % mod
-        x = (x * 2) % mod
-        y //= 2  # floor y/2
-        result = modular_multiply(x, y, mod, result)
-    else:
-        return (result + (x * y)) % mod
+def modular_multiply(a, b, mod):
+    result = 0 # Initialize
 
-    return result % mod
+    a = a % mod
+    while b>0:
+
+        if b % 2 == 1:
+            result = (result + a) % mod
+        a = (2 * a) % mod
+
+        b = b // 2 #floor b/2
+
+    return result
 
 
 def q1():
@@ -172,9 +171,9 @@ def verify_large_pell(x, y, N):
               107, 109, 113]
 
     def one_prime_calc(x, y, N, p):
-        xsquared = modular_multiply(x, x, p, 0)
-        y_squared = modular_multiply(y, y, p, 0)
-        n_y_squared = modular_multiply(N, y_squared, p, 0)
+        xsquared = modular_multiply(x, x, p)
+        y_squared = modular_multiply(y, y, p)
+        n_y_squared = modular_multiply(N, y_squared, p)
         return (xsquared - n_y_squared) % p
 
     if one_prime_calc(x, y, N, 2) == 0:
@@ -229,7 +228,7 @@ def q5(N, k):
     for p_value in p:
         p_modn.append(p_value % N)
 
-        p_value_squared = modular_multiply(p_value, p_value, N, 0)
+        p_value_squared = modular_multiply(p_value, p_value, N)
         if p_value_squared > N/2:
             p_value_squared -= N
         p_squred_modn.append(p_value_squared)
@@ -372,7 +371,7 @@ def factorization(N, factorbase=[-1,2,3,5,7,11,13,17,19,23,29,31,37,41,43,47]):
                             primes_in_y_squared=[0]*len(factorbase)
                             for i in range(len(vector)):
                                 if vector[i]==1:
-                                    x=modular_multiply(x,B_numbers[i],N,0)
+                                    x=modular_multiply(x,B_numbers[i],N)
                                     primes_in_y_squared=[sum(x) for x in zip(primes_in_y_squared,numberoffactors[i])]
 
 
@@ -381,7 +380,7 @@ def factorization(N, factorbase=[-1,2,3,5,7,11,13,17,19,23,29,31,37,41,43,47]):
                             y=1
                             for i in range(len(factorbase)):
                                 for j in range(int(primes_in_y_squared[i]/2)):
-                                    y=modular_multiply(y,factorbase[i], N, 0)
+                                    y=modular_multiply(y,factorbase[i], N)
 
                             if x!=y and x!=(-y)%N:
                                 used_B_numbers_indices = [i for i,x in enumerate(vector) if x == 1]
