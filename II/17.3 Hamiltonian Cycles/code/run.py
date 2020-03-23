@@ -51,7 +51,8 @@ class Graph(object):
 
     def __str__(self):
         """Print the graph in a sensible form"""
-        return "* Order=" + str(self.order) + ", Size=" + str(self.size) + ", " + str(dict(self._graph)) + " *"
+        return "* Order=" + str(self.order) + ", Size=" + str(self.size) + ", " + str(
+            dict(self._graph)) + " *"
 
     def add_edges(self, edges):
         """ Add edges (list of tuple pairs) to graph """
@@ -96,7 +97,8 @@ class Graph(object):
 
                 neighbours = self.neighbours(candidate[position - 1])
                 compareto = maxcandidate[position]
-                possible_new_vertices = [y for y in [x for x in neighbours if x not in candidate] if y > compareto]
+                possible_new_vertices = [y for y in [x for x in neighbours if x not in candidate] if
+                                         y > compareto]
 
                 if bool(possible_new_vertices):
                     newvertex = min([y for y in neighbours if y > compareto and y not in candidate])
@@ -121,8 +123,10 @@ class Graph(object):
                 return P, count
 
             elif len(P) < self.order and bool(
-                    self.neighbours(P[-1]).intersection(set(self.vertices) - set(P))):  # set non empty
-                P.append(random.sample((self.neighbours(P[-1]).intersection(set(self.vertices) - set(P))), 1)[0])
+                    self.neighbours(P[-1]).intersection(
+                        set(self.vertices) - set(P))):  # set non empty
+                P.append(random.sample(
+                    (self.neighbours(P[-1]).intersection(set(self.vertices) - set(P))), 1)[0])
 
             else:
                 vk_neighbours = self.neighbours(P[-1])
@@ -157,17 +161,6 @@ def q1():
 
     trials = 100
 
-    # for n in nvalues:
-    #     for p in pvalues:
-    #         count=0
-    #         for trial in range(trials):
-    #             print(trial)
-    #             graph=Graph(random=True, n=n, p=p)
-    #             result = graph.simple_hamiltonian()
-    #             if result:
-    #                 count+=1
-    #         print("n="+str(n)+", p="+str(p)+": "+str(count))
-
     factorvalues = [0.1, 0.55, 1, 1.45, 1.9]
     for n in nvalues:
         for factor in factorvalues:
@@ -180,7 +173,8 @@ def q1():
                 if graph.delta < 2:
                     deltacount += 1
             print("n=" + str(n) + ", factor=" + str(factor) + ", hamiltonian: " + str(
-                count) + ", non-hamiltonian: " + str(trials - count) + ", delta<2 :" + str(deltacount))
+                count) + ", non-hamiltonian: " + str(trials - count) + ", delta<2 :" + str(
+                deltacount))
 
 
 def q4():
@@ -214,15 +208,15 @@ def q4():
                     found, T = graph.smarter_hamiltonian(1000)
                     if found:
                         Tvalues.append(T)
-            print("n=" + str(n) + ", p=" + str(p) + ", #hamiltonian cycles: " + str(count) + ", 95'th T percentile: "+ str(numpy.percentile(Tvalues, 95)))
+            print("n=" + str(n) + ", p=" + str(p) + ", #hamiltonian cycles: " + str(
+                count) + ", 95'th T percentile: " + str(numpy.percentile(Tvalues, 95)))
 
 
-
-def cdf_p_n_95(p,n):
-    c=0
-    k=1
+def cdf_p_n_95(p, n):
+    c = 0
+    k = 1
     while True:
-        c+=(1-p)**(k-1) * p
-        k+=1
-        if c>0.95:
+        c += (1 - p) ** (k - 1) * p
+        k += 1
+        if c > 0.95:
             return k

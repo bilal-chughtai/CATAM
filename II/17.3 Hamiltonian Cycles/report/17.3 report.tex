@@ -34,21 +34,23 @@ Our first task is to create a sensible data structure to store our graph in, and
 
 \subsection*{Question 1}	
 
-The simplest, and least efficient way to check if a graph has a Hamiltonian cycle is to check each of the $n!$ individual permutations of the vertex set. We can reduce checking slightly since cyclic permutations are equivalent, sow we only have $(n-1)!$. The hard part here is iterating over all permutations, since theres eventually too many to store in memory. We can overcome this by, say, Heap's Algorithm\footnote{\url{https://en.wikipedia.org/wiki/Heap\%27s_algorithm}}, but our implementation uses the $permutations$ iterator from the standard python library $itertools$.  It can be found under $naive\_hamiltonian1()$ as a method of the Graph class. We find this does work, but is exceedingly slow for $n>12$ so unable to generate the results we want. \\
+The simplest, and least efficient way to check if a graph has a Hamiltonian cycle is to check each of the $n!$ individual permutations of the vertex set. We can reduce checking slightly since cyclic permutations are equivalent, so we only have $(n-1)!$. The hard part here is iterating over all permutations, since there's eventually too many to store in memory. We can overcome this by, say, Heap's Algorithm\footnote{\url{https://en.wikipedia.org/wiki/Heap\%27s_algorithm}}, but our implementation uses the $permutations$ iterator from the standard python library $itertools$.  It can be found under $naive\_hamiltonian1()$ as a method of the Graph class. We find this does work, but is exceedingly slow for $n>12$ so unable to generate the results we want. \\
 
 A slightly smarter simple approach is as follows. We try to generate paths starting at 1, using the minimum possible vertex at each step. If we hit a dead end, we go back and try the next minimum vertex. This eventually gives every path starting at 1, so must give us a cycle if it exists. Otherwise it will run through all possible paths and return to the 1 vertex path, in which case there is no cycle. The algorithm is as follows\\
  
-First set candidate = [1], and k = 1, and loop the following. k is our track of which position vertex in the path we're looking for:\\
+First set \textbf{candidate} = [1], \textbf{max-candidate} = [1,0,0, $\dots$, 0] and \textbf{k} = 1. \textbf{k} is our track of which position vertex in the path we're currently looking for (using 0-indexing) and \textbf{max-candidate} records where we've been: The algorithm is as follows: \\
 
-1) If len(candidate) = n, check if the final vertex is a neighbour of 1, and if so return candidate. If it's not a neighbour 1, define maxcandidate = candidate, remove the last element, and reduce k by 1.\\
+Loop the following \\
 
-2) Otherwise len(candidate) < n. So we find the minimal vertex we can append to the path that we havn't already tried (by comparing the set of neighbours of the most recent vertex with the k'th vertex in maxcandidate), and add it on to candidate. Set maxcandidate to candidate + [0] to indicate we havn't tried any position k+1 elements yet. Iterate k by 1.\\
+1) If $|\textbf{candidate}|$ = n, check if the final vertex is a neighbour of 1, and if so return \textbf{candidate} since the cycle is valid. If it's not a neighbour of 1, define \textbf{maxcandidate} = \textbf{candidate}, remove the last element of \textbf{candidate}, and reduce \textbf{k} by 1.\\
 
-3) The only way the above fails is if there's no possible neighbours that we havn't tried. In this case, set maxcandidate to candidate, remove the most recent vertex, and reduce k by 1. \\
+2)Now $|\textbf{candidate}|<$ n. We find the minimal vertex we may append to candidate that we havn't already tried (by picking the minimal neighbour of the most recent vertex greater than the \textbf{k}'th element of \textbf{maxcandidate}), and append it to \textbf{candidate}. Set \textbf{maxcandidate} to \textbf{candidate} + [0] to indicate we havn't tried any position k+1 elements yet. Iterate \textbf{k} by 1.\\
 
-4) We terminate if we ever get a successful cycle, or if candidate ever returns to [1] (or possibly [], if 1 had no neighbours) after this process, ie if after checking all paths we fail to find a cycle. \\
+3) If no such possible neighbour exists, set \textbf{maxcandidate} to \textbf{candidate}, remove the most last element of \textbf{candidate}, and reduce \textbf{k} by 1. \\
 
-Our implementation is $simple_hamiltonian()$. This is just about quick enough, and we get the following data, gathered by $q1()$. 
+4) We terminate if we ever get a successful cycle, or if \textbf{candidate} ever returns to [1] (or possibly [], if 1 had no neighbours) after this process, ie if after checking all paths we fail to find a cycle. \\
+
+Our implementation is $simple\_hamiltonian()$. This is just about quick enough, and we get the following data, gathered by $q1()$. 
 
 \begin{lstlisting}[breaklines]
 * Order=3, Size=3, {1: {2, 3}, 2: {1, 3}, 3: {1, 2}} * has a hamiltonian cycle: [1, 2, 3]
@@ -88,7 +90,7 @@ Our implementation is $simple_hamiltonian()$. This is just about quick enough, a
 \label{tab:my-table}
 \end{table}
 
-\begin{table}[h]
+\begin{table}[ht]
 \centering
 \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|}
 \hline
@@ -107,7 +109,7 @@ Our implementation is $simple_hamiltonian()$. This is just about quick enough, a
 \subsection*{Question 2}
 Suppose we have n vertices. The worst case is we have no Hamiltonian cycle. Assume each of the $(n-1)!$ paths are checked, only failing at the last step (ie every length n path is Hamiltonian starting at $v_0$, but not a cycle) We assume each simple operation, eg iterating, looking up a value in a list take time $c$. For each. At worst, we need about $2n+10$ simple operations per iteration, of which most are spent calculating the new possible vertices to append. This gives a time of $c(2n+10)$ per permutation. So we end up with a total running time of $(n-1)!(2n+10)c = O(n!)$.\\
 
-For an average case, it'll be useful to know how many hamiltonian cycles we should expect to have in a $\mathcal{G}(n,p)$ graph. This isn't too hard to show:
+For an average case, it'll be useful to know how many Hamiltonian cycles we should expect to have in a $\mathcal{G}(n,p)$ graph. This isn't too hard to show:
 
 \begin{theorem} 
 The expected number of hamiltonian cycles in a random graph $\mathcal{G}(n,1/2)$ is given by $\frac{1}{2}(n-1)!p^n$, for $n\geq3$.
@@ -116,9 +118,7 @@ The expected number of hamiltonian cycles in a random graph $\mathcal{G}(n,1/2)$
 First, $K_n$ has $\frac{1}{2}(n-1)!$ cycles of length n, all of which are Hamiltonian (start at 1, have n-1 choices for the second vertex, n-2 for the third... Factor of 1/2 comes from the undirectedness of the graph). Order these cycles, and let $X_i$ be the event $G$ contains the $i$'th cycle. Then $\mathbb{E}(X)$ is the expected number of hamiltonian cycles in G, and by linearity of expectation is equal to $\sum_i \mathbb{E}(X_i)$. Now $\mathbb{E}(X_i) = p^n$ since each edge occurs independently with probability p, giving our result.
 \end{proof}
 
-Suppose an average graph can be taken from $\mathcal{G}(n,1/2)$. We expect the $2^n$th cycle we find to be Hamiltonian. To get from one potential cycle to the next is about constant time independent of n, and is about 6 simple operations. To build our first cycle, we expect it to take at most 2n steps, each of which is about 6 simple operations. So we get a running time of about $(12n+6\times 2^n)c$, at least for n large, where by the above theorem we expect a Hamiltonian cycle to exist in $\mathcal{G}(n,1/2)$.\\
-
-So the algorithm cannot handle too large an n, and is especially bad for p small
+Suppose an average graph can be taken from $\mathcal{G}(n,1/2)$. There are $(n-1)!$ paths, of which $(n-1)!/2^{n+1}$ are Hamiltonian, so we expect our $2^{n+1}$'th length n path to be Hamiltonian. To get from one length n path to the next in this regime, and about 6 simple operations. To build our first cycle, we expect it to take at most 2n steps, each of which is about 6 simple operations. So we get a running time of about $(12n+6\times 2^{n+1})c = O(2^{n+1})$, at least for n large. This is exponential in n.
 
 \subsection*{Question 3}
 Modifying the code slightly, to print the number of graphs G with $\delta(G) < 2$, we find most, at least for $a<1.45$ for a defined in Table 2, graphs fail to be Hamiltonian because  $\delta(G) < 2$. The second range may well have been chosen because of the following theorem, proved in IID Graph Theory.
@@ -181,16 +181,17 @@ The $smarter\_hamiltonian(T)$ method of the Graph class performs the algorithm. 
 \label{tab:my-table}
 \end{table}
 
-We find unsurprisingly a larger T is required for small p, and not too large a T is required, making this fairly fast. If we only have T depending on n, setting T to about $n^2$ should catch almost all Hamiltonian cycles, and is a lot better than the average case complexity of the above.
+We find unsurprisingly a larger T is required for small p, and not too large a T is required, making this fairly fast. If we only have T depending on n, setting T to about $n^2$ should catch almost all Hamiltonian cycles, and is a lot better than the average case exponential complexity.
 
 \subsection*{Question 5}
-There are 2 steps here. We first need to get $P_j$ to length n-1. Then we need to complete the cycle. \\
+Without any advanced modelling it seems $n/p^2$ is fairly decent, and certainly gives a T larger than all of the above 0.95 percentile value.\\
+%There are 2 steps here. We first need to get $P_j$ to length n-1. Then we need to complete the cycle. \\
 
-To attain length n-1, we need to add n-1 vertices to our original. The only way to increase the length of $P_j$ is if $v_k$ is joined to a vertex not in $P_j$. This occurs with probability $1-(1-p)^{n-k-1}$. We can certainly bound the sum of the reciprocals of these by $\frac{n}{p}$, which upper bounds how long we expect it takes us to reach length n-1. Let's, say, double this to be reasonably sure we've reached length n-1.\\
+%To attain length n-1, we need to add n-1 vertices to our original. The only way to increase the length of $P_j$ is if $v_k$ is joined to a vertex not in $P_j$. This occurs with probability $1-(1-p)^{n-k-1}$. We can certainly bound the sum of the reciprocals of these by $\frac{n}{p}$, which upper bounds how long we expect it takes us to reach length n-1. Let's, say, double this to be reasonably sure we've reached length n-1.\\
 
-Once $P_j$ hits length n-1, we may model the time taken to reach a hamiltonian cycle as a geometric distribution with parameter p, since we only need the last and first vertex having an edge between them. We can use the 95th percentile of the CDF for this step, which  is $\min\{k, \sum_k (1-p)^{k-1}p > 0.95\}$.\\
+%Once $P_j$ hits length n-1, we may model the time taken to reach a hamiltonian cycle as a geometric distribution with parameter p, since we only need the last and first vertex having an edge between them. We can use the 95th percentile of the CDF for this step, which  is $x=\min\{k: \sum_k (1-p)^{k-1}p > 0.95\}$.\\
 
-One can verify this gives a T greater than all of the entries of Table 3, and should be reasonable for large n.\\
+%One can verify this gives a $\frac{n}{p}+x$ greater than all of the entries of Table 3, and should be reasonable for large n.\\
 
 
 In general we expect small graphs with small p to have few Hamiltonian cycles and large p to have many. The algorithm terminates in 2 cases:\\
@@ -199,10 +200,229 @@ In general we expect small graphs with small p to have few Hamiltonian cycles an
 2) If we find a hamiltonian path \\
 3) If we hit $T$ iterations\\
 
-Case 1 is unlikely in general, though occurs more for p small than p large. Case 2 occurs more often for p large, and case 3 for p small, so we expect the algorithm to take much longer for small p. \\
+Case 1 is unlikely in general, though occurs more for p small than p large. Case 2 occurs more often for p large, and case 3 for p small, so we expect the algorithm to take much longer for small p, as case 3 takes much longer than case 3. \\
 
-In the average case, we expect the $2^n$th length n-1 path to be a cycle. Once we reach length n-1, step 3 is constant time, since all we're doing is a look up and a splice, so we have $O(2^n)$. Before we reach length n-1, we use step 2, which is also constant time. We don't expect to take more than 2 steps to find a neighbour of $v_k$ not in $P_j$ (since we have p=1/2), and step 2 itself is $O(n)$ (since we're reading the set of neighbours, and intersecting it with $P_j$). If step 2 fails to find a valid neighbour, we go on to the constant time step 3. So this step is in total $O(n)$. So in average case, the algorithm is $O(2^n)$ to find a hamiltonian cycle.\\
+In the average case, we expect the $2^{n+1}$th length n path to be a cycle. Once we reach length n, step 3 is constant time, since all we're doing is a look up and a splice. Before we reach length n, we use step 2, which is also constant time. We don't expect to take more than 2 steps to find a neighbour of $v_k$ not in $P_j$ (since we have p=1/2), and step 2 itself is $O(n)$ (since we're reading the set of neighbours, and intersecting it with $P_j$). If step 2 fails to find a valid neighbour, we go on to the constant time step 3. So this step is in total $O(n)$. So in average case, the algorithm is $O(2^{n+1})$ to find a hamiltonian cycle, just as the previous algorithm.\\
 
+\newpage
+
+\subsection*{Code}
+
+\small\begin{verbatim}
+
+import itertools
+import math
+import random
+from collections import defaultdict
+
+import numpy
+
+
+def nCr(n, r):
+    f = math.factorial
+    return int(f(n) / f(r) / f(n - r))
+
+
+# import numpy
+
+class Graph(object):
+    """ Graph data structure """
+
+    def __init__(self, vertices=[], edges=[], random=False, n=0, p=0):
+        """vertices: list of vertices of graph
+           edges: list of tuples giving edges of graph
+           random: indicates we want to generate a random graph
+           n: [n] forms vertex set of random graph
+           p: probability any given edge in our random graph
+           """
+
+        self._graph = defaultdict(set)
+
+        if random:
+            vertices = list(range(1, n + 1))
+            random_indices = list(numpy.random.binomial(1, p, size=nCr(n, 2)))
+            all_edges = []
+            for i in range(len(vertices)):
+                for j in range(i + 1, len(vertices)):
+                    all_edges.append((vertices[i], vertices[j]))
+            edges = [all_edges[i] for i in range(len(all_edges)) if random_indices[i] == 1]
+
+        self.add_edges(edges)
+        self.order = len(vertices)
+        self.size = len(edges)
+        self.vertices = vertices
+        self.edges = edges
+
+        # calculate  delta
+        delta = self.order - 1
+        for v in self.vertices:
+            deg_v = len(self._graph[v])
+            if deg_v < delta:
+                delta = deg_v
+        self.delta = delta
+
+    def __str__(self):
+        """Print the graph in a sensible form"""
+        return "* Order=" + str(self.order) + ", Size=" + str(self.size) + ", " + str(
+            dict(self._graph)) + " *"
+
+    def add_edges(self, edges):
+        """ Add edges (list of tuple pairs) to graph """
+        for v1, v2 in edges:
+            self.add(v1, v2)
+
+    def add(self, v1, v2):
+        """ Add connection between node1 and node2 """
+        self._graph[v1].add(v2)
+        self._graph[v2].add(v1)
+
+    def neighbours(self, v):
+        return self._graph[v]
+
+    def naive_hamiltonian(self):
+        permutations = itertools.permutations(self.vertices[1:])
+        for permutation in permutations:
+            if permutation[-1] not in self.neighbours(self.vertices[0]):
+                continue
+            for i in range(len(permutation) - 1):
+                if permutation[i + 1] not in self.neighbours(permutation[i]):
+                    break
+            return [self.vertices[0]] + list(permutation)
+        return
+
+    def simple_hamiltonian(self):
+        candidate = [self.vertices[0]]
+        maxcandidate = [1] + [0] * (self.order - 1)
+        position = 1
+        while True:
+
+            if len(candidate) == self.order:
+                if candidate[-1] in self.neighbours(self.vertices[0]):
+                    return candidate
+                else:
+                    maxcandidate = candidate
+                    candidate = candidate[:-1]
+                    position -= 1
+                    # print(position)
+                    continue
+            else:
+
+                neighbours = self.neighbours(candidate[position - 1])
+                compareto = maxcandidate[position]
+                possible_new_vertices = [y for y in [x for x in neighbours if x not in candidate] if
+                                         y > compareto]
+
+                if bool(possible_new_vertices):
+                    newvertex = min([y for y in neighbours if y > compareto and y not in candidate])
+                    candidate.append(newvertex)
+                    maxcandidate = candidate + [0]
+                    position += 1
+                else:
+                    maxcandidate = candidate
+                    candidate = candidate[:-1]
+                    # print(candidate)
+                    position -= 1
+
+                    if candidate == [self.vertices[0]] or candidate == []:
+                        return False
+
+    def smarter_hamiltonian(self, T):
+        P = [self.vertices[0]]
+        count = 1
+
+        while True:
+            if len(P) == self.order and P[-1] in self.neighbours(self.vertices[0]):
+                return P, count
+
+            elif len(P) < self.order and bool(
+                    self.neighbours(P[-1]).intersection(
+                        set(self.vertices) - set(P))):  # set non empty
+                P.append(random.sample(
+                    (self.neighbours(P[-1]).intersection(set(self.vertices) - set(P))), 1)[0])
+
+            else:
+                vk_neighbours = self.neighbours(P[-1])
+                if not bool(vk_neighbours):
+                    return False, count  # zero degree of vk
+                vi = random.sample(vk_neighbours.intersection(set(P)), 1)[0]
+                i = P.index(vi)
+                new_P_start = P[:i + 1]
+                new_P_end = list(reversed(P[i + 1:]))
+                P = new_P_start + new_P_end
+            count += 1
+
+            if count > T:
+                return False, count
+
+
+def q1():
+    # First some paticular graphs that we either know have hamilton cycles or don't
+    for graph in [Graph(vertices=[1, 2, 3], edges=[(1, 2), (2, 3), (3, 1)]),
+                  Graph(vertices=[1, 2, 3], edges=[(1, 2), (2, 3)]),
+                  Graph(vertices=[1, 2, 3, 4], edges=[(1, 2), (2, 3), (3, 1)]),
+                  Graph(vertices=[1, 2, 3, 4, 5, 6],
+                        edges=[(1, 2), (3, 4), (2, 4), (1, 4), (5, 6), (6, 3), (2, 5), (5, 6)])]:
+        result = graph.simple_hamiltonian()
+        if result:
+            print(str(graph) + " has a hamiltonian cycle: " + str(result))
+        else:
+            print(str(graph) + " has no hamiltonian cycle")
+
+    pvalues = [0.3]
+    nvalues = list(range(4, 21, 2))
+
+    trials = 100
+
+    factorvalues = [0.1, 0.55, 1, 1.45, 1.9]
+    for n in nvalues:
+        for factor in factorvalues:
+            count = 0
+            deltacount = 0
+            for trial in range(trials):
+                graph = Graph(random=True, n=n, p=factor * numpy.log(n) / n)
+                if graph.simple_hamiltonian():
+                    count += 1
+                if graph.delta < 2:
+                    deltacount += 1
+            print("n=" + str(n) + ", factor=" + str(factor) + ", hamiltonian: " + str(
+                count) + ", non-hamiltonian: " + str(trials - count) + ", delta<2 :" + str(
+                deltacount))
+
+
+def q4():
+    for graph in [Graph(vertices=[1, 2, 3], edges=[(1, 2), (2, 3), (3, 1)]),
+                  Graph(vertices=[1, 2, 3], edges=[(1, 2), (2, 3)]),
+                  Graph(vertices=[1, 2, 3, 4], edges=[(1, 2), (2, 3), (3, 1)]),
+                  Graph(vertices=[1, 2, 3, 4, 5, 6],
+                        edges=[(1, 2), (3, 4), (2, 4), (1, 4), (5, 6), (6, 3), (2, 5), (5, 6)])]:
+
+        result, T = graph.smarter_hamiltonian(1000)
+        if result:
+            print(str(graph) + " has a hamiltonian cycle: " + str(result))
+        else:
+            print(str(graph) + " has no hamiltonian cycle")
+
+    trials = 1000
+    pvalues = [0.3, 0.5, 0.7, 0.9]
+    nvalues = list(range(4, 15, 2))
+
+    trials = 10000
+
+    for n in nvalues:
+        for p in pvalues:
+            count = 0
+            Tvalues = []
+            while count < 5000:
+                graph = Graph(random=True, n=n, p=p)
+                result = graph.simple_hamiltonian()
+                if result:
+                    count += 1
+                    found, T = graph.smarter_hamiltonian(1000)
+                    if found:
+                        Tvalues.append(T)
+            print("n=" + str(n) + ", p=" + str(p) + ", #hamiltonian cycles: " + str(
+                count) + ", 95'th T percentile: " + str(numpy.percentile(Tvalues, 95)))
+\end{verbatim}
 
 
 
