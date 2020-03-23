@@ -304,12 +304,10 @@ def kernel(A):
         for c in range(columns-1,-1,-1):
             if c not in pivotcolumns:
                 x = [0] * columns
-                x[c]=1
-       # x[pivotcolumns.index('*')] = 1  # the pivotcolumns provide "fixed" elements, and the rest are free, so pick a free one and make it 1
+                x[c]=1 # the pivotcolumns provide "fixed" elements, and the rest are free, so pick a free one and make it 1
 
                 for i in range(rows - 1, -1, -1):
-                    if pivotcolumns[
-                        i] == '*':  # or pivotcolumns[i] == columns-1: - these are the free ones, which we've already fixed
+                    if pivotcolumns[i] == '*':  # or pivotcolumns[i] == columns-1: - these are the free ones, which we've already fixed
                         pass
                     # do nothing
                     # '*' means free component - already set to 1 or 0
@@ -410,11 +408,11 @@ def factorization(N, factorbase=[-1,2,3,5,7,11,13,17,19,23,29,31,37,41,43,47]):
                                 def string(my_list):
                                     return ','.join(map(str, my_list))
 
-                                #print("The algorithm uses P_n for n = "+string(used_P_n_indices))
-                                #print("The corresponding B numbers are "+string(used_B_numbers))
-                                #print("Multiplying the B numbers, x_i, gives an x = "+str(x))
-                                #print("Multipling <x_i^2> gives a y = " + str(y) + " = " + ystring)
-                                #print("This gives us factors gcd(x+y,N) = "+str(factor1) + " and gcd(x-y,N) = "+ str(factor2))
+                                print("The algorithm uses P_n for n = "+string(used_P_n_indices))
+                                print("The corresponding B numbers are "+string(used_B_numbers))
+                                print("Multiplying the B numbers, x_i, gives an x = "+str(x))
+                                print("Multipling <x_i^2> gives a y = " + str(y) + " = " + ystring)
+                                print("This gives us factors gcd(x+y,N) = "+str(factor1) + " and gcd(x-y,N) = "+ str(factor2))
 
                                 return factor1,factor2
 
