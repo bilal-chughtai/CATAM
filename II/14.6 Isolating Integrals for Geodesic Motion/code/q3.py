@@ -10,22 +10,22 @@ from matplotlib import rcParams
 rcParams.update({'figure.autolayout': True})
 
 #schwarzchild - for question 3 it is quite a bit faster to use this, even though could sub a=0
-# t, phi, r, theta, m, a = symbols('t, \phi, r, \\theta, m, a') #a included so we dont have to rewrite code for kerr
-# x = Coordinates('\chi', [t, r, theta, phi])
-# Metric = diag((1-2*m/r), -1/(1-2*m/r), -r**2, -r**2*sin(theta)**2)
+t, phi, r, theta, m, a = symbols('t, \phi, r, \\theta, m, a') #a included so we dont have to rewrite code for kerr
+x = Coordinates('\chi', [t, r, theta, phi])
+Metric = diag((1-2*m/r), -1/(1-2*m/r), -r**2, -r**2*sin(theta)**2)
 
 
 #kerr - for question 4
-t, phi, r, theta, m, a, sigma, delta = symbols('t, \phi, r, \\theta, m, a, sigma, delta')
-x = Coordinates('\chi', [t, r, theta, phi])
-sigma = r ** 2 + (a ** 2) * cos(theta) ** 2
-delta = r ** 2 - 2 * m * r + a ** 2
-
-Metric = Matrix([[(1 - (2 * m * r) / sigma), 0, 0, (2 * a * m * r * sin(theta) ** 2) / sigma], [0, -
-sigma / delta, 0, 0], [0, 0, - sigma, 0], [(2 * a * m * r * sin(theta) ** 2) / sigma, 0, 0, -(sin
-                                                                                              (theta) ** 2) * (
-                                                       (r ** 2 + a ** 2) + (
-                                                           2 * (a ** 2) * m * r * sin(theta) ** 2) / sigma)]])
+# t, phi, r, theta, m, a, sigma, delta = symbols('t, \phi, r, \\theta, m, a, sigma, delta')
+# x = Coordinates('\chi', [t, r, theta, phi])
+# sigma = r ** 2 + (a ** 2) * cos(theta) ** 2
+# delta = r ** 2 - 2 * m * r + a ** 2
+#
+# Metric = Matrix([[(1 - (2 * m * r) / sigma), 0, 0, (2 * a * m * r * sin(theta) ** 2) / sigma], [0, -
+# sigma / delta, 0, 0], [0, 0, - sigma, 0], [(2 * a * m * r * sin(theta) ** 2) / sigma, 0, 0, -(sin
+#                                                                                               (theta) ** 2) * (
+#                                                        (r ** 2 + a ** 2) + (
+#                                                            2 * (a ** 2) * m * r * sin(theta) ** 2) / sigma)]])
 
 
 g = MetricTensor('g', x, Metric)
@@ -149,24 +149,24 @@ def compute_one_geodesic(E,m0,a0,L,r0,theta0, rdot0, g, Gamma):
 #print_out_christoffel(Gamma)
 
 #3a:E,m0,a0,L,r0,theta0, rdot0, g, Gamma
-#compute_one_geodesic(E=0.97, m0=1, a0=0, L=4, r0=10,theta0=math.pi/2,rdot0=0, g=g, Gamma=Gamma)
+compute_one_geodesic(E=0.97, m0=1, a0=0, L=4, r0=15,theta0=math.pi/2,rdot0=0, g=g, Gamma=Gamma)
 
 #3b/4
-r_cross = []
-rdot_cross = []
-r_int, theta_int, rdot_int = compute_one_geodesic(E=0.97, m0=1, L=4, r0=12,theta0=pi/2,rdot0=0, g=g, a0=0, Gamma=Gamma)
-for i in range(len(r_int)-1):
-    if theta_int[i + 1] > pi/2 > theta_int[i]:
-        r_cross.append((r_int[i+1]+r_int[i])/2)
-        rdot_cross.append((rdot_int[i+1] + rdot_int[i]) / 2)
-
-
-figure(9, figsize=(6, 4.5))
-plt.scatter(r_cross, rdot_cross, label='skitscat', color='k', s=25, marker="o")
-plt.tight_layout()
-plt.xlabel(r'$r$')
-plt.ylabel(r'$\dot{r}$')
-savefig('scatter', dpi=100)
+# r_cross = []
+# rdot_cross = []
+# r_int, theta_int, rdot_int = compute_one_geodesic(E=0.97, m0=1, L=4, r0=12,theta0=pi/2,rdot0=0, g=g, a0=0, Gamma=Gamma)
+# for i in range(len(r_int)-1):
+#     if theta_int[i + 1] > pi/2 > theta_int[i]:
+#         r_cross.append((r_int[i+1]+r_int[i])/2)
+#         rdot_cross.append((rdot_int[i+1] + rdot_int[i]) / 2)
+#
+#
+# figure(9, figsize=(6, 4.5))
+# plt.scatter(r_cross, rdot_cross, label='skitscat', color='k', s=25, marker="o")
+# plt.tight_layout()
+# plt.xlabel(r'$r$')
+# plt.ylabel(r'$\dot{r}$')
+# savefig('scatter', dpi=100)
 
 
 

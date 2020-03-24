@@ -52,8 +52,8 @@ def integrate(t,r,theta,phi,tdot,rdot,thetadot,phidot, m0, a0, Gamma):
     # ODE solver parameters
     abserr = 1.0e-8
     relerr = 1.0e-6
-    stoptime = 10000 #1200
-    numpoints = 100
+    stoptime = 1200 #1200
+    numpoints = 250
 
     # Create the time samples for the output of the ODE solver.
     # I use a large number of points, only because I want to make
