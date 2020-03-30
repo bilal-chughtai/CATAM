@@ -25,7 +25,7 @@
 
 \subsection*{Introduction}
 
-Throughout this project I code in python, making use of the SymPy package for symbolic mathematics. We also use the GraviPy package, built on top of SymPy, giving us data structures to store and manipulate the kinds of tensors that appear in general relativity. We'll only need it to compute the Christoffel symbols. SciPy will be used to perform numerical integration. 
+Throughout this project I code in python, making use of the SymPy package for symbolic mathematics. The GraviPy package provides data structures to store and manipulate the kinds of tensors that appear in general relativity. We'll only need it to compute the Christoffel symbols. SciPy will be used to perform numerical integration. We use the +--- signature. 
 \subsection*{Question 1}
 
 We use the equivalent action 
@@ -43,26 +43,36 @@ No $t$ dependence gives
 
 \begin{equation}
 \frac{\partial \mathcal{L}}{\partial t} = 2g_{tt}\dot{t} + 2g_{t\phi}\dot{\phi} = 2E
-\label{Edef}
 \end{equation}
 
 for $E$ constant, and similarly no $\phi$ dependence gives 
 
 \begin{equation}
 \frac{\partial \mathcal{L}}{\partial \phi} = 2g_{t\phi}\dot{t}+2g_{\phi\phi}\dot{\phi} = -2L_z
+\end{equation}
+
+for $L_z$ constant. Rewriting these for later use we have: 
+
+\begin{equation}
+E = g_{tt}\dot{t} + g_{t\phi}\dot{\phi}
+\label{Edef}
+\end{equation}
+
+\begin{equation}
+L_z = - ( g_{t\phi}\dot{t}+g_{\phi\phi}\dot{\phi})
 \label{Ldef}
 \end{equation}
 
-for $L_z$ constant. We get a further conserved quantity from no $\tau$ dependence
+We get a further conserved quantity from no $\tau$ dependence
 
 \begin{equation}
 \mathcal{L} - \dot{x}^i \frac{\partial \mathcal{L}}{\partial \dot{x}^i} = -\mathcal{L} = -1
 \label{Qdef}
 \end{equation}
 
-where $\mathcal{L} = 1$ is by timelikeness \footnote{this is because of our signature, in the course this would be -1} \\
+where $\mathcal{L} = 1$ is by timelikeness \footnote{reading ahead and noting the +--- signature} \\
 
-To determine the effective potential we sub (\ref{Edef}) and (\ref{Ldef}) into (\ref{Qdef}). (\ref{Edef}) and (\ref{Ldef}) give a system of 2 equations for $\dot{t}, \dot{\phi}$ which can be solved to give
+(\ref{Edef}) and (\ref{Ldef}) give a system of 2 equations for $\dot{t}, \dot{\phi}$ which can be solved to give
 
 \begin{equation}
 \dot{t} = \frac{Eg_{\phi\phi}+L_zg_{t\phi}}{g_{tt}g_{\phi\phi}-g_{t\phi}^2}
@@ -72,7 +82,7 @@ To determine the effective potential we sub (\ref{Edef}) and (\ref{Ldef}) into (
 \dot{\phi} = -\frac{Eg_{t\phi}+L_zg_{tt}}{g_{tt}g_{\phi\phi}-g_{t\phi}^2}
 \end{equation}
 
-and thus (\ref{Qdef}) becomes (after some algebra)
+which can be substituted into $\mathcal{L}=1$  to give (after some simple but tedious algebra): 
 
 \begin{equation}
 g_{rr}\dot{r}^2+g_{\theta\theta}\dot{\theta}^2 = -V_{eff}(r, \theta, E, L_z)
@@ -83,35 +93,42 @@ V_{eff}(r, \theta, E, L_z) = -1 + \frac{E^2g_{\phi\phi} + L_z^2g_{tt} + 2ELg_{t\
 \end{equation*}
 
 \subsection*{Question 2}
-Computing the Christoffel symbols and returning latex is pretty straightforward using GraviPy, and was done using $compute\_kerr\_christoffel.py$. The non zero Christoffel symbols (up to symmetry) in the lower indices are displayed below. We make some attempt to simplify the expressions through substituting in $\Sigma$ and $\Delta$, but there may exist simpler forms our program had missed. This won't matter for later computation. Here's what we get:
+Computing the Christoffel symbols and returning latex is pretty straightforward using GraviPy, and was done using $compute\_kerr\_christoffel.py$. The non zero Christoffel symbols up to symmetry in the lower indices are displayed below. \\
+
+We make some attempt to simplify the expressions through substitutions of $\Sigma$ and $\Delta$ post computation, however our program certainly misses some. This won't matter for numerical calculation later. Here's what we get out:
 
 \small\begin{align*}
-\Gamma^t_{tr} = - \frac{m (a^{2} + r^{2}) (a^{2} \cos^{2}{(\theta )} - r^{2})}{\Delta \Sigma^{2}}\\
-\Gamma^t_{t\theta} = - \frac{a^{2} m r \sin{(2 \theta )}}{\Sigma^{2}}\\
-\Gamma^t_{r\phi} = - \frac{a m (2 \Sigma r^{2} + a^{4} \sin^{2}{(\theta )} - a^{4} + a^{2} r^{2} \sin^{2}{(\theta )} + r^{4}) \sin^{2}{(\theta )}}{\Delta \Sigma^{2}}\\
-\Gamma^t_{\theta\phi} = - \frac{2 a m r (\Sigma a^{2} + \Sigma r^{2} - a^{4} + 2 a^{2} m r \sin^{2}{(\theta )} - 2 a^{2} r^{2} - r^{4}) \sin{(\theta )} \cos{(\theta )}}{\Delta \Sigma^{2}}\\
-\Gamma^r_{tt} = \frac{\Delta m (- a^{2} \cos^{2}{(\theta )} + r^{2})}{\Sigma^{3}}\\
-\Gamma^r_{t\phi} = \frac{\Delta a m (a^{2} \cos^{2}{(\theta )} - r^{2}) \sin^{2}{(\theta )}}{\Sigma^{3}}\\
+\Gamma^t_{tr} = - \frac{m \left(a^{2} + r^{2}\right) \left(a^{2} \cos^{2}{\left(\theta \right)} - r^{2}\right)}{\Delta \Sigma^{2}}\\
+\Gamma^t_{t\theta} = - \frac{a^{2} m r \sin{\left(2 \theta \right)}}{\Sigma^{2}}\\
+\Gamma^t_{r\phi} = - \frac{a m \left(2 \Sigma r^{2} + a^{4} \sin^{2}{\left(\theta \right)} - a^{4} + a^{2} r^{2} \sin^{2}{\left(\theta \right)} + r^{4}\right) \sin^{2}{\left(\theta \right)}}{\Delta \Sigma^{2}}\\
+\Gamma^t_{\theta\phi} = \frac{a m r \left(- \Delta \Sigma + a^{4} - 2 a^{2} m r + 2 a^{2} r^{2} - 2 m r^{3} + r^{4}\right) \sin{\left(2 \theta \right)}}{\Delta \Sigma^{2}}\\
+\Gamma^r_{tt} = \frac{\Delta m \left(- a^{2} \cos^{2}{\left(\theta \right)} + r^{2}\right)}{\Sigma^{3}}\\
+\Gamma^r_{t\phi} = \frac{\Delta a m \left(a^{2} \cos^{2}{\left(\theta \right)} - r^{2}\right) \sin^{2}{\left(\theta \right)}}{\Sigma^{3}}\\
 \Gamma^r_{rr} = \frac{r}{\Sigma} + \frac{m}{\Delta} - \frac{r}{\Delta}\\
-\Gamma^r_{r\theta} = - \frac{a^{2} \sin{(2 \theta )}}{2 \Sigma}\\
+\Gamma^r_{r\theta} = - \frac{a^{2} \sin{\left(2 \theta \right)}}{2 \Sigma}\\
 \Gamma^r_{\theta\theta} = - \frac{\Delta r}{\Sigma}\\
-\Gamma^r_{\phi\phi} = \frac{\Delta (- 8 \Sigma^{2} r + a^{4} m (\cos{(4 \theta )} - 1) + 8 a^{2} m r^{2} \sin^{2}{(\theta )}) \sin^{2}{(\theta )}}{8 \Sigma^{3}}\\
-\Gamma^\theta_{tt} = - \frac{a^{2} m r \sin{(2 \theta )}}{\Sigma^{3}}\\
-\Gamma^\theta_{t\phi} = \frac{a m r (a^{2} + r^{2}) \sin{(2 \theta )}}{\Sigma^{3}}\\
-\Gamma^\theta_{rr} = \frac{a^{2} \sin{(2 \theta )}}{2 \Delta \Sigma}\\
+\Gamma^r_{\phi\phi} = \frac{\Delta \left(- 8 \Sigma^{2} r + a^{4} m \left(\cos{\left(4 \theta \right)} - 1\right) + 8 a^{2} m r^{2} \sin^{2}{\left(\theta \right)}\right) \sin^{2}{\left(\theta \right)}}{8 \Sigma^{3}}\\
+\Gamma^\theta_{tt} = - \frac{a^{2} m r \sin{\left(2 \theta \right)}}{\Sigma^{3}}\\
+\Gamma^\theta_{t\phi} = \frac{a m r \left(a^{2} + r^{2}\right) \sin{\left(2 \theta \right)}}{\Sigma^{3}}\\
+\Gamma^\theta_{rr} = \frac{a^{2} \sin{\left(2 \theta \right)}}{2 \Delta \Sigma}\\
 \Gamma^\theta_{r\theta} = \frac{r}{\Sigma}\\
-\Gamma^\theta_{\theta\theta} = - \frac{a^{2} \sin{(2 \theta )}}{2 \Sigma}\\
-\Gamma^\theta_{\phi\phi} = - \frac{(\Sigma (\Sigma a^{2} + \Sigma r^{2} + 2 a^{2} m r \sin^{2}{(\theta )}) + 2 a^{2} m r (a^{2} + r^{2}) \sin^{2}{(\theta )}) \sin{(\theta )} \cos{(\theta )}}{\Sigma^{3}}\\
-\Gamma^\phi_{tr} = - \frac{a m (a^{2} \cos^{2}{(\theta )} - r^{2})}{\Delta \Sigma^{2}}\\
-\Gamma^\phi_{t\theta} = - \frac{2 a m r}{\Sigma^{2} \tan{(\theta )}}\\
-\Gamma^\phi_{r\phi} = \frac{\Sigma^{2} r - 2 \Sigma m r^{2} - \frac{a^{4} m (\cos{(4 \theta )} - 1)}{8} - a^{2} m r^{2} \sin^{2}{(\theta )}}{\Delta \Sigma^{2}}\\
-\Gamma^\phi_{\theta\phi} = \frac{2 a^{2} m^{2} r^{2} (a^{2} + r^{2}) \sin{(\theta )} \sin{(2 \theta )} + (\Sigma - 2 m r) (\Sigma (\Sigma a^{2} + \Sigma r^{2} + 2 a^{2} m r \sin^{2}{(\theta )}) + 2 a^{2} m r (a^{2} + r^{2}) \sin^{2}{(\theta )}) \cos{(\theta )}}{\Delta \Sigma^{3} \sin{(\theta )}}\\
+\Gamma^\theta_{\theta\theta} = - \frac{a^{2} \sin{\left(2 \theta \right)}}{2 \Sigma}\\
+\Gamma^\theta_{\phi\phi} = - \frac{\left(\Sigma \left(\Delta \Sigma + 2 a^{2} m r + 2 m r^{3}\right) + 2 a^{2} m r \left(a^{2} + r^{2}\right) \sin^{2}{\left(\theta \right)}\right) \sin{\left(\theta \right)} \cos{\left(\theta \right)}}{\Sigma^{3}}\\
+\Gamma^\phi_{tr} = \frac{a m \left(- a^{2} \cos^{2}{\left(\theta \right)} + r^{2}\right)}{\Delta \Sigma^{2}}\\
+\Gamma^\phi_{t\theta} = - \frac{2 a m r}{\Sigma^{2} \tan{\left(\theta \right)}}\\
+\Gamma^\phi_{r\phi} = \frac{\Sigma^{2} r - 2 \Sigma m r^{2} - \frac{a^{4} m \left(\cos{\left(4 \theta \right)} - 1\right)}{8} - a^{2} m r^{2} \sin^{2}{\left(\theta \right)}}{\Delta \Sigma^{2}}\\
+\Gamma^\phi_{\theta\phi} = \frac{\Delta \Sigma^{2} - 2 \Delta \Sigma m r + 2 \Sigma a^{2} m r + 2 \Sigma m r^{3} + 2 a^{4} m r \sin^{2}{\left(\theta \right)} - 4 a^{2} m^{2} r^{2} + 2 a^{2} m r^{3} \sin^{2}{\left(\theta \right)} - 4 m^{2} r^{4}}{\Delta \Sigma^{2} \tan{\left(\theta \right)}}\\
 \end{align*}
 
 \normalsize
+
+\subsection*{Programming Task}
+
+The file $integrate.py$ contains all our integration code. It takes as inputs initial values of the 8 dynamic variables, as well as $\Gamma, m and a$, defines the ODEs and passes them to the odeint function from SciPy. We'll need to come back and fiddle with some parameters later to ensure our integration is precise enough for our purposes. 
+ 
 \subsection*{Question 3}
 
-Using a section of $q3\_schwarzchild.py$, just as above, we calculate the non zero Christoffel symbols, finding
+We could set $a=0$ in our Kerr Christoffel symbols, but find it much easier to calculate them from the metric. Using a section of $q3\_schwarzchild.py$:
 
 \small\begin{align*}
 \Gamma^t_{tr} = \frac{m}{r (- 2 m + r)}\\
@@ -126,7 +143,7 @@ Using a section of $q3\_schwarzchild.py$, just as above, we calculate the non ze
 \end{align*}
 
 \normalsize
-Now substituting $\theta=\pi/2$, $g_{\phi\phi} = -r^2$, $g_{tt}=(1-2m/r)$ and $g_{t\phi} = 0$ into (\ref{effpot}), we get, making sure to use the correct signature:
+Now substituting $\theta=\pi/2$, $g_{\phi\phi} = -r^2$, $g_{tt}=(1-2m/r)$ and $g_{t\phi} = 0$ into (\ref{effpot}), we get:
 
 \begin{equation}
 V_{eff}(r, E, L_z) = -1 + \frac{E^2}{1-2m/r} - \frac{L^2}{r^2} = g_{rr}\dot{r}^2+g_{\theta\theta}\dot{\theta}^2
@@ -276,7 +293,7 @@ Plotting the potential using $q4.py$ and using a numerical root finder, we see p
 
 
 \subsection*{Question 5}
-The script $q5.py$ attempts to symbolically simplify a hand computed expression for $\dot{Q}$ by symbolically calculating and substituting in $\ddot{\theta}$ in terms of $r,m,a,\dot{theta}, \dot{t}, \dot{r}$ and $\dot{\phi}$ from the geodesic equation and Christoffel symbols. I couldn't manage to get this to work.\\
+The script $q5.py$ attempts to symbolically simplify a hand computed expression for $\dot{Q}$ by symbolically calculating and substituting in $\ddot{\theta}$ in terms of $r,m,a,\dot{theta}, \dot{t}, \dot{r}$ and $\dot{\phi}$ from the geodesic equation and Christoffel symbols. I couldn't manage to get this to work, perhaps due to choice of a fairly weak symbolic tool, and ended up with a horrendously complicated expression I could not simplify.\\
 
 In the $a=0$ limit Q becomes
 
@@ -290,10 +307,10 @@ choosing $\theta(\tau) = \pi/2$, which we are always free to do, we get
 Q = L_z^2
 \end{equation*}
 
-the square of the total orbital angular momentum.
-\tiny
+the square of the total orbital angular momentum. In the general case general, this constant is known as the Carter constant \footnote{see for instance https://en.wikipedia.org/wiki/Carter_constant} , which along with energy angular momentum, and rest mass, give enough conserved quantities to determine orbits uniquely give initial conditions. It doesn't seem immediately obvious what physical quantity it represents - a "hidden" symmetry if you will.
+
 \begin{align*}
-- \frac{2 \left(- \Delta \Sigma^{2} \dot{\phi}^{2} a^{2} - \Delta \Sigma^{2} \dot{\phi}^{2} r^{2} + \Delta \Sigma^{2} \dot{\theta}^{2} a^{2} + \Delta \Sigma \delta a^{2} + \Delta \Sigma \dot{\phi}^{2} a^{4} - 2 \Delta \Sigma \dot{\phi}^{2} a^{2} m r \sin^{2}{\left(\theta \right)} + 2 \Delta \Sigma \dot{\phi}^{2} a^{2} r^{2} + \Delta \Sigma \dot{\phi}^{2} r^{4} - \Delta \Sigma \dot{t}^{2} a^{2} + 2 \Delta \dot{\phi}^{2} a^{4} m r \sin^{2}{\left(\theta \right)} + 2 \Delta \dot{\phi}^{2} a^{2} m r^{3} \sin^{2}{\left(\theta \right)} - 4 \Delta \dot{\phi} \dot{t} a^{3} m r \sin^{2}{\left(\theta \right)} + 2 \Delta \dot{t}^{2} a^{2} m r + \Sigma^{2} \dot{r}^{2} a^{2}\right) \sin{\left(\theta \right)} \cos{\left(\theta \right)}}{\Delta \Sigma}
+- \frac{2 \left(- \Delta^{2} \Sigma^{2} \dot{\phi}^{2} + \Delta \Sigma^{2} \dot{\theta}^{2} a^{2} + \Delta \Sigma \delta a^{2} + \Delta \Sigma \dot{\phi}^{2} a^{4} - 2 \Delta \Sigma \dot{\phi}^{2} a^{2} m r + 2 \Delta \Sigma \dot{\phi}^{2} a^{2} r^{2} - 2 \Delta \Sigma \dot{\phi}^{2} m r^{3} + \Delta \Sigma \dot{\phi}^{2} r^{4} - \Delta \Sigma \dot{t}^{2} a^{2} + 2 \Delta \dot{\phi}^{2} a^{4} m r \sin^{2}{\left(\theta \right)} + 2 \Delta \dot{\phi}^{2} a^{2} m r^{3} \sin^{2}{\left(\theta \right)} - 4 \Delta \dot{\phi} \dot{t} a^{3} m r \sin^{2}{\left(\theta \right)} + 2 \Delta \dot{t}^{2} a^{2} m r + \Sigma^{2} \dot{r}^{2} a^{2}\right) \sin{\left(\theta \right)} \cos{\left(\theta \right)}}{\Delta \Sigma}
 \end{align*}
 
 

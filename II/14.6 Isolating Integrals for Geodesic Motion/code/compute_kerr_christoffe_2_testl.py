@@ -25,31 +25,17 @@ for i in range(1,5):
         for k in range(j,5):
             symbol = Gamma(-i,j,k)
             for l in range(1,5):
+                symbol = symbol.subs(sin(theta)**2, 1-cos(theta)**2)
                 symbol = symbol.subs(r ** 2 + (a ** 2) * cos(theta) ** 2, sigma_for_printing)
                 symbol = symbol.subs(r ** 2 - 2 * m * r + a ** 2, delta_for_printing)
-                symbol = symbol.subs(sigma_for_printing * a ** 2 + sigma_for_printing * r ** 2 - 2 * a ** 2 * m * r * cos(theta) ** 2 - 2 * m * r ** 3, sigma_for_printing * delta_for_printing )
-                symbol=symbol.simplify()
-            # to factorise product of delta and sigma
-            symbol = symbol.subs(
-                sigma_for_printing * a ** 2 + sigma_for_printing * r ** 2 + 2 * a ** 2 * m * r * sin(
-                    theta) ** 2,
-                sigma_for_printing * delta_for_printing + 2 * a ** 2 * m * r + 2 * m * r ** 3)
-            symbol = symbol.simplify()
-
-            for l in range(1, 5):
-                symbol = symbol.subs(r ** 2 + (a ** 2) * cos(theta) ** 2, sigma_for_printing)
-                symbol = symbol.subs(r ** 2 - 2 * m * r + a ** 2, delta_for_printing)
+                symbol = symbol.subs(sigma_for_printing * a ** 2 + sigma_for_printing * r ** 2 - 2 * a ** 2 * m * r * cos(
+                theta) ** 2 - 2 * m * r ** 3, sigma_for_printing * delta_for_printing)
                 symbol = symbol.subs(
-                    sigma_for_printing * a ** 2 + sigma_for_printing * r ** 2 - 2 * a ** 2 * m * r * cos(
-                        theta) ** 2 - 2 * m * r ** 3, sigma_for_printing * delta_for_printing)
-                symbol = symbol.simplify()
+                sigma_for_printing * a ** 2 + sigma_for_printing * r ** 2 - 2 * a ** 2 * m * r * cos(
+                    theta) ** 2 - 2 * m * r ** 3, sigma_for_printing * delta_for_printing)
 
-            symbol = symbol.subs(
-                sigma_for_printing * a ** 2 + sigma_for_printing * r ** 2 + 2 * a ** 2 * m * r * sin(
-                    theta) ** 2,
-                sigma_for_printing * delta_for_printing + 2 * a ** 2 * m * r + 2 * m * r ** 3)
+            # to factorise product of delta and sigma
             symbol = symbol.simplify()
-
             if symbol !=0:
                 print("\Gamma^"+ translate[i]+"_{" + translate[j] + translate[k] + "} = " + latex(symbol) + r"\\")
 

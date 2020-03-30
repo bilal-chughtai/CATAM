@@ -30,9 +30,33 @@ for j in range(1, 5):
         for l in range(1, 5):
             symbol = symbol.subs(r ** 2 + (a ** 2) * cos(theta) ** 2, sigma_for_printing)
             symbol = symbol.subs(r ** 2 - 2 * m * r + a ** 2, delta_for_printing)
+            symbol = symbol.subs(
+                sigma_for_printing * a ** 2 + sigma_for_printing * r ** 2 - 2 * a ** 2 * m * r * cos(
+                    theta) ** 2 - 2 * m * r ** 3, sigma_for_printing * delta_for_printing)
             symbol = symbol.simplify()
-        symbol = symbol.subs(sigma_for_printing * a ** 2 + sigma_for_printing * r ** 2 - 2 * a ** 2 * m * r * cos(
-            theta) ** 2 - 2 * m * r ** 3, sigma_for_printing * delta_for_printing)  # hacky fix
+        # to factorise product of delta and sigma
+        symbol = symbol.subs(
+            sigma_for_printing * a ** 2 + sigma_for_printing * r ** 2 + 2 * a ** 2 * m * r * sin(
+                theta) ** 2,
+            sigma_for_printing * delta_for_printing + 2 * a ** 2 * m * r + 2 * m * r ** 3)
+        symbol = symbol.simplify()
+
+        for l in range(1, 5):
+            symbol = symbol.subs(r ** 2 + (a ** 2) * cos(theta) ** 2, sigma_for_printing)
+            symbol = symbol.subs(r ** 2 - 2 * m * r + a ** 2, delta_for_printing)
+            symbol = symbol.subs(
+                sigma_for_printing * a ** 2 + sigma_for_printing * r ** 2 - 2 * a ** 2 * m * r * cos(
+                    theta) ** 2 - 2 * m * r ** 3, sigma_for_printing * delta_for_printing)
+            symbol = symbol.simplify()
+
+        symbol = symbol.subs(
+            sigma_for_printing * a ** 2 + sigma_for_printing * r ** 2 + 2 * a ** 2 * m * r * sin(
+                theta) ** 2,
+            sigma_for_printing * delta_for_printing + 2 * a ** 2 * m * r + 2 * m * r ** 3)
+        symbol = symbol.simplify()
+
+
+
 
         thetadotdot += - symbol * y[j - 1] * y[k - 1]  # -1 as python list
         thetadotdot = thetadotdot.simplify()
