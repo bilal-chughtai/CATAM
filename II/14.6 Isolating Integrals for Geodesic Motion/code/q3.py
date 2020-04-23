@@ -149,7 +149,7 @@ def compute_one_geodesic(E,m0,a0,L,r0,theta0, rdot0, g, Gamma):
 #print_out_christoffel(Gamma)
 
 #3a:E,m0,a0,L,r0,theta0, rdot0, g, Gamma
-compute_one_geodesic(E=0.97, m0=1, a0=0, L=4, r0=15,theta0=math.pi/2,rdot0=0, g=g, Gamma=Gamma)
+#compute_one_geodesic(E=0.97, m0=1, a0=0, L=4, r0=15,theta0=math.pi/2,rdot0=0, g=g, Gamma=Gamma)
 
 #3b/4
 # r_cross = []

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="edab126f-793b-4880-bb1b-dbce45cc35fc" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../14.6 Isolating Integrals for Geodesic Motion/code/compute_kerr_christoffel.py" beforeDir="false" afterPath="$PROJECT_DIR$/../14.6 Isolating Integrals for Geodesic Motion/code/compute_kerr_christoffel.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../14.6 Isolating Integrals for Geodesic Motion/code/q3.py" beforeDir="false" afterPath="$PROJECT_DIR$/../14.6 Isolating Integrals for Geodesic Motion/code/q3.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../14.6 Isolating Integrals for Geodesic Motion/code/q5.py" beforeDir="false" afterPath="$PROJECT_DIR$/../14.6 Isolating Integrals for Geodesic Motion/code/q5.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../14.6 Isolating Integrals for Geodesic Motion/report/14.6 Isolating Integrals for Geodesic Motion.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/../14.6 Isolating Integrals for Geodesic Motion/report/14.6 Isolating Integrals for Geodesic Motion.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../14.6 Isolating Integrals for Geodesic Motion/report/14.6 Isolating Integrals for Geodesic Motion.tex" beforeDir="false" afterPath="$PROJECT_DIR$/../14.6 Isolating Integrals for Geodesic Motion/report/14.6 Isolating Integrals for Geodesic Motion.tex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../15.1 Primality Tests/report/15.1 report.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/../15.1 Primality Tests/report/15.1 report.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../15.1 Primality Tests/report/15.1 report.tex" beforeDir="false" afterPath="$PROJECT_DIR$/../15.1 Primality Tests/report/15.1 report.tex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../15.10 The Continued Fraction Method for Factorization/report/15.10 report.aux" beforeDir="false" afterPath="$PROJECT_DIR$/../15.10 The Continued Fraction Method for Factorization/report/15.10 report.aux" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../15.10 The Continued Fraction Method for Factorization/report/15.10 report.log" beforeDir="false" afterPath="$PROJECT_DIR$/../15.10 The Continued Fraction Method for Factorization/report/15.10 report.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../15.10 The Continued Fraction Method for Factorization/report/15.10 report.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/../15.10 The Continued Fraction Method for Factorization/report/15.10 report.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../15.10 The Continued Fraction Method for Factorization/report/15.10 report.synctex.gz" beforeDir="false" afterPath="$PROJECT_DIR$/../15.10 The Continued Fraction Method for Factorization/report/15.10 report.synctex.gz" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../15.10 The Continued Fraction Method for Factorization/report/15.10 report.tex" beforeDir="false" afterPath="$PROJECT_DIR$/../15.10 The Continued Fraction Method for Factorization/report/15.10 report.tex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/17.3 report.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/report/17.3 report.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/17.3 report.tex" beforeDir="false" afterPath="$PROJECT_DIR$/report/17.3 report.tex" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="ProjectId" id="1axYndSCs984fMEcL7CM4sOjNbO" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="edab126f-793b-4880-bb1b-dbce45cc35fc" name="Default Changelist" comment="" />
+      <created>1587678879191</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1587678879191</updated>
+      <workItem from="1587678880655" duration="35000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="461" y="182" key="SettingsEditor" timestamp="1587678912264">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="461" y="182" key="SettingsEditor/-1920.364.1536.864/0.0.1920.1080@0.0.1920.1080" timestamp="1587678912264" />
+  </component>
+</project>

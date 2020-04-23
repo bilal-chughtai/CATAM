@@ -16,10 +16,7 @@
 \begin{document}
 
 
-\textbf{CATAM Part II - 15.1 - Primality Tests TODO: FInish complexity calculation and read over}
-\thispagestyle{empty}
-
-\newpage
+\textbf{CATAM Part II - 15.1 - Primality Tests}
 
 \subsection*{Introduction}
 
@@ -36,11 +33,11 @@ Primes in range: $ [1294268500, 1294268700]$ are $\{\}$
 
 \subsection*{Question 2}
 
-First consider the problem of computing $a^b \mod{N}$. We do this by considering the binary representation of $b = \sum_{i=0}^N 2^i b_i$ where each $b_i$ is 0 or 1. So then we may write $a^b$ as $a^{b_0} (a^2)^{b_1} \ldots (a^{2^N})^{b_N}$ and each individual power  can be calculated iteratively $a^{2^k} =  (a^{2^{k-1}})^2  \mod N$. We can then multiply the terms $(a^{2^k})^{b_k}$, taking the result (mod N) at each stage, hence the largest number ever stored is order $N^2$. Putting these ideas together. This however is not good enough, so we must devise a cleverer way of multiplying mod N.\\
+First consider the problem of computing $a^b \mod{N}$. We do this by considering the binary representation of $b = \sum_{i=0}^N 2^i b_i$ where each $b_i$ is 0 or 1. So then we may write $a^b$ as $a^{b_0} (a^2)^{b_1} \ldots (a^{2^N})^{b_N}$ and each individual power  can be calculated iteratively $a^{2^k} =  (a^{2^{k-1}})^2  \mod N$. We can then multiply the terms $(a^{2^k})^{b_k}$, taking the result (mod N) at each stage, hence the largest number ever stored is order $N^2$. This however is not good enough, so we must devise a cleverer way of multiplying mod N.\\
 
-We can improve how we multiply numbers $x$ and $y$. We write for y even, $xy = (2x)(\frac{y}{2})$ and for y odd $xy = x+ (2x)(\frac{y-1}{2})$. Initialise a result to 0. In the y odd case, add $x \pmod{N}$ to the result. Now iterate the process with $x'=2x$ and $y'=\frac{y}{2}$ or $\frac{y-1}{2}$ accordingly. The process terminates when y becomes 0, which must occur as y becomes strictly smaller each iteration. In doing so we take mod N after every step and are just doing addition so worst case we store at most $2N < 2\times 10^{10} << 10^{15}$.\\
+Consider multiplying numbers $x$ and $y$. We write for y even, $xy = (2x)(\frac{y}{2})$ and for y odd $xy = x+ (2x)(\frac{y-1}{2})$. Initialise result to 0. In the y odd case, add $x \pmod{N}$ to the result. Now iterate the process with $x'=2x$ and $y'=\frac{y}{2}$ or $\frac{y-1}{2}$ accordingly. The process terminates when y becomes 0, which must occur as y becomes strictly smaller each iteration. In doing so we take mod N after every step and are just doing addition so worst case we store at most $2N < 2\times 10^{10} << 10^{15}$.\\
 
-We write these out below as implemented in $modular\_multiply(a,b,mod)$, and \\ $modular\_exponent(base,exponent,modulo)$, to analyse complexity
+These are implemented in $modular\_multiply(a,b,mod)$, and \\ $modular\_exponent(base,exponent,modulo)$. To analyse complexity we write these ideas out more explicitly as algorithms:
 
 \begin{verbatim}
 modular_multiply(a, b, N):
@@ -61,13 +58,13 @@ modular_exponent(base, exponent, N):
     base = base mod N
     while exponent > 0:
         if exponent mod 2 == 1:
-            result = modular_multiply(result, base, modulo, 0)
+            result = modular_multiply(result, base, modulo)
         exponent = floor(exponent / 2)
-        base = modular_multiply(base, base, modulo, 0)
+        base = modular_multiply(base, base, modulo)
     return result
 \end{verbatim}    
 
-The function $q1()$ produces the following results, including all values from both ranges.
+The function $q2()$ produces the following results, including all values from both ranges.
 
 \begin{lstlisting}[breaklines]
 
@@ -97,18 +94,16 @@ The function $q1()$ produces the following results, including all values from bo
  
 \end{lstlisting}
 
-These results are consistent with the question 1; we expect primes to pass the Fermat test to each base, hence be included in each of the above lists. The only pseudoprime in the above lists is 1905, to bases 2,4 and 8.\\
+These results are consistent with question 1; we expect primes to pass the Fermat test to each base, hence be included in each of the above lists. The only pseudoprime in the above lists is 1905, to bases 2,4 and 8.\\
 
 
-To analyse complexity, fix an a and N. To compute $a^{N-1}\mod N$, we have one loop, with the exponent halving each time, so $O(\log(N))$ iterations. Each iteration has 2 modular multiplications, each of which is multiplying 2 numbers of any size $<N$. Our modular multiplication algorithm also runs in $O(\log{N})$ as $y=O(N)$ is halved at each step. So our algorithm is $O(\log^2{N})$.
+To analyse complexity, fix an a and N. To compute $a^{N-1}\mod N$, we have one loop, with the exponent halving each time, so $O(\log(N))$ iterations. Each iteration has 2 modular multiplications, each of which is multiplying 2 numbers of any size $<N$. Our modular multiplication algorithm also runs in $O(\log{N})$ as $y=O(N)$ is halved at each step. So our algorithm is $O(\log^2{N})$ or $O(n^2)$ for n the input size or number of bits $n=\log{N}$.
 
 
 
 \subsection*{Question 3}
 
-The function $q3i	()$ performs the given task using fairly naive loops.\\
-
-Firstly, we compute the so called Sarrus numbers, by applying the Fermat test to each integer, and checking for and ignoring primes using trial division. We get the following list of length 245:
+First, we compute the so called Sarrus numbers, by applying the Fermat test to each integer, and checking for and ignoring primes using trial division. We get the following list of length 245 using $q3i()$:
 
 \begin{lstlisting}[breaklines]
 
@@ -116,7 +111,7 @@ Firstly, we compute the so called Sarrus numbers, by applying the Fermat test to
 
 \end{lstlisting}
 
-Secondly, we compute the Carmichael numbers, $n < 10^6$.  It suffices to check which base 2 pseudoprimes fail for larger bases. We get the following list of 43 integers: 
+Secondly, we compute the Carmichael numbers, $n < 10^6$.  It suffices to check which base 2 pseudoprimes are psuedoprimes for all larger bases. We get the following list of 43 integers: 
 
 \begin{lstlisting}[breaklines]
 
@@ -130,11 +125,11 @@ We use the following simple observations to speed up our checking:\\
 
 2) We need only check bases up to $\lceil\frac{n}{2}\rceil$. This is because $(-a)^{n-1}\equiv (-1)^{n-1}a^{n-1}\equiv a^{n-1} \mod n$ since n is odd.\\
 
-To determine how many bases we actually need to get this list, we'll start with the Sarrus numbers minus the Carmichael's, and determine the largest minimum base needed for all numbers in the list to fail the Fermat test. Running $q3ii()$, we find testing up to $a=11$ suffices, with 721801 the only Sarrus number needing this large a base.
+To determine how many bases we actually need to get this list, we'll start with the Sarrus numbers minus the Carmichael's. Increment the base a, and remove any numbers failing the fermat test to base a. Repeat this process until no numbers remain in our list. Running $q3ii()$, we find testing up to $a=11$ suffices, with 721801 the only Sarrus number needing this large a base.
 
 \subsection*{Question 4}
 
-First we calculate the Jacobi Symbol. We'll use the following rules
+First we calculate the Jacobi Symbol, using the following simple properties of it:
 
 \begin{equation*}
 \legendre{a}{N} = \legendre{a\mod N}{N}
@@ -181,18 +176,18 @@ and for M, N odd coprime integers
 \tag{*}
 \end{equation*}
 
-The algorithm is as follows, identical to calculations performed on IIC Number Theory Example Sheets.\\
+The algorithm used is as follows, identical to calculations performed on IIC Number Theory Example Sheets.\\
 
 1) Reduce the numerator modulo the denominator using rule 1 \\
-2) Extract even numerators using rule 2 and 5\\
+2) Extract even numerators using rules 2 and 5\\
 3) If the numerator is 1, we get 1. If the numerator and denominator are not coprime, rule 3 gives a result of 0.\\
-4) Otherwise, have odd coprime integers, so flip using (*)\\
+4) Otherwise, have odd coprime integers, so flip the symbol using (*)\\
 
 
 At each stage the denominator is strictly smaller, so the process must terminate. We implement this algorithm in $jacobi\_calculate(a,b)$ and also the Euler test in $euler\_test(a,N)$\\
 
 
-The following results are found using $q4()$. Firstly, we compute the Euler pseudoprimes base 2, identically to before, and find 114 of them:
+The following results are found using $q4()$. Firstly, we compute the Euler pseudoprimes base 2, finding 114 of them:
 
 \begin{lstlisting}[breaklines]
 
@@ -299,7 +294,7 @@ The result in the article [1] is in a similar flavour to our thoughts before of 
 
 
 \subsection*{Question 8}
-Unsurprisingly, we find the strong test is very good. My implementation may be found under $q8()$. We loop over the whole range of values of N. If N prime, we record it as having passed all rounds of the strong test. Otherwise, we pick a random a coprime to N, and conduct the strong test. We repeat the strong test with more bases going until the composite no longer passes the strong test.\\
+Unsurprisingly, we find the strong test is very good at detecting composites. My implementation may be found under $q8()$. We take a random sample of $10^6$ N in the range. If N prime, we record it as having passed all rounds of the strong test. Otherwise, we pick a random $a$ coprime to N, and conduct the strong test. We repeat the strong test with more bases going until the composite no longer passes the strong test.\\
 
 We run trials for k ranging from 15 through 22, and got no composites surviving more than 3 rounds of the strong test.
 
@@ -317,7 +312,7 @@ We run trials for k ranging from 15 through 22, and got no composites surviving 
 \textbf{16}  & 11    & 1     & 0     & 3030                      \\ \hline
 \textbf{15}  & 9    & 0    & 0     & 1612                      \\ \hline
 \end{tabular}
-\caption{Raw number of composites passing the strong for random bases over $10^6$ trials, through t rounds, and total number of primes in range}
+\caption{Raw number of composites passing the strong test for random bases over $10^6$ trials, through t rounds, and total number of primes in range}
 \end{table}
 
 These probabilities agree but are all very small compared to theory, from which we get the following bound: \\

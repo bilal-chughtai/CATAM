@@ -74,7 +74,7 @@ Our implementation is $simple\_hamiltonian()$. This is just about quick enough, 
 %\caption{Number of graphs containing Hamiltonian cycles from a selection of 10000 taken from $\mathcal{G}(n,p)$}
 %\end{table}
 
-\begin{table}[h]
+\begin{table}[ht]
 \centering
 \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|}
 \hline
@@ -105,7 +105,7 @@ Our implementation is $simple\_hamiltonian()$. This is just about quick enough, 
 \mathcal{G}(n,a\log{n}/n)$}
 \label{tab:my-table}
 \end{table}
-
+\newpage
 \subsection*{Question 2}
 Suppose we have n vertices. The worst case is we have no Hamiltonian cycle. Assume each of the $(n-1)!$ paths are checked, only failing at the last step (ie every length n path is Hamiltonian starting at $v_0$, but not a cycle) We assume each simple operation, eg iterating, looking up a value in a list take time $c$. For each. At worst, we need about $2n+10$ simple operations per iteration, of which most are spent calculating the new possible vertices to append. This gives a time of $c(2n+10)$ per permutation. So we end up with a total running time of $(n-1)!(2n+10)c = O(n!)$.\\
 
@@ -118,7 +118,7 @@ The expected number of hamiltonian cycles in a random graph $\mathcal{G}(n,1/2)$
 First, $K_n$ has $\frac{1}{2}(n-1)!$ cycles of length n, all of which are Hamiltonian (start at 1, have n-1 choices for the second vertex, n-2 for the third... Factor of 1/2 comes from the undirectedness of the graph). Order these cycles, and let $X_i$ be the event $G$ contains the $i$'th cycle. Then $\mathbb{E}(X)$ is the expected number of hamiltonian cycles in G, and by linearity of expectation is equal to $\sum_i \mathbb{E}(X_i)$. Now $\mathbb{E}(X_i) = p^n$ since each edge occurs independently with probability p, giving our result.
 \end{proof}
 
-Suppose an average graph can be taken from $\mathcal{G}(n,1/2)$. There are $(n-1)!$ paths, of which $(n-1)!/2^{n+1}$ are Hamiltonian, so we expect our $2^{n+1}$'th length n path to be Hamiltonian. To get from one length n path to the next in this regime, and about 6 simple operations. To build our first cycle, we expect it to take at most 2n steps, each of which is about 6 simple operations. So we get a running time of about $(12n+6\times 2^{n+1})c = O(2^{n+1})$, at least for n large. This is exponential in n.
+Suppose an average graph can be taken from $\mathcal{G}(n,1/2)$. There are $(n-1)!$ paths, of which $(n-1)!/2^{n+1}$ are Hamiltonian, so we expect our $2^{n+1}$'th length n path to be Hamiltonian. To get from one length n path to the next is constant time in this regime, and about 6 simple operations. To build our first cycle, we expect it to take at most 2n steps, each of which is about 6 simple operations. So we get a running time of about $(12n+6\times 2^{n+1})c = O(2^{n+1})$, at least for n large. This is exponential in n.
 
 \subsection*{Question 3}
 Modifying the code slightly, to print the number of graphs G with $\delta(G) < 2$, we find most, at least for $a<1.45$ for a defined in Table 2, graphs fail to be Hamiltonian because  $\delta(G) < 2$. The second range may well have been chosen because of the following theorem, proved in IID Graph Theory.
@@ -165,7 +165,16 @@ Here we're considering a range of values $p\in[\frac{\log(n)-0.9\log(n)}{n},\fra
 
 \subsection*{Question 4}
 
-The $smarter\_hamiltonian(T)$ method of the Graph class performs the algorithm. To determine what a suitable T would be for various n,p we'll run some trials, and determine a value of T such that we'll find $95\%$ of hamiltonian cycles. We can do so by first using our $simple\_hamiltonian()$ function to only pick out graphs with hamiltonian cycles, then use, say $smarter\_hamiltonian(1000)$ to determine a 95'th percentile on T. We'll run 5000 trials, by which I mean we'll test 5000 graphs with hamiltonian cycles for each n,p. We'll only go up to $n=14$, since $simple\_hamiltonian()$ is fairly slow for larger n for small p, and won't bother testing $p<0.3$ since we rarely ever have hamiltonian. We gather the following data using $q4()$.
+The $smarter\_hamiltonian(T)$ method of the Graph class performs the algorithm. To check it works here's what we get on the previous small examples:
+
+\begin{lstlisting}[breaklines]
+* Order=3, Size=3, {1: {2, 3}, 2: {1, 3}, 3: {1, 2}} * has a hamiltonian cycle: [1, 3, 2]
+* Order=3, Size=2, {1: {2}, 2: {1, 3}, 3: {2}} * has no hamiltonian cycle
+* Order=4, Size=3, {1: {2, 3}, 2: {1, 3}, 3: {1, 2}, 4: set()} * has no hamiltonian cycle
+* Order=6, Size=8, {1: {2, 4}, 2: {1, 4, 5}, 3: {4, 6}, 4: {1, 2, 3}, 5: {2, 6}, 6: {3, 5}} * has a hamiltonian cycle: [1, 2, 5, 6, 3, 4]
+\end{lstlisting}
+
+To determine what a suitable T would be for various n,p we'll run some trials, and determine a value of T such that we'll find $95\%$ of hamiltonian cycles. We can do so by first using our $simple\_hamiltonian()$ function to only pick out graphs with hamiltonian cycles, then use, say $smarter\_hamiltonian(1000)$, assuming all would be found within 1000 iterations, to determine a 95'th percentile on T. We'll run 5000 trials, by which I mean we'll test 5000 graphs with hamiltonian cycles for each n,p. We'll only go up to $n=14$, since $simple\_hamiltonian()$ is fairly slow for larger n for small p, and won't bother testing $p<0.3$ since we rarely ever have hamiltonian. We gather the following data using $q4()$.
 
 \begin{table}[h]
 \centering

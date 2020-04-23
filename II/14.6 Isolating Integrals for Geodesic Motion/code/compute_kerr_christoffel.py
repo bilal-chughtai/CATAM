@@ -9,10 +9,7 @@ sigma = r ** 2 + (a ** 2) * cos(theta) ** 2
 delta = r ** 2 - 2 * m * r + a ** 2
 
 Metric = Matrix([[(1 - (2 * m * r) / sigma), 0, 0, (2 * a * m * r * sin(theta) ** 2) / sigma], [0, -
-sigma / delta, 0, 0], [0, 0, - sigma, 0], [(2 * a * m * r * sin(theta) ** 2) / sigma, 0, 0, -(sin
-                                                                                              (theta) ** 2) * (
-                                                       (r ** 2 + a ** 2) + (
-                                                           2 * (a ** 2) * m * r * sin(theta) ** 2) / sigma)]])
+sigma / delta, 0, 0], [0, 0, - sigma, 0], [(2 * a * m * r * sin(theta) ** 2) / sigma, 0, 0, -(sin(theta) ** 2) * ((r ** 2 + a ** 2) + (2 * (a ** 2) * m * r * sin(theta) ** 2) / sigma)]])
 
 
 g = MetricTensor('g', x, Metric)
