@@ -1,0 +1,1 @@
+Code is written in python 3.7. There are no dependencies on external packages. Running code is simple - navigate to the codes directory, and start a python environment by running "python" in a console. Then run "from run import *" to load all the functions. Then can run the functions as described in the report, eg "q7()".

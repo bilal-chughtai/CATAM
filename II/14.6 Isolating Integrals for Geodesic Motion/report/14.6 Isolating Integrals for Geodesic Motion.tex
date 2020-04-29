@@ -127,7 +127,7 @@ The file $integrate.py$ contains all our integration code. It takes as inputs in
  
 \subsection*{Question 3}
 
-We could set $a=0$ in our Kerr Christoffel symbols, but find it much easier to calculate them from directly from the Schwartzchild metric. Using a section of $q3.py$:
+We could set $a=0$ in our Kerr Christoffel symbols, but find it much easier to calculate the Schwarzchild Christoffel symbols them from directly from the Schwartzchild metric. Using a section of $q3.py$:
 
 \small\begin{align*}
 \Gamma^t_{tr} = \frac{m}{r (- 2 m + r)}\\
@@ -167,7 +167,7 @@ which for $E=0.97, L_z=4, m=1$ are $\approx 3.07, 7.61, 23.16$. By graphing, our
 
 \subsubsection*{3a}
 
-Using (\ref{tdef}), (\ref{phidef}) and (\ref{SCVeff}) we can calculate initial values for $\dot{t}, \dot{\phi}$ and $\dot{\theta}$ respectively. Calling the function $compute\_one\_geodesic()$ in $q3.py$ does this computation of initial conditions, calls our integration function and then processes its output. \\
+Using (\ref{tdef}), (\ref{phidef}) and (\ref{SCVeff}) we can calculate initial values for $\dot{t}, \dot{\phi}$ and $\dot{\theta}$ respectively, to obtain initial values of all 8 dynamic variables, which define a unique trajectory in configuration space. Calling the function $compute\_one\_geodesic()$ in $q3.py$ does this computation of initial conditions, calls our integration function and then processes its output. \\
 
 We produce the following plots using parameters $r=15, \theta=\pi/2, \dot{r}=0, E=0.97, L=4$. Some fiddling around with the integration parameters was required to get a smooth enough curve, and to find the correct $\tau$ range to give a few orbits. Looking at the $\phi$ plot, here we have just over 3 orbits. We calculate and plot $E$, $L_z$, and $g_{rr}\dot{r}^2+g_{\theta\theta}\dot{\theta}^2 + V_{eff}(r, \theta, E, L_z)$ at each point and see our 3 conservation laws to high precision, assuring us the numerical integration is accurate enough for our purposes.
 
@@ -265,20 +265,20 @@ We find as expected our code runs into issues if r is not in the range defined p
 
 \subsection*{Question 4}
 
-Plotting the potential using $q4.py$ and using a numerical root finder, we see the allowed $r_0$ range with positive potential is $4.513<_0r<14.564$. Now modifying $q3.py$ to accommodate the Kerr metric, we produce the following Poincare maps, which all look very much like the Schwartzchild ones.
+Plotting the potential using $q4.py$ and using a numerical root finder, we see the allowed $r_0$ range with positive potential is $4.513<_0r<14.564$. We modify $q3.py$ to accommodate the Kerr metric, and now use (\ref{effpot}) to calculate $\dot{\theta}_0$. Using parameter values $a=0.9, E=0.95, L_z=3, \theta_0=\pi/2, \dot{r}=0$ and varying $r_0$ we produce the following plots, which all look very much like the Schwartzchild ones.
 
 \begin{figure}[!ht]
 \begin{minipage}[b]{0.5\linewidth}
 \centering
 \includegraphics[width=\textwidth]{4/r0=8.png}
-\caption{$r_0=10$}
+\caption{$r_0=8$}
 \label{fig:figure1}
 \end{minipage}
 \hspace{0.5cm}
 \begin{minipage}[b]{0.5\linewidth}
 \centering
 \includegraphics[width=\textwidth]{4/r0=10.png}
-\caption{$r_0=15$}
+\caption{$r_0=10$}
 \label{fig:figure2}
 \end{minipage}
 \end{figure}
@@ -287,7 +287,7 @@ Plotting the potential using $q4.py$ and using a numerical root finder, we see t
 \begin{minipage}[b]{0.5\linewidth}
 \centering
 \includegraphics[width=\textwidth]{4/r0=12.png}
-\caption{$r_0=20$}
+\caption{$r_0=12$}
 \label{fig:figure1}
 \end{minipage}
 \end{figure}
@@ -296,7 +296,7 @@ Plotting the potential using $q4.py$ and using a numerical root finder, we see t
 
 
 \subsection*{Question 5}
-The closedness of the Poincare plots suggests a quantity is preserved and we seek to show $Q$ is such. The script $q5.py$ attempts to symbolically simplify a hand computed expression for $\dot{Q}$. It first substitutes in an expression for $\ddot{\theta} = \ddot{\theta}(r,m,a,\theta,\dot{\theta}, \dot{t}, \dot{r},\dot{\phi})$ from the geodesic equation and Christoffel symbols. It then uses (\ref{Edef}), (\ref{Ldef}) and (\ref{Qdef}) to eliminate as many degrees of freedom as possible, and then we hope it simplifies sufficiently to let us read off $\delta$. I couldn't manage to get this to work, and my script kept giving horrendously complicated expressions that couldn't be simplified by eye.\\
+The closedness of the Poincare plots suggests a quantity is preserved and we seek to show $Q$ is such. The script $q5.py$ attempts to symbolically simplify a hand computed expression for $\dot{Q}$. It first substitutes in an expression for $\ddot{\theta} = \ddot{\theta}(r,m,a,\theta,\dot{\theta}, \dot{t}, \dot{r},\dot{\phi})$ from the geodesic equation and Christoffel symbols. It then substitutes (\ref{Edef}), (\ref{Ldef}) and (\ref{Qdef}) to eliminate as many degrees of freedom as possible, and then hopes it simplifies sufficiently to let us read off $\delta$. I couldn't manage to get this to work, and my script kept giving horrendously complicated expressions that couldn't be simplified by eye.\\
 
 In the $a=0$ limit Q becomes
 
@@ -310,7 +310,7 @@ choosing $\theta(\tau) = \pi/2$, which we are always free to do, we get
 Q = L_z^2
 \end{equation*}
 
-the square of the total orbital angular momentum, which in this limit is dependent on our other constants $(L_z, E)$. In the general case general, this constant is known as the Carter constant\footnote{see for instance https://en.wikipedia.org/wiki/Carter_constant}, which is independent of $(L_z, E)$ and the three give enough conserved quantities to determine orbits uniquely given initial conditions. It doesn't seem immediately obvious what physical quantity it represents - a "hidden" symmetry if you will.
+the square of the total orbital angular momentum, which in this limit is dependent on our other constants $(L_z, E)$. In the general case general, this constant is known as the Carter constant\footnote{see for instance https://en.wikipedia.org/wiki/Carter_constant}, which is independent of $(L_z, E)$ and the three give enough conserved quantities to determine orbits uniquely given initial conditions. It doesn't seem immediately obvious what physical quantity it represents generally - a "hidden" symmetry if you will.
 
 
 \newpage
@@ -649,7 +649,8 @@ E=0.95
 L=3
 a=0.9
 
-func = lambda r : 1 - (-E**2*(r**2+a**2+2*a**2/r)+L**2*(1-2/r)+4*E*L*a/r)/(4*a**2/r**2+(1-2/r)*(r**2+a**2+2*a**2/r))
+func = lambda r : 1 - (-E**2*(r**2+a**2+2*a**2/r)+L**2*(1-2/
+r)+4*E*L*a/r)/(4*a**2/r**2+(1-2/r)*(r**2+a**2+2*a**2/r))
 
 r=np.linspace(-10, 10, 201)
 

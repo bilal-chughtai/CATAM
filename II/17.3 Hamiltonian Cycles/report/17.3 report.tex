@@ -23,10 +23,8 @@
 \begin{document}
 
 
-\textbf{CATAM Part II - 17.3 - Hamiltonian Cycles TODO fix wording of last paragraph, check complexity things in paticular}
-\thispagestyle{empty}
+\textbf{CATAM Part II - 17.3 - Hamiltonian Cycles}
 
-\newpage
 
 \subsection*{Introduction}
 
@@ -44,7 +42,7 @@ Loop the following \\
 
 1) If $|\textbf{candidate}|$ = n, check if the final vertex is a neighbour of 1, and if so return \textbf{candidate} since the cycle is valid. If it's not a neighbour of 1, define \textbf{maxcandidate} = \textbf{candidate}, remove the last element of \textbf{candidate}, and reduce \textbf{k} by 1.\\
 
-2)Now $|\textbf{candidate}|<$ n. We find the minimal vertex we may append to candidate that we havn't already tried (by picking the minimal neighbour of the most recent vertex greater than the \textbf{k}'th element of \textbf{maxcandidate}), and append it to \textbf{candidate}. Set \textbf{maxcandidate} to \textbf{candidate} + [0] to indicate we havn't tried any position k+1 elements yet. Iterate \textbf{k} by 1.\\
+2) Now $|\textbf{candidate}|<$ n. We find the minimal vertex we may append to candidate that we havn't already tried (by picking the minimal neighbour of the most recent vertex greater than the \textbf{k}'th element of \textbf{maxcandidate}), and append it to \textbf{candidate}. Set \textbf{maxcandidate} to \textbf{candidate} + [0] to indicate we havn't tried any position k+1 elements yet. Iterate \textbf{k} by 1.\\
 
 3) If no such possible neighbour exists, set \textbf{maxcandidate} to \textbf{candidate}, remove the most last element of \textbf{candidate}, and reduce \textbf{k} by 1. \\
 

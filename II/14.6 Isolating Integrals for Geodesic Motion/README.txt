@@ -1,0 +1,3 @@
+My code is in python 3.7. It's best to use the anaconda distribution as installing SciPy is a pain otherwise. Matplotlib, ScyPy, and GraviPy should be installed via pip (in a console run "python" then "pip install matplotlib scypy gravipy"). Code can be run by removed the relevant commenting in the programs, navigating to the code directory and running the python file - "python compute_kerr_christoffel.py" for example. 
+
+This process can be streamlined by using PyCharm, and setting up anaconda as an interpreter (file settings project_interpreter). Then can pip install in the "python console" tab and run the programs in the "terminal" tab by calling eg "python compute_kerr_christoffel.py".

@@ -47,7 +47,7 @@ estimated probability & 1 & .888 & .488 & .215 & .0797 & .0258 & .00743 & .00205
 \caption{Graph of \ref{tab:my-table}}
 \end{figure}
 
-The function written checks divisibility of N by p by calculating $N \mod p$. For very large N we could handle this if required by iterating over the digits of $N$. If $N=a_oa_1a_2\dots a_n$ written in decimal, we can initialise $result=0$ and iterate $result=result\times10+a_k\pmod p$ for $k=0,1\dots n$.	
+The function written checks divisibility of N by p by calculating $N \mod p$. For very large N we could handle this if required by iterating over the digits of $N$. If $N=a_oa_1a_2\dots a_n$ written in decimal, we can initialise $result=0$ and iterate $result=result\times10+a_k\pmod p$ for $k=0,1\dots n$.	We however don't need to do this in Python.
 
 \subsection*{Question 2}
 
@@ -146,11 +146,11 @@ This proposition allows us to store $x_n$ without worry of rounding errors. From
 
 The following claims have all been verified numerically up to N=$10^6$, by $q2ii()$. In fact they are all true, but we will omit proofs here, and instead link to some references.\\
 
-We first observe they all have fairly short periods, less than N say. See \footnote{\url{http://web.math.princeton.edu/mathlab/jr02fall/Periodicity/mariusjp.pdf}, Corollary 2.1}\\
+We first observe they all have fairly short periods, less than N. See \footnote{\url{http://web.math.princeton.edu/mathlab/jr02fall/Periodicity/mariusjp.pdf}, Corollary 2.1}\\
 
 Secondly, we see that the partial quotients take form $\sqrt{N} = [a_0; \overline{a_1, a_2, \dots, a_{l-1}, 2a_0}]$ with $a_1, a_2, \dots, a_{l-1}$ palindromic\footnote{This is a well known theorem. See for example Ex 12.2.13 in Rosen, "Elementary Number Theory". The text provides a proof at the back.}.  	\\
 
-We further have that  $a_1, a_2, \dots, a_{l-1} < \sqrt{N}$, true up to $10^5$. max(r) $\approx\sqrt{N}$, r satisfies $r<\sqrt{N}$, and s satisfies $s<2\sqrt{N}$. See \footnote{\url{https://math.stackexchange.com/questions/2838367/size-of-partial-quotients-in-continued-fraction-expansion-of-sqrtn}}. This can be shown by carefully handling inequalities in the above induction.
+We further have that  $a_1, a_2, \dots, a_{l-1} < \sqrt{N}$, true up to $10^5$. max(r) $\approx\sqrt{N}$, r satisfies $r<\sqrt{N}$, and s satisfies $s<2\sqrt{N}$. The url \footnote{\url{https://math.stackexchange.com/questions/2838367/size-of-partial-quotients-in-continued-fraction-expansion-of-sqrtn}} gives the details, which are just careful handling of the inequalities in the above induction.
 
 \subsection*{Question 3}
 
@@ -422,7 +422,7 @@ First, define a B-number to be a positive integer x such that all prime factors 
 (1) Pick a factor base B\\
 (2) Generate some B numbers $x_1, x_2, \dots, x_k$ . It turns out $P_n$ have a good chance of being B-numbers by the following proposition\\
 (3) Find a non-empty subset $I\subset\{1, \dots ,k\}$ such that $\prod_{i\in I}\langle x_i^2 \rangle=y^2$ is a square.\\
-(4) $x=\prod_{i\in I}x_i$ then satisfies $x^2\equiv y^2 \pmod N$. So by the earlier proposition, we can find some non trivial factors of N if $x\not\equiv y \pmod N$. \\
+(4) $x=\prod_{i\in I}x_i$ then satisfies $x^2\equiv y^2 \pmod N$. So by the earlier proposition, we can find some non trivial factors of N if $x\not\equiv \pm y \pmod N$. \\
 
 \begin{prop}
 Let $\frac{P_n}{Q_n}$ be a convergent in the CF expansion of $\sqrt{N}$. Then $|P_n^2-NQ_n^2|\leq2\sqrt{N}$.
